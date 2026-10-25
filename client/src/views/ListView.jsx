@@ -29,7 +29,7 @@ export function TaskRow({ task, canEdit, dragHandle, showProject = false, isOver
     <div
       onClick={() => open(task.id)}
       style={colsFor(fields)}
-      className={`${GRID} group gap-2 border-b border-line px-2 sm:px-3 min-h-[44px] cursor-pointer transition-colors duration-100
+      className={`${GRID} group gap-2 md:gap-0 md:divide-x md:divide-line border-b border-line px-2 sm:px-0 min-h-[40px] md:min-h-[37px] cursor-pointer transition-colors duration-100 [&>*]:md:px-2 [&>*:first-child]:md:pl-3
         ${openId === task.id ? 'bg-primary-soft' : 'bg-surface hover:bg-subtle/70'} ${isOverlay ? 'shadow-pop rounded-lg border' : ''}`}
     >
       <div className="flex items-center gap-2 min-w-0 py-2">
@@ -45,7 +45,7 @@ export function TaskRow({ task, canEdit, dragHandle, showProject = false, isOver
         </div>
         {task.likes?.length > 0 && <span className="hidden sm:inline-flex items-center gap-0.5 text-xs text-muted"><Heart className="h-3.5 w-3.5" />{task.likes.length}</span>}
       </div>
-      <div className="hidden md:block" onClick={(e) => e.stopPropagation()}>
+      <div className="hidden md:block min-w-0" onClick={(e) => e.stopPropagation()}>
         <AssigneePicker value={task.assignee_id} disabled={!canEdit} onChange={(v) => update.mutate({ id: task.id, assignee_id: v })} />
       </div>
       <div className="md:hidden" onClick={(e) => e.stopPropagation()}>
@@ -95,15 +95,15 @@ function SectionBlock({ section, tasks, project, collapsed, onToggle, fields }) 
   };
 
   return (
-    <section className="mb-6">
-      <div className="group flex items-center gap-1 px-1 sm:px-2 h-10">
+    <section className="mb-2">
+      <div className="group flex items-center gap-1 px-1 h-11 mt-2">
         <button onClick={onToggle} className="icon-btn h-7 w-7" aria-label={collapsed ? 'Развернуть раздел' : 'Свернуть раздел'} aria-expanded={!collapsed}>
           <ChevronDown className={`h-4 w-4 transition-transform duration-150 ${collapsed ? '-rotate-90' : ''}`} />
         </button>
         {renaming ? (
           <input autoFocus className="input h-8 max-w-xs font-semibold" value={name} onChange={(e) => setName(e.target.value)} onBlur={rename} onKeyDown={(e) => { if (e.key === 'Enter') rename(); if (e.key === 'Escape') { setName(section.name); setRenaming(false); } }} />
         ) : (
-          <h3 className="font-semibold text-[15px] truncate" onDoubleClick={() => project.canEdit && setRenaming(true)}>{section.name}</h3>
+          <h3 className="font-semibold text-base truncate" onDoubleClick={() => project.canEdit && setRenaming(true)}>{section.name}</h3>
         )}
         <span className="text-sm text-muted ml-1">{tasks.length}</span>
         {project.canEdit && (
@@ -120,14 +120,14 @@ function SectionBlock({ section, tasks, project, collapsed, onToggle, fields }) 
         )}
       </div>
       {!collapsed && (
-        <div ref={setNodeRef} className={`border-t border-line rounded-b-lg transition-colors ${isOver && !tasks.length ? 'bg-primary-soft' : ''}`}>
+        <div ref={setNodeRef} className={`border-t border-line transition-colors ${isOver && !tasks.length ? 'bg-primary-soft' : ''}`}>
           <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
             {tasks.map((t) => <SortableRow key={t.id} task={t} canEdit={project.canEdit} fields={fields} />)}
           </SortableContext>
           {!tasks.length && <div className="px-4 py-3 text-sm text-muted">Здесь пока пусто{project.canEdit ? ' — перетащите задачу или добавьте новую' : ''}</div>}
           {project.canEdit && (
-            <div className="px-3 sm:px-10 py-2.5">
-              <QuickAdd payload={{ project_id: project.id, section_id: section.id }} />
+            <div className="px-3 sm:pl-12 py-2 border-b border-line">
+              <QuickAdd payload={{ project_id: project.id, section_id: section.id }} label="Добавить задачу…" />
             </div>
           )}
         </div>
@@ -176,18 +176,18 @@ export default function ListView({ project, tasks, fields = [] }) {
   };
 
   return (
-    <div className="px-2 sm:px-6 py-4 overflow-x-auto scrollbar-thin">
+    <div className="px-2 sm:px-6 pb-6 overflow-x-auto scrollbar-thin">
      <div style={minWidthFor(fields)} className="md:min-w-0">
-      <div style={colsFor(fields)} className={`${GRID} gap-2 px-2 sm:px-3 h-9 text-xs font-medium uppercase tracking-wide text-muted border-b border-line`}>
-        <span className="pl-0 sm:pl-7">Задача</span>
-        <span className="hidden md:block pl-2">Исполнитель</span>
-        <span className="hidden md:block pl-1.5">Срок</span>
-        <span className="hidden md:block">Приоритет</span>
-        <span className="hidden md:block">Метки</span>
-        {fields.map((f) => <span key={f.id} className="hidden md:block truncate pl-1.5 normal-case tracking-normal text-[13px]">{f.name}</span>)}
+      <div style={colsFor(fields)} className={`${GRID} sticky top-0 z-[2] gap-2 md:gap-0 md:divide-x md:divide-line bg-surface px-2 sm:px-0 h-9 text-xs font-medium text-muted border-y border-line [&>*]:md:px-3 [&>*]:flex [&>*]:items-center [&>*]:h-full`}>
+        <span className="sm:pl-9">Название задачи</span>
+        <span className="hidden md:flex">Исполнитель</span>
+        <span className="hidden md:flex">Срок</span>
+        <span className="hidden md:flex">Приоритет</span>
+        <span className="hidden md:flex">Метки</span>
+        {fields.map((f) => <span key={f.id} className="hidden md:flex truncate">{f.name}</span>)}
       </div>
       <DndContext {...handlers}>
-        <div className="pt-3">
+        <div className="pt-1">
           {project.sections.map((s) => (
             <SectionBlock
               key={s.id}

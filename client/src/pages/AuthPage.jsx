@@ -9,8 +9,8 @@ export function Logo({ className = '' }) {
   return (
     <span className={`inline-flex items-center gap-2 font-bold text-lg ${className}`}>
       <svg viewBox="0 0 32 32" className="h-8 w-8" aria-hidden>
-        <rect width="32" height="32" rx="8" fill="rgb(var(--primary))" />
-        <path d="M8 11h11M8 16h16M8 21h8" stroke="rgb(var(--primary-ink))" strokeWidth="2.6" strokeLinecap="round" />
+        <rect width="32" height="32" rx="8" fill="#4F46E5" />
+        <path d="M8 11h11M8 16h16M8 21h8" stroke="#FFFFFF" strokeWidth="2.6" strokeLinecap="round" />
       </svg>
       Поток
     </span>

@@ -4,7 +4,7 @@
 
 /* Цветовые токены. Значения — каналы RGB, чтобы работала прозрачность Tailwind (bg-primary/10). */
 :root {
-  --bg: 248 250 252;          /* slate-50 */
+  --bg: 255 255 255;
   --surface: 255 255 255;
   --subtle: 241 245 249;      /* slate-100 */
   --line: 226 232 240;        /* slate-200 */
@@ -40,6 +40,24 @@
   color-scheme: dark;
 }
 
+/* Тёмное боковое меню: те же токены, переопределённые внутри .sidebar */
+.sidebar {
+  --surface: 30 31 33;
+  --subtle: 52 53 57;
+  --line: 62 63 67;
+  --ink: 245 244 243;
+  --muted: 168 168 172;
+  --primary-soft: 66 67 72;
+  --primary: 255 255 255;
+  background: rgb(var(--surface));
+  color: rgb(var(--ink));
+}
+.dark .sidebar {
+  --surface: 24 25 27;
+  --subtle: 44 45 49;
+  --line: 52 53 57;
+}
+
 @layer base {
   html, body, #root { height: 100%; }
   body {
@@ -59,11 +77,12 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 h-9 text-sm font-semibold
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-3 h-8 text-sm font-medium
            transition-colors duration-150 disabled:opacity-50 select-none whitespace-nowrap;
   }
   .btn-primary { @apply btn bg-primary text-primary-ink hover:bg-primary/90; }
-  .btn-secondary { @apply btn bg-surface text-ink border border-line hover:bg-subtle; }
+  .btn-secondary { @apply btn bg-surface text-ink border border-line hover:bg-subtle hover:border-muted/40; }
+  .btn-pill { @apply btn rounded-full px-4 h-9; }
   .btn-ghost { @apply btn text-muted hover:bg-subtle hover:text-ink; }
   .btn-danger { @apply btn bg-danger text-white hover:bg-danger/90; }
   .icon-btn {
@@ -71,7 +90,7 @@
            hover:bg-subtle hover:text-ink transition-colors duration-150 shrink-0;
   }
   .input {
-    @apply w-full h-10 rounded-lg border border-line bg-surface px-3 text-sm text-ink
+    @apply w-full h-9 rounded-md border border-line bg-surface px-3 text-sm text-ink
            placeholder:text-muted/70 transition-colors duration-150
            focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
   }

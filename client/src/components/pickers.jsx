@@ -36,7 +36,7 @@ export function AssigneePicker({ value, onChange, disabled, compact = false, mem
           type="button"
           disabled={disabled}
           onClick={(e) => { e.stopPropagation(); setQ(''); toggle(); }}
-          className={`inline-flex items-center gap-2 rounded-md text-sm transition-colors duration-150 disabled:cursor-default
+          className={`inline-flex max-w-full min-w-0 items-center gap-2 rounded-md text-sm transition-colors duration-150 disabled:cursor-default
             ${compact ? 'p-1 hover:bg-subtle' : 'h-8 px-2 hover:bg-subtle'}`}
           aria-label={current ? `Исполнитель: ${current.name}` : 'Назначить исполнителя'}
         >
@@ -45,7 +45,7 @@ export function AssigneePicker({ value, onChange, disabled, compact = false, mem
               <UserRound className="h-3.5 w-3.5" />
             </span>
           )}
-          {!compact && <span className={current ? '' : 'text-muted'}>{current ? current.name : 'Не назначено'}</span>}
+          {!compact && <span className={`truncate whitespace-nowrap ${current ? '' : 'text-muted'}`}>{current ? current.name : 'Не назначено'}</span>}
         </button>
       )}
     >

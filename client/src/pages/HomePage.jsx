@@ -2,12 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { AlertTriangle, CalendarCheck, CircleDot, TrendingUp, Plus, FolderKanban } from 'lucide-react';
+import { Plus, FolderKanban, CircleCheck } from 'lucide-react';
+import { useState } from 'react';
 import { api } from '../lib/api.js';
 import { useMe, useProjects, useWorkspaceId, useTaskPanel } from '../lib/hooks.js';
-import { PageLoader, ColorDot } from '../components/ui.jsx';
+import { PageLoader, ColorDot, Avatar } from '../components/ui.jsx';
 import { DueText } from '../components/TaskBits.jsx';
-import { plural } from '../lib/format.js';
+import { plural, dueState } from '../lib/format.js';
 
 function greeting() {
   const h = new Date().getHours();
@@ -17,57 +18,57 @@ function greeting() {
   return 'Добрый вечер';
 }
 
-function Stat({ icon: Icon, label, value, tone }) {
-  return (
-    <div className="card p-4">
-      <div className="flex items-center gap-2 text-sm text-muted"><Icon className={`h-4 w-4 ${tone}`} />{label}</div>
-      <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
-    </div>
-  );
-}
-
 export default function HomePage({ onNewProject }) {
   const wid = useWorkspaceId();
   const { data: me } = useMe();
   const { data: projects = [] } = useProjects();
   const { open } = useTaskPanel();
   const navigate = useNavigate();
+  const [tab, setTab] = useState('upcoming');
   const { data, isLoading } = useQuery({ queryKey: ['home', wid], queryFn: () => api.get(`/workspaces/${wid}/home`) });
 
   if (isLoading || !data) return <PageLoader />;
   const { stats, upcoming } = data;
   const active = projects.filter((p) => !p.archived);
 
-  return (
-    <div className="h-full overflow-y-auto scrollbar-thin">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 py-6 sm:py-10">
-        <p className="text-sm text-muted">{format(new Date(), 'EEEE, d MMMM', { locale: ru }).replace(/^./, (c) => c.toUpperCase())}</p>
-        <h1 className="mt-1 text-2xl sm:text-3xl font-semibold">{greeting()}, {me?.user.name.split(' ')[0]}</h1>
+  const shown = upcoming.filter((t) => (tab === 'overdue' ? dueState(t.due_date, false) === 'overdue' : true));
 
-        <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Stat icon={CircleDot} label="В работе" value={stats.open} tone="text-primary" />
-          <Stat icon={CalendarCheck} label="На сегодня" value={stats.today} tone="text-success" />
-          <Stat icon={AlertTriangle} label="Просрочено" value={stats.overdue} tone="text-danger" />
-          <Stat icon={TrendingUp} label="Сделано за неделю" value={stats.done_week} tone="text-warn" />
+  return (
+    <div className="h-full overflow-y-auto scrollbar-thin bg-bg">
+      <div className="mx-auto max-w-[1100px] px-4 sm:px-8 py-8 sm:py-10">
+        <div className="text-center">
+          <p className="text-sm font-medium text-muted">{format(new Date(), 'EEEE, d MMMM', { locale: ru }).replace(/^./, (c) => c.toUpperCase())}</p>
+          <h1 className="mt-1 text-2xl sm:text-[32px] font-normal tracking-tight">{greeting()}, {me?.user.name.split(' ')[0]}</h1>
+          <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-x-5 gap-y-1 rounded-full bg-subtle px-5 py-2 text-sm text-muted">
+            <span><b className="text-ink tabular-nums">{stats.done_week}</b> выполнено за неделю</span>
+            <span><b className="text-ink tabular-nums">{stats.open}</b> в работе</span>
+            <span className={stats.overdue ? 'text-danger' : ''}><b className={`tabular-nums ${stats.overdue ? '' : 'text-ink'}`}>{stats.overdue}</b> просрочено</span>
+          </div>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          <section className="card">
-            <div className="flex items-center justify-between px-4 pt-4 pb-2">
-              <h2 className="font-semibold">Ближайшие задачи</h2>
-              <Link to={`/w/${wid}/my-tasks`} className="text-sm text-primary hover:underline">Все мои задачи</Link>
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
+          <section className="card shadow-sm min-h-[360px] flex flex-col">
+            <div className="flex items-center gap-3 px-5 pt-5">
+              {me && <Avatar user={me.user} size={36} />}
+              <h2 className="text-lg font-semibold flex-1">Мои задачи</h2>
+              <Link to={`/w/${wid}/my-tasks`} className="text-sm text-muted hover:text-ink">Все</Link>
             </div>
-            {upcoming.length === 0 ? (
-              <p className="px-4 pb-5 text-sm text-muted">Задач нет — отличное время, чтобы спланировать следующие шаги.</p>
+            <div className="mt-3 flex gap-4 border-b border-line px-5 text-sm" role="tablist">
+              {[['upcoming', 'Предстоящие'], ['overdue', `Просроченные${stats.overdue ? ` (${stats.overdue})` : ''}`]].map(([k, l]) => (
+                <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)}
+                  className={`-mb-px border-b-2 pb-2 font-medium transition-colors ${tab === k ? 'border-ink text-ink' : 'border-transparent text-muted hover:text-ink'}`}>{l}</button>
+              ))}
+            </div>
+            {shown.length === 0 ? (
+              <p className="px-5 py-8 text-center text-sm text-muted">{tab === 'overdue' ? 'Просроченных задач нет.' : 'Задач нет — отличное время, чтобы спланировать следующие шаги.'}</p>
             ) : (
-              <ul className="pb-2">
-                {upcoming.map((t) => (
+              <ul className="flex-1 px-2 py-1">
+                {shown.map((t) => (
                   <li key={t.id}>
-                    <button onClick={() => open(t.id)} className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-subtle/70 transition-colors">
-                      <span className="flex-1 min-w-0">
-                        <span className="block truncate text-sm">{t.title}</span>
-                        {t.project && <span className="flex items-center gap-1.5 text-xs text-muted"><ColorDot color={t.project.color} className="h-2 w-2" />{t.project.name}</span>}
-                      </span>
+                    <button onClick={() => open(t.id)} className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-left hover:bg-subtle/70 transition-colors">
+                      <CircleCheck className="h-[18px] w-[18px] text-muted shrink-0" />
+                      <span className="flex-1 min-w-0 truncate text-sm">{t.title}</span>
+                      {t.project && <span className="hidden sm:inline-flex max-w-[120px] items-center gap-1.5 rounded-full bg-subtle px-2 py-0.5 text-xs text-muted truncate"><ColorDot color={t.project.color} className="h-2 w-2" />{t.project.name}</span>}
                       <DueText task={t} />
                     </button>
                   </li>
@@ -76,35 +77,29 @@ export default function HomePage({ onNewProject }) {
             )}
           </section>
 
-          <section className="card">
-            <div className="flex items-center justify-between px-4 pt-4 pb-2">
-              <h2 className="font-semibold">Проекты</h2>
-              <button onClick={onNewProject} className="btn-ghost h-8 -mr-2"><Plus className="h-4 w-4" />Новый</button>
+          <section className="card shadow-sm min-h-[360px]">
+            <div className="flex items-center px-5 pt-5 pb-3">
+              <h2 className="text-lg font-semibold flex-1">Проекты</h2>
+              <span className="text-sm text-muted">Недавние</span>
             </div>
-            {active.length === 0 ? (
-              <div className="px-4 pb-5">
-                <p className="text-sm text-muted">Создайте первый проект, чтобы вести задачи вместе с командой.</p>
-                <button onClick={onNewProject} className="btn-primary mt-3"><FolderKanban className="h-4 w-4" />Создать проект</button>
-              </div>
-            ) : (
-              <ul className="pb-2">
-                {active.slice(0, 8).map((p) => {
-                  const pct = p.task_count ? Math.round((p.done_count / p.task_count) * 100) : 0;
-                  return (
-                    <li key={p.id}>
-                      <button onClick={() => navigate(`/w/${wid}/projects/${p.id}`)} className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-subtle/70 transition-colors">
-                        <ColorDot color={p.color} className="h-3 w-3" />
-                        <span className="flex-1 min-w-0 truncate text-sm font-medium">{p.name}</span>
-                        <span className="text-xs text-muted whitespace-nowrap">{p.task_count} {plural(p.task_count, 'задача', 'задачи', 'задач')}</span>
-                        <span className="h-1.5 w-16 rounded-full bg-subtle overflow-hidden" aria-label={`Выполнено ${pct}%`}>
-                          <span className="block h-full rounded-full bg-success" style={{ width: `${pct}%` }} />
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 px-3 pb-4">
+              <button onClick={onNewProject} className="flex items-center gap-3 rounded-lg p-2 text-left hover:bg-subtle/70 transition-colors">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-dashed border-line text-muted"><Plus className="h-5 w-5" /></span>
+                <span className="text-sm font-medium text-muted">Создать проект</span>
+              </button>
+              {active.slice(0, 7).map((p) => {
+                const pct = p.task_count ? Math.round((p.done_count / p.task_count) * 100) : 0;
+                return (
+                  <button key={p.id} onClick={() => navigate(`/w/${wid}/projects/${p.id}`)} className="flex items-center gap-3 rounded-lg p-2 text-left hover:bg-subtle/70 transition-colors">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: p.color }}><FolderKanban className="h-5 w-5 text-white" /></span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-medium">{p.name}</span>
+                      <span className="block text-xs text-muted">{p.task_count} {plural(p.task_count, 'задача', 'задачи', 'задач')} · {pct}% готово</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </section>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   List, Columns3, CalendarDays, GanttChart, Search, MoreHorizontal, Users, Archive, Trash2, Pencil, Lock, Globe, SlidersHorizontal, X, ArchiveRestore,
-  LayoutDashboard, BarChart3, MessagesSquare, Paperclip, Settings2,
+  LayoutDashboard, BarChart3, MessagesSquare, Paperclip, Settings2, ChevronDown, Plus,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProject, useProjectTasks, useLocalState, useWorkspace } from '../lib/hooks.js';
@@ -19,7 +19,7 @@ import DashboardView from '../views/DashboardView.jsx';
 import MessagesView from '../views/MessagesView.jsx';
 import FilesView from '../views/FilesView.jsx';
 import CustomizeDrawer from '../components/CustomizeDrawer.jsx';
-import { PROJECT_COLORS, ROLE_LABEL } from '../lib/format.js';
+import { PROJECT_COLORS, ROLE_LABEL, PROJECT_STATUS } from '../lib/format.js';
 
 const VIEWS = [
   { value: 'overview', label: 'Обзор', icon: LayoutDashboard },
@@ -174,35 +174,39 @@ export default function ProjectPage() {
   return (
     <div className="flex h-full flex-col">
       <header className="border-b border-line bg-surface px-3 sm:px-6 pt-3">
-        <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg shrink-0" style={{ background: project.color }}>
-            <List className="h-5 w-5 text-white" />
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-md shrink-0" style={{ background: project.color }}>
+            <List className="h-[18px] w-[18px] text-white" />
           </span>
-          <div className="min-w-0 flex-1">
-            <h1 className="flex items-center gap-2 text-lg sm:text-xl font-semibold truncate">
-              {project.name}
-              {project.privacy === 'private' && <Lock className="h-4 w-4 text-muted shrink-0" aria-label="Закрытый проект" />}
-              {project.archived && <span className="chip bg-subtle text-muted">В архиве</span>}
-            </h1>
-            {project.description && <p className="text-sm text-muted truncate">{project.description}</p>}
-          </div>
-          <button onClick={() => setModal('members')} className="hidden sm:flex items-center -space-x-1.5 hover:opacity-80" aria-label="Участники проекта">
-            {project.members.slice(0, 4).map((m) => <Avatar key={m.id} user={m} size={28} className="ring-2 ring-surface" />)}
-            {project.members.length > 4 && <span className="flex h-7 w-7 items-center justify-center rounded-full bg-subtle text-xs ring-2 ring-surface">+{project.members.length - 4}</span>}
-          </button>
-          <button className="btn-secondary h-9 hidden sm:inline-flex" onClick={() => setModal('members')}><Users className="h-4 w-4" />Доступ</button>
-          <button className="btn-secondary h-9 hidden sm:inline-flex" onClick={() => setModal('customize')}><Settings2 className="h-4 w-4" />Настроить</button>
-          <Dropdown width={240} align="end" trigger={({ ref, toggle }) => <button ref={ref} onClick={toggle} className="icon-btn" aria-label="Действия с проектом"><MoreHorizontal className="h-5 w-5" /></button>}>
+          <Dropdown width={260} trigger={({ ref, toggle }) => (
+            <button ref={ref} onClick={toggle} className="flex min-w-0 items-center gap-1 rounded-md px-1.5 h-8 hover:bg-subtle transition-colors" aria-label="Действия с проектом">
+              <h1 className="truncate text-lg sm:text-xl font-semibold">{project.name}</h1>
+              <ChevronDown className="h-4 w-4 text-muted shrink-0" />
+            </button>
+          )}>
             {(close) => (
               <>
-                <button className="menu-item sm:hidden" onClick={() => { close(); setModal('members'); }}><Users className="h-4 w-4" />Участники и доступ</button>
-                <button className="menu-item sm:hidden" onClick={() => { close(); setModal('customize'); }}><Settings2 className="h-4 w-4" />Поля, правила, форма</button>
                 {project.canEdit && <button className="menu-item" onClick={() => { close(); setModal('edit'); }}><Pencil className="h-4 w-4" />Изменить проект</button>}
+                <button className="menu-item" onClick={() => { close(); setModal('members'); }}><Users className="h-4 w-4" />Участники и доступ</button>
+                <button className="menu-item" onClick={() => { close(); setModal('customize'); }}><Settings2 className="h-4 w-4" />Поля, правила, форма</button>
                 {project.canManage && <button className="menu-item" onClick={() => { close(); archive(); }}>{project.archived ? <ArchiveRestore className="h-4 w-4" /> : <Archive className="h-4 w-4" />}{project.archived ? 'Вернуть из архива' : 'В архив'}</button>}
                 {project.canManage && <button className="menu-item text-danger" onClick={() => { close(); remove(); }}><Trash2 className="h-4 w-4" />Удалить проект</button>}
               </>
             )}
           </Dropdown>
+          {project.privacy === 'private' && <Lock className="h-4 w-4 text-muted shrink-0" aria-label="Закрытый проект" />}
+          {project.archived && <span className="chip bg-subtle text-muted">В архиве</span>}
+          <button onClick={() => setView('overview')} className={`hidden md:inline-flex chip h-7 px-2.5 border ${project.last_status ? PROJECT_STATUS[project.last_status].cls + ' border-transparent' : 'border-line text-muted hover:text-ink'}`}>
+            <span className="h-2 w-2 rounded-full" style={{ background: project.last_status ? PROJECT_STATUS[project.last_status].dot : 'rgb(var(--muted))' }} />
+            {project.last_status ? PROJECT_STATUS[project.last_status].label : 'Задать статус'}
+          </button>
+          <div className="flex-1" />
+          <button onClick={() => setModal('members')} className="hidden sm:flex items-center -space-x-1.5 hover:opacity-80" aria-label="Участники проекта">
+            {project.members.slice(0, 4).map((m) => <Avatar key={m.id} user={m} size={28} className="ring-2 ring-surface" />)}
+            {project.members.length > 4 && <span className="flex h-7 w-7 items-center justify-center rounded-full bg-subtle text-xs ring-2 ring-surface">+{project.members.length - 4}</span>}
+          </button>
+          <button className="btn-pill h-8 bg-[rgb(79_70_229)] text-white hover:opacity-90" onClick={() => setModal('members')}><Users className="h-4 w-4" /><span className="hidden sm:inline">Поделиться</span></button>
+          <button className="btn-secondary rounded-full h-8 px-3 hidden sm:inline-flex" onClick={() => setModal('customize')}><Settings2 className="h-4 w-4" />Настроить</button>
         </div>
 
         <nav className="mt-2 -mb-px flex gap-1 overflow-x-auto scrollbar-thin" aria-label="Виды проекта" role="tablist">
@@ -217,21 +221,19 @@ export default function ProjectPage() {
       </header>
 
       {TASK_VIEWS.includes(view) && (
-        <div className="flex flex-wrap items-center gap-2 border-b border-line bg-surface px-3 sm:px-6 py-2">
-          {project.canEdit && view !== 'calendar' && view !== 'timeline' && (
-            <button className="btn-primary h-9" onClick={async () => {
-              const title = window.prompt('Название задачи');
-              if (!title?.trim()) return;
-              try { await api.post('/tasks', { project_id: pid, title: title.trim() }); qc.invalidateQueries({ queryKey: ['project-tasks', pid] }); } catch (e) { toast(e.message, { type: 'error' }); }
-            }}>+ Добавить задачу</button>
+        <div className="flex flex-wrap items-center gap-2 bg-surface px-3 sm:px-6 py-2.5">
+          {project.canEdit && (
+            <button className="btn-pill h-8 bg-[rgb(79_70_229)] text-white hover:opacity-90" onClick={() => window.dispatchEvent(new CustomEvent('potok:new-task', { detail: { projectId: pid } }))}>
+              <Plus className="h-4 w-4" />Добавить задачу
+            </button>
           )}
           <div className="flex-1" />
           <div className="relative">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-            <input className="input h-9 w-[150px] sm:w-[200px] pl-8" placeholder="Найти в проекте" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Поиск в проекте" />
+            <input className="input h-8 rounded-full w-[150px] sm:w-[200px] pl-8" placeholder="Найти в проекте" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Поиск в проекте" />
           </div>
           <Dropdown width={260} align="end" trigger={({ ref, toggle }) => (
-            <button ref={ref} onClick={toggle} className={`btn-secondary h-9 ${activeFilters ? 'border-primary text-primary' : ''}`}>
+            <button ref={ref} onClick={toggle} className={`btn-ghost h-8 ${activeFilters ? 'bg-primary-soft text-primary' : ''}`}>
               <SlidersHorizontal className="h-4 w-4" /><span className="hidden sm:inline">Фильтры</span>{activeFilters > 0 && <span className="chip bg-primary text-primary-ink">{activeFilters}</span>}
             </button>
           )}>

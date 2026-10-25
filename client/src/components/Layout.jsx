@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  Home, CheckSquare, Inbox, Settings, Plus, Menu, Search, ChevronsUpDown, Check, LogOut, Moon, Sun, Lock, X, Archive, UserPlus,
+  Home, CheckSquare, Settings, Plus, Menu, Search, ChevronsUpDown, Check, LogOut, Moon, Sun, Lock, X, Archive, UserPlus,
+  Bell, CircleCheck, ChevronDown, FolderPlus,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProjects, useWorkspace, useWorkspaceId } from '../lib/hooks.js';
@@ -93,29 +94,94 @@ function NewWorkspaceModal({ open, onClose }) {
   );
 }
 
-function Sidebar({ onNavigate, onNewProject }) {
+function Sidebar({ onNavigate, onNewProject, onNewTask }) {
   const wid = useWorkspaceId();
   const { data: me } = useMe();
   const { data: ws } = useWorkspace();
   const { data: projects = [] } = useProjects();
   const [showArchived, setShowArchived] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [newWs, setNewWs] = useState(false);
   const navigate = useNavigate();
   const { data: unread } = useQuery({ queryKey: ['unread', wid], queryFn: () => api.get(`/workspaces/${wid}/notifications/unread`), refetchInterval: 120_000 });
 
-  const nav = ({ isActive }) => `flex items-center gap-3 rounded-lg px-3 h-10 text-sm font-medium transition-colors duration-150
-    ${isActive ? 'bg-primary-soft text-primary' : 'text-ink/80 hover:bg-subtle hover:text-ink'}`;
+  const nav = ({ isActive }) => `flex items-center gap-3 rounded-md px-3 h-8 text-sm transition-colors duration-150
+    ${isActive ? 'bg-primary-soft text-ink font-medium' : 'text-ink/85 hover:bg-subtle hover:text-ink'}`;
   const active = projects.filter((p) => !p.archived);
   const archived = projects.filter((p) => p.archived);
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="px-3 pt-3 pb-2">
+    <div className="sidebar flex h-full flex-col">
+      <div className="flex items-center gap-2 px-4 h-14 shrink-0">
+        <Logo className="text-[15px] [&_svg]:h-7 [&_svg]:w-7" />
+      </div>
+
+      <div className="px-3 pb-3">
+        <Dropdown width={220} trigger={({ ref, toggle }) => (
+          <button ref={ref} onClick={toggle} className="inline-flex items-center gap-2 rounded-full border border-line bg-subtle/60 pl-2.5 pr-4 h-9 text-sm font-medium hover:bg-subtle transition-colors">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[rgb(79_70_229)] text-white"><Plus className="h-3.5 w-3.5" /></span>
+            Создать
+          </button>
+        )}>
+          {(close) => (
+            <>
+              <button className="menu-item" onClick={() => { close(); onNewTask(); }}><CheckSquare className="h-4 w-4" />Задачу<span className="ml-auto text-xs text-muted">Tab Q</span></button>
+              <button className="menu-item" onClick={() => { close(); onNewProject(); }}><FolderPlus className="h-4 w-4" />Проект</button>
+              <button className="menu-item" onClick={() => { close(); navigate(`/w/${wid}/settings`); onNavigate?.(); }}><UserPlus className="h-4 w-4" />Пригласить коллег</button>
+            </>
+          )}
+        </Dropdown>
+      </div>
+
+      <nav className="px-2 space-y-px" aria-label="Основное меню">
+        <NavLink end to={`/w/${wid}`} className={nav} onClick={onNavigate}><Home className="h-[18px] w-[18px]" />Главная</NavLink>
+        <NavLink to={`/w/${wid}/my-tasks`} className={nav} onClick={onNavigate}><CircleCheck className="h-[18px] w-[18px]" />Мои задачи</NavLink>
+        <NavLink to={`/w/${wid}/inbox`} className={nav} onClick={onNavigate}>
+          <Bell className="h-[18px] w-[18px]" /><span className="flex-1">Входящие</span>
+          {unread?.count > 0 && <span className="rounded-full bg-[#E5484D] px-1.5 min-w-[20px] text-center text-[11px] font-semibold leading-5 text-white">{unread.count > 99 ? '99+' : unread.count}</span>}
+        </NavLink>
+      </nav>
+
+      <div className="mx-4 my-3 border-t border-line" />
+
+      <div className="flex items-center justify-between px-3 pb-1">
+        <button onClick={() => setCollapsed(!collapsed)} className="flex items-center gap-1 rounded-md px-2 h-7 text-sm font-medium text-ink/85 hover:bg-subtle" aria-expanded={!collapsed}>
+          <ChevronDown className={`h-3.5 w-3.5 transition-transform ${collapsed ? '-rotate-90' : ''}`} />Проекты
+        </button>
+        <button onClick={onNewProject} className="icon-btn h-7 w-7" aria-label="Новый проект"><Plus className="h-4 w-4" /></button>
+      </div>
+      <nav className="flex-1 overflow-y-auto scrollbar-thin px-2 pb-3 space-y-px" aria-label="Проекты">
+        {!collapsed && active.map((p) => (
+          <NavLink key={p.id} to={`/w/${wid}/projects/${p.id}`} className={nav} onClick={onNavigate}>
+            <span className="h-3 w-3 rounded-[4px] shrink-0" style={{ background: p.color }} />
+            <span className="flex-1 truncate">{p.name}</span>
+            {p.privacy === 'private' && <Lock className="h-3.5 w-3.5 text-muted" />}
+          </NavLink>
+        ))}
+        {!collapsed && active.length === 0 && (
+          <button onClick={onNewProject} className="w-full rounded-md border border-dashed border-line px-3 py-3 text-sm text-muted hover:text-ink">Создать первый проект</button>
+        )}
+        {!collapsed && archived.length > 0 && (
+          <>
+            <button onClick={() => setShowArchived(!showArchived)} className="flex items-center gap-2 px-3 pt-3 text-xs text-muted hover:text-ink">
+              <Archive className="h-3.5 w-3.5" />{showArchived ? 'Скрыть архив' : `Архив (${archived.length})`}
+            </button>
+            {showArchived && archived.map((p) => (
+              <NavLink key={p.id} to={`/w/${wid}/projects/${p.id}`} className={nav} onClick={onNavigate}>
+                <span className="h-3 w-3 rounded-[4px] shrink-0 opacity-50" style={{ background: p.color }} /><span className="flex-1 truncate text-muted">{p.name}</span>
+              </NavLink>
+            ))}
+          </>
+        )}
+      </nav>
+
+      <div className="border-t border-line p-2 space-y-px">
+        <NavLink to={`/w/${wid}/settings`} className={nav} onClick={onNavigate}><UserPlus className="h-[18px] w-[18px]" />Пригласить и настроить</NavLink>
         <Dropdown width={272} trigger={({ ref, toggle }) => (
-          <button ref={ref} onClick={toggle} className="flex w-full items-center gap-2.5 rounded-lg px-2 h-12 hover:bg-subtle transition-colors text-left">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-ink shrink-0">{ws?.name?.[0]?.toUpperCase() || '·'}</span>
+          <button ref={ref} onClick={toggle} className="flex w-full items-center gap-2.5 rounded-md px-2 h-11 hover:bg-subtle transition-colors text-left">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[rgb(79_70_229)] text-xs font-bold text-white shrink-0">{ws?.name?.[0]?.toUpperCase() || '·'}</span>
             <span className="flex-1 min-w-0">
-              <span className="block truncate text-sm font-semibold">{ws?.name || 'Загрузка…'}</span>
+              <span className="block truncate text-sm font-medium">{ws?.name || 'Загрузка…'}</span>
               <span className="block text-xs text-muted">{ws?.members?.length || 0} участн.</span>
             </span>
             <ChevronsUpDown className="h-4 w-4 text-muted" />
@@ -137,48 +203,6 @@ function Sidebar({ onNavigate, onNewProject }) {
           )}
         </Dropdown>
       </div>
-
-      <nav className="px-3 space-y-0.5" aria-label="Основное меню">
-        <NavLink end to={`/w/${wid}`} className={nav} onClick={onNavigate}><Home className="h-[18px] w-[18px]" />Главная</NavLink>
-        <NavLink to={`/w/${wid}/my-tasks`} className={nav} onClick={onNavigate}><CheckSquare className="h-[18px] w-[18px]" />Мои задачи</NavLink>
-        <NavLink to={`/w/${wid}/inbox`} className={nav} onClick={onNavigate}>
-          <Inbox className="h-[18px] w-[18px]" /><span className="flex-1">Входящие</span>
-          {unread?.count > 0 && <span className="rounded-full bg-danger px-1.5 min-w-[20px] text-center text-xs font-semibold text-white">{unread.count > 99 ? '99+' : unread.count}</span>}
-        </NavLink>
-      </nav>
-
-      <div className="mt-5 flex items-center justify-between px-6 pb-1">
-        <span className="text-xs font-semibold uppercase tracking-wide text-muted">Проекты</span>
-        <button onClick={onNewProject} className="icon-btn h-7 w-7 -mr-2" aria-label="Новый проект"><Plus className="h-4 w-4" /></button>
-      </div>
-      <nav className="flex-1 overflow-y-auto scrollbar-thin px-3 pb-3 space-y-0.5" aria-label="Проекты">
-        {active.map((p) => (
-          <NavLink key={p.id} to={`/w/${wid}/projects/${p.id}`} className={nav} onClick={onNavigate}>
-            <ColorDot color={p.color} className="h-3 w-3" />
-            <span className="flex-1 truncate">{p.name}</span>
-            {p.privacy === 'private' && <Lock className="h-3.5 w-3.5 text-muted" />}
-          </NavLink>
-        ))}
-        {active.length === 0 && (
-          <button onClick={onNewProject} className="w-full rounded-lg border border-dashed border-line px-3 py-3 text-sm text-muted hover:border-primary hover:text-primary">Создать первый проект</button>
-        )}
-        {archived.length > 0 && (
-          <>
-            <button onClick={() => setShowArchived(!showArchived)} className="flex items-center gap-2 px-3 pt-3 text-xs text-muted hover:text-ink">
-              <Archive className="h-3.5 w-3.5" />{showArchived ? 'Скрыть архив' : `Архив (${archived.length})`}
-            </button>
-            {showArchived && archived.map((p) => (
-              <NavLink key={p.id} to={`/w/${wid}/projects/${p.id}`} className={nav} onClick={onNavigate}>
-                <ColorDot color={p.color} className="h-3 w-3 opacity-50" /><span className="flex-1 truncate text-muted">{p.name}</span>
-              </NavLink>
-            ))}
-          </>
-        )}
-      </nav>
-
-      <div className="border-t border-line p-3">
-        <NavLink to={`/w/${wid}/settings`} className={nav} onClick={onNavigate}><Settings className="h-[18px] w-[18px]" />Настройки и участники</NavLink>
-      </div>
       <NewWorkspaceModal open={newWs} onClose={() => setNewWs(false)} />
     </div>
   );
@@ -190,6 +214,14 @@ export default function Layout() {
   const [drawer, setDrawer] = useState(false);
   const [newProject, setNewProject] = useState(false);
   const [quickTask, setQuickTask] = useState(false);
+  const [quickProject, setQuickProject] = useState(null);
+
+  // Кнопка «Добавить задачу» в проекте открывает то же окно, что и «Создать»
+  useEffect(() => {
+    const onNew = (e) => { setQuickProject(e.detail?.projectId ?? null); setQuickTask(true); };
+    window.addEventListener('potok:new-task', onNew);
+    return () => window.removeEventListener('potok:new-task', onNew);
+  }, []);
   const [q, setQ] = useState('');
   const [theme, setTheme] = useTheme();
   const navigate = useNavigate();
@@ -221,32 +253,34 @@ export default function Layout() {
     navigate('/login');
   };
 
-  const sidebar = <Sidebar onNavigate={() => setDrawer(false)} onNewProject={() => { setDrawer(false); setNewProject(true); }} />;
+  const sidebar = <Sidebar onNavigate={() => setDrawer(false)} onNewProject={() => { setDrawer(false); setNewProject(true); }} onNewTask={() => { setDrawer(false); setQuickTask(true); }} />;
 
   return (
     <div className="flex h-full">
-      <aside className="hidden lg:block w-[264px] shrink-0 border-r border-line bg-surface">{sidebar}</aside>
+      <aside className="hidden lg:block w-[248px] shrink-0">{sidebar}</aside>
       {drawer && (
         <div className="fixed inset-0 z-modal lg:hidden">
           <div className="absolute inset-0 bg-slate-950/50 animate-fade-in" onClick={() => setDrawer(false)} />
-          <aside className="absolute inset-y-0 left-0 w-[min(300px,85vw)] bg-surface shadow-pop animate-slide-in">
-            <button className="icon-btn absolute right-2 top-4 z-10" onClick={() => setDrawer(false)} aria-label="Закрыть меню"><X className="h-5 w-5" /></button>
+          <aside className="sidebar absolute inset-y-0 left-0 w-[min(300px,85vw)] shadow-pop animate-slide-in">
+            <button className="icon-btn absolute right-2 top-2.5 z-10" onClick={() => setDrawer(false)} aria-label="Закрыть меню"><X className="h-5 w-5" /></button>
             {sidebar}
           </aside>
         </div>
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b border-line bg-surface px-2 sm:px-4">
-          <button className="icon-btn lg:hidden" onClick={() => setDrawer(true)} aria-label="Открыть меню"><Menu className="h-5 w-5" /></button>
-          <Logo className="hidden sm:inline-flex lg:hidden mr-2" />
-          <form className="relative flex-1 max-w-xl" onSubmit={(e) => { e.preventDefault(); if (q.trim()) navigate(`/w/${wid}/search?q=${encodeURIComponent(q.trim())}`); }}>
+        <header className="grid h-12 shrink-0 grid-cols-[auto_1fr_auto] items-center gap-2 border-b border-line bg-surface px-2 sm:px-4">
+          <div className="flex items-center">
+            <button className="icon-btn lg:hidden" onClick={() => setDrawer(true)} aria-label="Открыть меню"><Menu className="h-5 w-5" /></button>
+            <Logo className="hidden sm:inline-flex lg:hidden ml-1 text-[15px] [&_svg]:h-7 [&_svg]:w-7" />
+          </div>
+          <form className="relative w-full max-w-[560px] justify-self-center" onSubmit={(e) => { e.preventDefault(); if (q.trim()) navigate(`/w/${wid}/search?q=${encodeURIComponent(q.trim())}`); }}>
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-            <input id="global-search" className="input h-9 pl-9 bg-subtle border-transparent focus:bg-surface" placeholder="Поиск задач, проектов, людей  ( / )" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Поиск" />
+            <input id="global-search" className="input h-8 rounded-full pl-9 bg-subtle border-line focus:bg-surface" placeholder="Поиск  ( / )" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Поиск" />
           </form>
-          <div className="flex-1" />
+          <div className="flex items-center gap-1">
           <Dropdown width={220} align="end" trigger={({ ref, toggle }) => (
-            <button ref={ref} onClick={toggle} className="btn-primary h-9 px-3"><Plus className="h-4 w-4" /><span className="hidden sm:inline">Создать</span></button>
+            <button ref={ref} onClick={toggle} className="icon-btn lg:hidden" aria-label="Создать"><Plus className="h-5 w-5" /></button>
           )}>
             {(close) => (
               <>
@@ -276,6 +310,7 @@ export default function Layout() {
               </>
             )}
           </Dropdown>
+          </div>
         </header>
         <main className="relative min-h-0 flex-1">
           <Outlet context={{ openNewProject: () => setNewProject(true) }} />
@@ -284,7 +319,11 @@ export default function Layout() {
 
       <TaskPanel />
       <NewProjectModal open={newProject} onClose={() => setNewProject(false)} />
-      <QuickTaskModal open={quickTask} onClose={() => setQuickTask(false)} defaultProjectId={location.pathname.match(/projects\/(\d+)/)?.[1] ? Number(location.pathname.match(/projects\/(\d+)/)[1]) : null} />
+      <QuickTaskModal
+        open={quickTask}
+        onClose={() => { setQuickTask(false); setQuickProject(null); }}
+        defaultProjectId={quickProject ?? (location.pathname.match(/projects\/(\d+)/) ? Number(location.pathname.match(/projects\/(\d+)/)[1]) : null)}
+      />
     </div>
   );
 }

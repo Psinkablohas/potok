@@ -67,7 +67,8 @@ router.get('/projects/:pid', h(async (req, res) => {
        JOIN users u ON u.id=pm.user_id WHERE pm.project_id=$1 ORDER BY pm.role='owner' DESC, u.name`,
     [pid],
   );
-  res.json({ ...project, role, canEdit, canManage, sections, members });
+  const last = await one('SELECT status FROM status_updates WHERE project_id=$1 ORDER BY created_at DESC LIMIT 1', [pid]);
+  res.json({ ...project, role, canEdit, canManage, sections, members, last_status: last?.status ?? null });
 }));
 
 router.patch('/projects/:pid', h(async (req, res) => {
