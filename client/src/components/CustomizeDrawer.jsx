@@ -6,21 +6,22 @@ import { api } from '../lib/api.js';
 import { useToast } from '../lib/toast.jsx';
 import { Field, Modal, Segmented, Spinner } from './ui.jsx';
 import { FIELD_TYPES, PROJECT_COLORS, PRIORITY } from '../lib/format.js';
+import { t } from '../i18n/index.js';
 
 const TRIGGER_LABEL = {
-  task_added: 'Задача добавлена в проект',
-  section_changed: 'Задача перемещена в раздел',
-  completed: 'Задача выполнена',
-  assignee_changed: 'Изменён исполнитель',
-  due_changed: 'Изменён срок',
+  task_added: t("Задача добавлена в проект"),
+  section_changed: t("Задача перемещена в раздел"),
+  completed: t("Задача выполнена"),
+  assignee_changed: t("Изменён исполнитель"),
+  due_changed: t("Изменён срок"),
 };
 const ACTION_LABEL = {
-  complete: 'Отметить выполненной',
-  move_section: 'Переместить в раздел',
-  assign: 'Назначить исполнителя',
-  add_follower: 'Добавить подписчика',
-  set_priority: 'Установить приоритет',
-  set_due_in: 'Поставить срок через N дней',
+  complete: t("Отметить выполненной"),
+  move_section: t("Переместить в раздел"),
+  assign: t("Назначить исполнителя"),
+  add_follower: t("Добавить подписчика"),
+  set_priority: t("Установить приоритет"),
+  set_due_in: t("Поставить срок через N дней"),
 };
 
 // ---------- Поля ----------
@@ -42,50 +43,50 @@ function FieldsTab({ project }) {
     } catch (e) { toast(e.message, { type: 'error' }); }
   };
   const remove = async (f) => {
-    if (!window.confirm(`Удалить поле «${f.name}» и все его значения?`)) return;
+    if (!window.confirm(t("Удалить поле «{0}» и все его значения?", f.name))) return;
     try { await api.del(`/fields/${f.id}`); refresh(); } catch (e) { toast(e.message, { type: 'error' }); }
   };
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-muted">Свои поля появятся колонками в списке и строками в карточке задачи: этап, бюджет, оценка в часах, клиент — что угодно.</p>
+      <p className="text-sm text-muted">{t("Свои поля появятся колонками в списке и строками в карточке задачи: этап, бюджет, оценка в часах, клиент — что угодно.")}</p>
       {isLoading ? <Spinner /> : fields.map((f) => (
         <div key={f.id} className="flex items-center gap-2 rounded-lg border border-line px-3 py-2">
           <span className="flex-1 min-w-0">
             <span className="block text-sm font-medium truncate">{f.name}</span>
             <span className="block text-xs text-muted">{FIELD_TYPES[f.type]}{f.type === 'select' ? `: ${f.options.map((o) => o.name).join(', ')}` : ''}</span>
           </span>
-          {project.canEdit && <button className="btn-ghost h-8" onClick={() => setForm({ ...f, options: f.options.map((o) => ({ ...o })) })}>Изменить</button>}
-          {project.canEdit && <button className="icon-btn h-8 w-8" aria-label={`Удалить поле ${f.name}`} onClick={() => remove(f)}><Trash2 className="h-4 w-4" /></button>}
+          {project.canEdit && <button className="btn-ghost h-8" onClick={() => setForm({ ...f, options: f.options.map((o) => ({ ...o })) })}>{t("Изменить")}</button>}
+          {project.canEdit && <button className="icon-btn h-8 w-8" aria-label={t("Удалить поле {0}", f.name)} onClick={() => remove(f)}><Trash2 className="h-4 w-4" /></button>}
         </div>
       ))}
-      {project.canEdit && <button className="btn-secondary w-full" onClick={() => setForm({ name: '', type: 'select', options: [{ name: '', color: PROJECT_COLORS[0] }] })}><Plus className="h-4 w-4" />Новое поле</button>}
+      {project.canEdit && <button className="btn-secondary w-full" onClick={() => setForm({ name: '', type: 'select', options: [{ name: '', color: PROJECT_COLORS[0] }] })}><Plus className="h-4 w-4" />{t("Новое поле")}</button>}
 
-      <Modal open={!!form} onClose={() => setForm(null)} title={form?.id ? 'Изменить поле' : 'Новое поле'}
-        footer={<><button className="btn-ghost" onClick={() => setForm(null)}>Отмена</button><button className="btn-primary" disabled={!form?.name.trim()} onClick={save}>Сохранить</button></>}>
+      <Modal open={!!form} onClose={() => setForm(null)} title={form?.id ? t("Изменить поле") : t("Новое поле")}
+        footer={<><button className="btn-ghost" onClick={() => setForm(null)}>{t("Отмена")}</button><button className="btn-primary" disabled={!form?.name.trim()} onClick={save}>{t("Сохранить")}</button></>}>
         {form && (
           <div className="space-y-4">
-            <Field label="Название" htmlFor="f-name"><input id="f-name" autoFocus className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></Field>
-            <Field label="Тип">
+            <Field label={t("Название")} htmlFor="f-name"><input id="f-name" autoFocus className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></Field>
+            <Field label={t("Тип")}>
               <select className="input" value={form.type} disabled={!!form.id} onChange={(e) => setForm({ ...form, type: e.target.value })}>
                 {Object.entries(FIELD_TYPES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </Field>
             {form.type === 'select' && (
-              <Field label="Варианты">
+              <Field label={t("Варианты")}>
                 <div className="space-y-2">
                   {form.options.map((o, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <select aria-label="Цвет варианта" className="h-10 w-12 rounded-lg border border-line" style={{ background: o.color }} value={o.color}
+                      <select aria-label={t("Цвет варианта")} className="h-10 w-12 rounded-lg border border-line" style={{ background: o.color }} value={o.color}
                         onChange={(e) => setForm({ ...form, options: form.options.map((x, j) => (j === i ? { ...x, color: e.target.value } : x)) })}>
                         {PROJECT_COLORS.map((c) => <option key={c} value={c} style={{ background: c }}>{c}</option>)}
                       </select>
-                      <input className="input flex-1" placeholder={`Вариант ${i + 1}`} value={o.name}
+                      <input className="input flex-1" placeholder={t("Вариант {0}", i + 1)} value={o.name}
                         onChange={(e) => setForm({ ...form, options: form.options.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)) })} />
-                      <button className="icon-btn" aria-label="Убрать вариант" onClick={() => setForm({ ...form, options: form.options.filter((_, j) => j !== i) })}><X className="h-4 w-4" /></button>
+                      <button className="icon-btn" aria-label={t("Убрать вариант")} onClick={() => setForm({ ...form, options: form.options.filter((_, j) => j !== i) })}><X className="h-4 w-4" /></button>
                     </div>
                   ))}
-                  <button className="btn-ghost" onClick={() => setForm({ ...form, options: [...form.options, { name: '', color: PROJECT_COLORS[form.options.length % PROJECT_COLORS.length] }] })}><Plus className="h-4 w-4" />Добавить вариант</button>
+                  <button className="btn-ghost" onClick={() => setForm({ ...form, options: [...form.options, { name: '', color: PROJECT_COLORS[form.options.length % PROJECT_COLORS.length] }] })}><Plus className="h-4 w-4" />{t("Добавить вариант")}</button>
                 </div>
               </Field>
             )}
@@ -105,13 +106,13 @@ function ActionEditor({ action, onChange, onRemove, project }) {
       </select>
       {action.type === 'move_section' && (
         <select className="input h-9 flex-1 min-w-[140px]" value={action.section_id || ''} onChange={(e) => onChange({ ...action, section_id: Number(e.target.value) })}>
-          <option value="">Раздел…</option>
+          <option value="">{t("Раздел…")}</option>
           {project.sections.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
         </select>
       )}
       {(action.type === 'assign' || action.type === 'add_follower') && (
         <select className="input h-9 flex-1 min-w-[140px]" value={action.user_id || ''} onChange={(e) => onChange({ ...action, user_id: Number(e.target.value) })}>
-          <option value="">Кто…</option>
+          <option value="">{t("Кто…")}</option>
           {project.members.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
         </select>
       )}
@@ -121,9 +122,9 @@ function ActionEditor({ action, onChange, onRemove, project }) {
         </select>
       )}
       {action.type === 'set_due_in' && (
-        <input type="number" min={0} max={365} className="input h-9 w-24" value={action.days ?? 1} onChange={(e) => onChange({ ...action, days: Number(e.target.value) })} aria-label="Дней" />
+        <input type="number" min={0} max={365} className="input h-9 w-24" value={action.days ?? 1} onChange={(e) => onChange({ ...action, days: Number(e.target.value) })} aria-label={t("Дней")} />
       )}
-      <button className="icon-btn h-9 w-9" aria-label="Убрать действие" onClick={onRemove}><X className="h-4 w-4" /></button>
+      <button className="icon-btn h-9 w-9" aria-label={t("Убрать действие")} onClick={onRemove}><X className="h-4 w-4" /></button>
     </div>
   );
 }
@@ -134,7 +135,7 @@ function RulesTab({ project }) {
   const { data: rules = [], isLoading } = useQuery({ queryKey: ['rules', project.id], queryFn: () => api.get(`/projects/${project.id}/rules`) });
   const [form, setForm] = useState(null);
   const refresh = () => qc.invalidateQueries({ queryKey: ['rules', project.id] });
-  const sectionName = (id) => project.sections.find((s) => s.id === id)?.name || 'любой раздел';
+  const sectionName = (id) => project.sections.find((s) => s.id === id)?.name || t("любой раздел");
 
   const save = async () => {
     try {
@@ -148,19 +149,19 @@ function RulesTab({ project }) {
     try { await api.patch(`/rules/${r.id}`, { enabled: !r.enabled }); refresh(); } catch (e) { toast(e.message, { type: 'error' }); }
   };
   const remove = async (r) => {
-    if (!window.confirm(`Удалить правило «${r.name}»?`)) return;
+    if (!window.confirm(t("Удалить правило «{0}»?", r.name))) return;
     try { await api.del(`/rules/${r.id}`); refresh(); } catch (e) { toast(e.message, { type: 'error' }); }
   };
 
   const presets = [
-    { name: 'Готово → отметить выполненной', trigger: { type: 'section_changed', section_id: project.sections[project.sections.length - 1]?.id }, actions: [{ type: 'complete' }] },
-    { name: 'Выполнено → переместить в последний раздел', trigger: { type: 'completed' }, actions: [{ type: 'move_section', section_id: project.sections[project.sections.length - 1]?.id }] },
-    { name: 'Новая задача → срок через 3 дня', trigger: { type: 'task_added' }, actions: [{ type: 'set_due_in', days: 3 }] },
+    { name: t("Готово → отметить выполненной"), trigger: { type: 'section_changed', section_id: project.sections[project.sections.length - 1]?.id }, actions: [{ type: 'complete' }] },
+    { name: t("Выполнено → переместить в последний раздел"), trigger: { type: 'completed' }, actions: [{ type: 'move_section', section_id: project.sections[project.sections.length - 1]?.id }] },
+    { name: t("Новая задача → срок через 3 дня"), trigger: { type: 'task_added' }, actions: [{ type: 'set_due_in', days: 3 }] },
   ];
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-muted">Правила делают рутину за вас: «когда произошло событие — выполнить действия». Работают для всех участников проекта.</p>
+      <p className="text-sm text-muted">{t("Правила делают рутину за вас: «когда произошло событие — выполнить действия». Работают для всех участников проекта.")}</p>
       {isLoading ? <Spinner /> : rules.map((r) => (
         <div key={r.id} className="rounded-lg border border-line p-3">
           <div className="flex items-center gap-2">
@@ -168,26 +169,26 @@ function RulesTab({ project }) {
             <span className="flex-1 text-sm font-medium truncate">{r.name}</span>
             {project.canEdit && (
               <>
-                <label className="relative inline-flex cursor-pointer items-center" title={r.enabled ? 'Выключить' : 'Включить'}>
-                  <input type="checkbox" className="peer sr-only" checked={r.enabled} onChange={() => toggle(r)} aria-label="Правило включено" />
+                <label className="relative inline-flex cursor-pointer items-center" title={r.enabled ? t("Выключить") : t("Включить")}>
+                  <input type="checkbox" className="peer sr-only" checked={r.enabled} onChange={() => toggle(r)} aria-label={t("Правило включено")} />
                   <span className="h-5 w-9 rounded-full bg-line peer-checked:bg-primary transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform peer-checked:after:translate-x-4" />
                 </label>
-                <button className="btn-ghost h-8" onClick={() => setForm({ ...r })}>Изменить</button>
-                <button className="icon-btn h-8 w-8" aria-label="Удалить правило" onClick={() => remove(r)}><Trash2 className="h-4 w-4" /></button>
+                <button className="btn-ghost h-8" onClick={() => setForm({ ...r })}>{t("Изменить")}</button>
+                <button className="icon-btn h-8 w-8" aria-label={t("Удалить правило")} onClick={() => remove(r)}><Trash2 className="h-4 w-4" /></button>
               </>
             )}
           </div>
           <p className="mt-1 pl-6 text-xs text-muted">
-            Когда: {TRIGGER_LABEL[r.trigger.type]}{r.trigger.type === 'section_changed' ? ` «${sectionName(r.trigger.section_id)}»` : ''} → {r.actions.map((a) => ACTION_LABEL[a.type]?.toLowerCase()).join(', ')}
+            {t("Когда:")}{' '}{TRIGGER_LABEL[r.trigger.type]}{r.trigger.type === 'section_changed' ? ` «${sectionName(r.trigger.section_id)}»` : ''} → {r.actions.map((a) => ACTION_LABEL[a.type]?.toLowerCase()).join(', ')}
           </p>
         </div>
       ))}
       {project.canEdit && (
         <>
-          <button className="btn-secondary w-full" onClick={() => setForm({ name: '', trigger: { type: 'section_changed', section_id: project.sections[0]?.id }, actions: [{ type: 'complete' }] })}><Plus className="h-4 w-4" />Новое правило</button>
+          <button className="btn-secondary w-full" onClick={() => setForm({ name: '', trigger: { type: 'section_changed', section_id: project.sections[0]?.id }, actions: [{ type: 'complete' }] })}><Plus className="h-4 w-4" />{t("Новое правило")}</button>
           {rules.length === 0 && (
             <div className="space-y-1.5 pt-2">
-              <p className="text-xs font-medium text-muted">Готовые варианты</p>
+              <p className="text-xs font-medium text-muted">{t("Готовые варианты")}</p>
               {presets.map((p) => (
                 <button key={p.name} className="menu-item border border-line" onClick={() => setForm(p)}><Zap className="h-4 w-4 text-warn" />{p.name}</button>
               ))}
@@ -196,32 +197,32 @@ function RulesTab({ project }) {
         </>
       )}
 
-      <Modal open={!!form} onClose={() => setForm(null)} title={form?.id ? 'Изменить правило' : 'Новое правило'} width={600}
-        footer={<><button className="btn-ghost" onClick={() => setForm(null)}>Отмена</button><button className="btn-primary" disabled={!form?.name.trim() || !form?.actions.length} onClick={save}>Сохранить</button></>}>
+      <Modal open={!!form} onClose={() => setForm(null)} title={form?.id ? t("Изменить правило") : t("Новое правило")} width={600}
+        footer={<><button className="btn-ghost" onClick={() => setForm(null)}>{t("Отмена")}</button><button className="btn-primary" disabled={!form?.name.trim() || !form?.actions.length} onClick={save}>{t("Сохранить")}</button></>}>
         {form && (
           <div className="space-y-4">
-            <Field label="Название" htmlFor="r-name"><input id="r-name" className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Например: Готово → закрыть задачу" /></Field>
-            <Field label="Когда">
+            <Field label={t("Название")} htmlFor="r-name"><input id="r-name" className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t("Например: Готово → закрыть задачу")} /></Field>
+            <Field label={t("Когда")}>
               <div className="flex flex-wrap gap-2">
                 <select className="input flex-1 min-w-[200px]" value={form.trigger.type} onChange={(e) => setForm({ ...form, trigger: { type: e.target.value, section_id: project.sections[0]?.id } })}>
                   {Object.entries(TRIGGER_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                 </select>
                 {form.trigger.type === 'section_changed' && (
                   <select className="input flex-1 min-w-[160px]" value={form.trigger.section_id || ''} onChange={(e) => setForm({ ...form, trigger: { ...form.trigger, section_id: e.target.value ? Number(e.target.value) : null } })}>
-                    <option value="">Любой раздел</option>
+                    <option value="">{t("Любой раздел")}</option>
                     {project.sections.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select>
                 )}
               </div>
             </Field>
-            <Field label="Сделать">
+            <Field label={t("Сделать")}>
               <div className="space-y-2">
                 {form.actions.map((a, i) => (
                   <ActionEditor key={i} action={a} project={project}
                     onChange={(na) => setForm({ ...form, actions: form.actions.map((x, j) => (j === i ? na : x)) })}
                     onRemove={() => setForm({ ...form, actions: form.actions.filter((_, j) => j !== i) })} />
                 ))}
-                <button className="btn-ghost" onClick={() => setForm({ ...form, actions: [...form.actions, { type: 'set_priority', priority: 'high' }] })}><Plus className="h-4 w-4" />Добавить действие</button>
+                <button className="btn-ghost" onClick={() => setForm({ ...form, actions: [...form.actions, { type: 'set_priority', priority: 'high' }] })}><Plus className="h-4 w-4" />{t("Добавить действие")}</button>
               </div>
             </Field>
           </div>
@@ -253,9 +254,9 @@ function FormTab({ project }) {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted">Публичная форма: клиенты и коллеги без аккаунта отправляют заявки, а они сразу появляются задачами в проекте.</p>
+      <p className="text-sm text-muted">{t("Публичная форма: клиенты и коллеги без аккаунта отправляют заявки, а они сразу появляются задачами в проекте.")}</p>
       <label className="flex items-center justify-between gap-3 rounded-lg border border-line p-3">
-        <span className="text-sm font-medium">Форма принимает заявки</span>
+        <span className="text-sm font-medium">{t("Форма принимает заявки")}</span>
         <span className="relative inline-flex items-center">
           <input type="checkbox" className="peer sr-only" checked={draft.enabled} disabled={!project.canEdit} onChange={(e) => save({ enabled: e.target.checked })} />
           <span className="h-5 w-9 rounded-full bg-line peer-checked:bg-primary transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform peer-checked:after:translate-x-4" />
@@ -264,20 +265,20 @@ function FormTab({ project }) {
       {draft.enabled && (
         <div className="flex items-center gap-2 rounded-lg bg-primary-soft p-2 pl-3">
           <code className="flex-1 truncate text-xs">{link}</code>
-          <button className="icon-btn h-8 w-8" aria-label="Скопировать ссылку" onClick={() => navigator.clipboard?.writeText(link).then(() => toast('Ссылка на форму скопирована'))}><Copy className="h-4 w-4" /></button>
-          <a className="icon-btn h-8 w-8" href={link} target="_blank" rel="noreferrer" aria-label="Открыть форму"><ExternalLink className="h-4 w-4" /></a>
+          <button className="icon-btn h-8 w-8" aria-label={t("Скопировать ссылку")} onClick={() => navigator.clipboard?.writeText(link).then(() => toast(t("Ссылка на форму скопирована")))}><Copy className="h-4 w-4" /></button>
+          <a className="icon-btn h-8 w-8" href={link} target="_blank" rel="noreferrer" aria-label={t("Открыть форму")}><ExternalLink className="h-4 w-4" /></a>
         </div>
       )}
-      <Field label="Заголовок формы"><input className="input" disabled={!project.canEdit} value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} onBlur={() => save({ title: draft.title })} /></Field>
-      <Field label="Пояснение для отправителя"><textarea rows={3} className="input h-auto py-2" disabled={!project.canEdit} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} onBlur={() => save({ description: draft.description })} /></Field>
-      <Field label="Куда добавлять заявки">
+      <Field label={t("Заголовок формы")}><input className="input" disabled={!project.canEdit} value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} onBlur={() => save({ title: draft.title })} /></Field>
+      <Field label={t("Пояснение для отправителя")}><textarea rows={3} className="input h-auto py-2" disabled={!project.canEdit} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} onBlur={() => save({ description: draft.description })} /></Field>
+      <Field label={t("Куда добавлять заявки")}>
         <select className="input" disabled={!project.canEdit} value={draft.section_id || ''} onChange={(e) => save({ section_id: e.target.value ? Number(e.target.value) : null })}>
-          <option value="">В первый раздел</option>
+          <option value="">{t("В первый раздел")}</option>
           {project.sections.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
         </select>
       </Field>
       {fields.filter((f) => f.type !== 'person').length > 0 && (
-        <Field label="Дополнительные вопросы из полей проекта">
+        <Field label={t("Дополнительные вопросы из полей проекта")}>
           <div className="space-y-1.5">
             {fields.filter((f) => f.type !== 'person').map((f) => (
               <label key={f.id} className="flex items-center gap-2 text-sm">
@@ -305,17 +306,17 @@ export default function CustomizeDrawer({ project, open, onClose }) {
   return createPortal(
     <>
       <div className="fixed inset-0 z-panel bg-slate-950/30 animate-fade-in" onClick={onClose} />
-      <aside className="fixed inset-y-0 right-0 z-panel w-full sm:w-[480px] bg-surface border-l border-line shadow-pop flex flex-col animate-slide-in" aria-label="Настройка проекта">
+      <aside className="fixed inset-y-0 right-0 z-panel w-full sm:w-[480px] bg-surface border-l border-line shadow-pop flex flex-col animate-slide-in" aria-label={t("Настройка проекта")}>
         <div className="flex items-center gap-2 border-b border-line px-4 h-14 shrink-0">
-          <h2 className="flex-1 font-semibold">Настроить проект</h2>
-          <a className="btn-ghost h-8" href={`/api/projects/${project.id}/export.csv`} download><Download className="h-4 w-4" />Экспорт в Excel</a>
-          <button className="icon-btn" onClick={onClose} aria-label="Закрыть"><X className="h-5 w-5" /></button>
+          <h2 className="flex-1 font-semibold">{t("Настроить проект")}</h2>
+          <a className="btn-ghost h-8" href={`/api/projects/${project.id}/export.csv`} download><Download className="h-4 w-4" />{t("Экспорт в Excel")}</a>
+          <button className="icon-btn" onClick={onClose} aria-label={t("Закрыть")}><X className="h-5 w-5" /></button>
         </div>
         <div className="px-4 pt-3">
           <Segmented value={tab} onChange={setTab} className="w-full [&>button]:flex-1 [&>button]:justify-center" options={[
-            { value: 'fields', label: 'Поля', icon: ListPlus },
-            { value: 'rules', label: 'Правила', icon: Zap },
-            { value: 'form', label: 'Форма', icon: FileInput },
+            { value: 'fields', label: t("Поля"), icon: ListPlus },
+            { value: 'rules', label: t("Правила"), icon: Zap },
+            { value: 'form', label: t("Форма"), icon: FileInput },
           ]} />
         </div>
         <div className="flex-1 overflow-y-auto scrollbar-thin p-4">

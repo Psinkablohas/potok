@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { dateLocale as ru } from '../i18n/index.js';
 import { api } from '../lib/api.js';
 import { PageLoader } from '../components/ui.jsx';
 import { PRIORITY } from '../lib/format.js';
+import { t } from '../i18n/index.js';
 
 const S1 = 'rgb(var(--series-1))';
 const S2 = 'rgb(var(--series-2))';
@@ -73,7 +74,7 @@ function Trend({ data }) {
   const ticks = [0, Math.round(max / 2), max];
   return (
     <div className="relative" ref={box}>
-      <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block" role="img" aria-label="Создано и выполнено задач по дням за 4 недели"
+      <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block" role="img" aria-label={t("Создано и выполнено задач по дням за 4 недели")}
         onMouseLeave={() => setHover(null)}
         onMouseMove={(e) => {
           const r = e.currentTarget.getBoundingClientRect();
@@ -102,7 +103,7 @@ function Trend({ data }) {
       {hover !== null && (
         <div className="pointer-events-none absolute top-0 rounded-md bg-ink px-2 py-1 text-xs text-bg shadow-pop whitespace-nowrap"
           style={{ left: `${(x(hover) / W) * 100}%`, transform: `translateX(${hover > data.length / 2 ? '-105%' : '5%'})` }}>
-          {format(parseISO(data[hover].day), 'd MMMM', { locale: ru })}: создано {data[hover].created}, выполнено {data[hover].done}
+          {t("{0}: создано {1}, выполнено {2}", format(parseISO(data[hover].day), 'd MMMM', { locale: ru }), data[hover].created, data[hover].done)}
         </div>
       )}
     </div>
@@ -119,47 +120,47 @@ export default function DashboardView({ project }) {
   return (
     <div className="mx-auto max-w-6xl px-3 sm:px-6 py-6 space-y-6">
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-        <Tile label="Всего задач" value={totals.total} />
-        <Tile label="Выполнено" value={`${pct}%`} />
-        <Tile label="В работе" value={totals.open} />
-        <Tile label="Просрочено" value={totals.overdue} tone={totals.overdue ? 'text-danger' : ''} />
-        <Tile label="Без исполнителя" value={totals.unassigned} />
+        <Tile label={t("Всего задач")} value={totals.total} />
+        <Tile label={t("Выполнено")} value={`${pct}%`} />
+        <Tile label={t("В работе")} value={totals.open} />
+        <Tile label={t("Просрочено")} value={totals.overdue} tone={totals.overdue ? 'text-danger' : ''} />
+        <Tile label={t("Без исполнителя")} value={totals.unassigned} />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <section className="card p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-            <h3 className="font-semibold">Задачи по разделам</h3>
-            <Legend items={[['Открытые', S1], ['Выполненные', S2]]} />
+            <h3 className="font-semibold">{t("Задачи по разделам")}</h3>
+            <Legend items={[[t("Открытые"), S1], [t("Выполненные"), S2]]} />
           </div>
-          <Bars rows={data.bySection.map((s) => ({ label: s.name, open: s.open, done: s.done }))} series={[['open', 'Открытые', S1], ['done', 'Выполненные', S2]]} />
+          <Bars rows={data.bySection.map((s) => ({ label: s.name, open: s.open, done: s.done }))} series={[['open', t("Открытые"), S1], ['done', t("Выполненные"), S2]]} />
         </section>
         <section className="card p-4 sm:p-5">
-          <h3 className="font-semibold mb-4">Открытые задачи по исполнителям</h3>
+          <h3 className="font-semibold mb-4">{t("Открытые задачи по исполнителям")}</h3>
           {data.byAssignee.length ? (
-            <Bars rows={data.byAssignee.map((a) => ({ label: a.name || 'Без исполнителя', open: a.open }))} series={[['open', 'Открытые', S1]]} />
-          ) : <p className="text-sm text-muted">Открытых задач нет.</p>}
+            <Bars rows={data.byAssignee.map((a) => ({ label: a.name || t("Без исполнителя"), open: a.open }))} series={[['open', t("Открытые"), S1]]} />
+          ) : <p className="text-sm text-muted">{t("Открытых задач нет.")}</p>}
         </section>
         <section className="card p-4 sm:p-5 lg:col-span-2">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <h3 className="font-semibold">Создано и выполнено за 4 недели</h3>
+            <h3 className="font-semibold">{t("Создано и выполнено за 4 недели")}</h3>
             <div className="flex items-center gap-4">
-              <Legend items={[['Создано', S1], ['Выполнено', S2]]} />
-              <button className="text-xs text-primary hover:underline" onClick={() => setTable(!table)}>{table ? 'График' : 'Таблица'}</button>
+              <Legend items={[[t("Создано"), S1], [t("Выполнено"), S2]]} />
+              <button className="text-xs text-primary hover:underline" onClick={() => setTable(!table)}>{table ? t("График") : t("Таблица")}</button>
             </div>
           </div>
           {table ? (
             <div className="max-h-72 overflow-y-auto scrollbar-thin">
               <table className="w-full text-sm">
-                <thead className="text-muted text-left"><tr><th className="py-1 font-medium">День</th><th className="font-medium">Создано</th><th className="font-medium">Выполнено</th></tr></thead>
+                <thead className="text-muted text-left"><tr><th className="py-1 font-medium">{t("День")}</th><th className="font-medium">{t("Создано")}</th><th className="font-medium">{t("Выполнено")}</th></tr></thead>
                 <tbody>{data.completion.map((d) => <tr key={d.day} className="border-t border-line"><td className="py-1">{format(parseISO(d.day), 'd MMMM', { locale: ru })}</td><td className="tabular-nums">{d.created}</td><td className="tabular-nums">{d.done}</td></tr>)}</tbody>
               </table>
             </div>
           ) : <Trend data={data.completion} />}
         </section>
         <section className="card p-4 sm:p-5">
-          <h3 className="font-semibold mb-4">Открытые задачи по приоритету</h3>
-          <Bars rows={['high', 'medium', 'low', 'none'].map((p) => ({ label: PRIORITY[p].label, open: data.byPriority.find((x) => x.priority === p)?.open || 0 }))} series={[['open', 'Открытые', S1]]} />
+          <h3 className="font-semibold mb-4">{t("Открытые задачи по приоритету")}</h3>
+          <Bars rows={['high', 'medium', 'low', 'none'].map((p) => ({ label: PRIORITY[p].label, open: data.byPriority.find((x) => x.priority === p)?.open || 0 }))} series={[['open', t("Открытые"), S1]]} />
         </section>
       </div>
     </div>

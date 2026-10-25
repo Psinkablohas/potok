@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { CheckCircle2, AlertCircle, X } from 'lucide-react';
+import { t } from '../i18n/index.js';
 
 const ToastContext = createContext(() => {});
 
@@ -18,16 +19,16 @@ export function ToastProvider({ children }) {
     <ToastContext.Provider value={push}>
       {children}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-toast flex flex-col gap-2 w-[min(420px,calc(100vw-32px))]" aria-live="polite">
-        {items.map((t) => (
-          <div key={t.id} role="status" className="animate-pop-in flex items-center gap-3 rounded-xl bg-ink text-bg px-4 py-3 shadow-pop">
-            {t.type === 'error' ? <AlertCircle className="h-5 w-5 text-red-400 shrink-0" /> : <CheckCircle2 className="h-5 w-5 text-green-400 shrink-0" />}
-            <span className="text-sm flex-1">{t.message}</span>
-            {t.action && (
-              <button className="text-sm font-semibold underline underline-offset-2" onClick={() => { t.action.onClick(); close(t.id); }}>
-                {t.action.label}
+        {items.map((item) => (
+          <div key={item.id} role="status" className="animate-pop-in flex items-center gap-3 rounded-xl bg-ink text-bg px-4 py-3 shadow-pop">
+            {item.type === 'error' ? <AlertCircle className="h-5 w-5 text-red-400 shrink-0" /> : <CheckCircle2 className="h-5 w-5 text-green-400 shrink-0" />}
+            <span className="text-sm flex-1">{item.message}</span>
+            {item.action && (
+              <button className="text-sm font-semibold underline underline-offset-2" onClick={() => { item.action.onClick(); close(item.id); }}>
+                {item.action.label}
               </button>
             )}
-            <button onClick={() => close(t.id)} aria-label="Закрыть" className="opacity-70 hover:opacity-100"><X className="h-4 w-4" /></button>
+            <button onClick={() => close(item.id)} aria-label={t("Закрыть")} className="opacity-70 hover:opacity-100"><X className="h-4 w-4" /></button>
           </div>
         ))}
       </div>

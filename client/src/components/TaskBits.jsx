@@ -6,6 +6,7 @@ import { ColorDot, CompleteToggle } from './ui.jsx';
 import { TagChip } from './pickers.jsx';
 import { api } from '../lib/api.js';
 import { useToast } from '../lib/toast.jsx';
+import { t } from '../i18n/index.js';
 
 // Отметка слева от названия: галочка для задачи, ромб для вехи, значок решения для согласования
 export function TaskMark({ task, onToggle, disabled, size = 'md' }) {
@@ -15,7 +16,7 @@ export function TaskMark({ task, onToggle, disabled, size = 'md' }) {
         type="button"
         role="checkbox"
         aria-checked={task.completed}
-        aria-label={task.completed ? 'Веха достигнута' : 'Отметить веху достигнутой'}
+        aria-label={task.completed ? t("Веха достигнута") : t("Отметить веху достигнутой")}
         disabled={disabled}
         onClick={(e) => { e.stopPropagation(); onToggle(); }}
         className={`relative inline-flex h-5 w-5 shrink-0 items-center justify-center transition-colors before:absolute before:-inset-3 before:content-[''] ${task.completed ? 'text-success' : 'text-muted hover:text-success'}`}
@@ -26,10 +27,10 @@ export function TaskMark({ task, onToggle, disabled, size = 'md' }) {
   }
   if (task.task_type === 'approval') {
     const map = {
-      approved: [ThumbsUp, 'text-success', 'Одобрено'],
-      rejected: [ThumbsDown, 'text-danger', 'Отклонено'],
-      changes: [PenLine, 'text-warn', 'Нужны правки'],
-      pending: [Hourglass, 'text-muted', 'Ждёт решения'],
+      approved: [ThumbsUp, 'text-success', t("Одобрено")],
+      rejected: [ThumbsDown, 'text-danger', t("Отклонено")],
+      changes: [PenLine, 'text-warn', t("Нужны правки")],
+      pending: [Hourglass, 'text-muted', t("Ждёт решения")],
     };
     const [Icon, cls, label] = map[task.approval_status || 'pending'];
     return <span className={`inline-flex h-5 w-5 shrink-0 items-center justify-center ${cls}`} title={label} aria-label={label}><Icon className="h-4 w-4" /></span>;
@@ -40,11 +41,11 @@ export function TaskMark({ task, onToggle, disabled, size = 'md' }) {
 // Значки под названием задачи: подзадачи, комментарии, файлы, блокировка, повтор
 export function TaskMeta({ task, showProject = false }) {
   const items = [];
-  if (task.blocked) items.push(<span key="b" className="inline-flex items-center gap-1 text-warn" title="Ждёт другую задачу"><Lock className="h-3.5 w-3.5" />Ждёт</span>);
-  if (task.recurrence) items.push(<Repeat key="r" className="h-3.5 w-3.5" aria-label="Повторяется" />);
-  if (task.subtask_count) items.push(<span key="s" className="inline-flex items-center gap-1" title="Подзадачи"><GitBranch className="h-3.5 w-3.5" />{task.subtask_done}/{task.subtask_count}</span>);
-  if (task.comment_count) items.push(<span key="c" className="inline-flex items-center gap-1" title="Комментарии"><MessageSquare className="h-3.5 w-3.5" />{task.comment_count}</span>);
-  if (task.attachment_count) items.push(<span key="a" className="inline-flex items-center gap-1" title="Файлы"><Paperclip className="h-3.5 w-3.5" />{task.attachment_count}</span>);
+  if (task.blocked) items.push(<span key="b" className="inline-flex items-center gap-1 text-warn" title={t("Ждёт другую задачу")}><Lock className="h-3.5 w-3.5" />{t("Ждёт")}</span>);
+  if (task.recurrence) items.push(<Repeat key="r" className="h-3.5 w-3.5" aria-label={t("Повторяется")} />);
+  if (task.subtask_count) items.push(<span key="s" className="inline-flex items-center gap-1" title={t("Подзадачи")}><GitBranch className="h-3.5 w-3.5" />{task.subtask_done}/{task.subtask_count}</span>);
+  if (task.comment_count) items.push(<span key="c" className="inline-flex items-center gap-1" title={t("Комментарии")}><MessageSquare className="h-3.5 w-3.5" />{task.comment_count}</span>);
+  if (task.attachment_count) items.push(<span key="a" className="inline-flex items-center gap-1" title={t("Файлы")}><Paperclip className="h-3.5 w-3.5" />{task.attachment_count}</span>);
   if (showProject && task.project) items.push(<span key="p" className="inline-flex items-center gap-1 truncate"><ColorDot color={task.project.color} className="h-2 w-2" />{task.project.name}</span>);
   if (!items.length) return null;
   return <span className="flex items-center gap-2.5 text-xs text-muted min-w-0">{items}</span>;
@@ -66,7 +67,7 @@ export function Tags({ tags, max = 3 }) {
 }
 
 // Быстрое добавление задачи: Enter — создать и продолжить, Esc — закрыть
-export function QuickAdd({ payload, placeholder = 'Название задачи', onCreated, label = 'Добавить задачу', className = '', autoOpen = false }) {
+export function QuickAdd({ payload, placeholder = t("Название задачи"), onCreated, label = t("Добавить задачу"), className = '', autoOpen = false }) {
   const [open, setOpen] = useState(autoOpen);
   const [title, setTitle] = useState('');
   const [busy, setBusy] = useState(false);
@@ -114,7 +115,7 @@ export function QuickAdd({ payload, placeholder = 'Название задачи
         onBlur={() => { if (!title.trim()) setOpen(false); }}
         aria-label={placeholder}
       />
-      <p className="mt-1 text-xs text-muted">Enter — добавить, Esc — отмена</p>
+      <p className="mt-1 text-xs text-muted">{t("Enter — добавить, Esc — отмена")}</p>
     </div>
   );
 }

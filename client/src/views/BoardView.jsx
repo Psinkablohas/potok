@@ -12,6 +12,7 @@ import { PriorityBadge } from '../components/pickers.jsx';
 import { QuickAdd, TaskMeta, Tags, DueText, TaskMark } from '../components/TaskBits.jsx';
 import { groupBySection, SECTION_PREFIX } from './shared.js';
 import { useTaskDnd } from './ListView.jsx';
+import { t } from '../i18n/index.js';
 
 function Card({ task, canEdit, overlay = false }) {
   const { open, openId } = useTaskPanel();
@@ -74,7 +75,7 @@ export default function BoardView({ project, tasks }) {
   const toast = useToast();
 
   const addColumn = async () => {
-    const name = window.prompt('Название колонки');
+    const name = window.prompt(t("Название колонки"));
     if (!name?.trim()) return;
     try {
       await api.post(`/projects/${project.id}/sections`, { name: name.trim() });
@@ -88,7 +89,7 @@ export default function BoardView({ project, tasks }) {
         {project.sections.map((s) => <Column key={s.id} section={s} project={project} tasks={groups.get(s.id) || []} />)}
         {project.canEdit && (
           <button onClick={addColumn} className="flex h-11 w-[220px] shrink-0 items-center justify-center gap-2 rounded-xl border border-dashed border-line text-sm text-muted hover:border-primary hover:text-primary transition-colors">
-            <Plus className="h-4 w-4" /> Добавить колонку
+            <Plus className="h-4 w-4" />{' '}{t("Добавить колонку")}
           </button>
         )}
       </div>

@@ -16,6 +16,7 @@ import ProjectPage from './pages/ProjectPage.jsx';
 import SearchPage from './pages/SearchPage.jsx';
 import SettingsPage from './pages/SettingsPage.jsx';
 import FormPage from './pages/FormPage.jsx';
+import { t, lang } from './i18n/index.js';
 
 function Home() {
   const { openNewProject } = useOutletContext();
@@ -44,12 +45,12 @@ function AcceptInvite() {
         ) : (
           <>
             <div className="mx-auto mt-6 w-fit rounded-2xl bg-primary-soft p-3"><Users className="h-6 w-6 text-primary" /></div>
-            <p className="mt-3 text-sm text-muted">{data.inviter ? `${data.inviter} приглашает вас в пространство` : 'Вас приглашают в пространство'}</p>
+            <p className="mt-3 text-sm text-muted">{data.inviter ? t("{0} приглашает вас в пространство", data.inviter) : t("Вас приглашают в пространство")}</p>
             <p className="mt-1 text-lg font-semibold">«{data.workspace_name}»</p>
-            <button className="btn-primary mt-5 w-full h-11" onClick={accept}>Присоединиться</button>
+            <button className="btn-primary mt-5 w-full h-11" onClick={accept}>{t("Присоединиться")}</button>
           </>
         )}
-        <button className="btn-ghost mt-2 w-full" onClick={() => navigate('/')}>Не сейчас</button>
+        <button className="btn-ghost mt-2 w-full" onClick={() => navigate('/')}>{t("Не сейчас")}</button>
       </div>
     </div>
   );
@@ -73,6 +74,11 @@ export default function App() {
   const qc = useQueryClient();
   const authed = !!data?.user;
   useRealtime(authed);
+
+  // Язык интерфейса сохраняем в профиле — на нём приходят письма
+  useEffect(() => {
+    if (data?.user && data.user.locale !== lang) api.patch('/auth/me', { locale: lang }).catch(() => {});
+  }, [data?.user?.id, data?.user?.locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const onUnauthorized = () => qc.setQueryData(['me'], null);

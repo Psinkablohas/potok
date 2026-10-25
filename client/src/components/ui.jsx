@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Check, X, Loader2 } from 'lucide-react';
+import { t } from '../i18n/index.js';
 
 export function Avatar({ user, size = 24, className = '' }) {
   if (!user) return null;
@@ -17,7 +18,7 @@ export function Avatar({ user, size = 24, className = '' }) {
 }
 
 export function Spinner({ className = 'h-5 w-5' }) {
-  return <Loader2 className={`animate-spin text-muted ${className}`} aria-label="Загрузка" />;
+  return <Loader2 className={`animate-spin text-muted ${className}`} aria-label={t("Загрузка")} />;
 }
 
 export function PageLoader() {
@@ -43,7 +44,7 @@ export function CompleteToggle({ done, onToggle, size = 'md', disabled }) {
       type="button"
       role="checkbox"
       aria-checked={done}
-      aria-label={done ? 'Отметить как невыполненную' : 'Отметить как выполненную'}
+      aria-label={done ? t("Отметить как невыполненную") : t("Отметить как выполненную")}
       disabled={disabled}
       onClick={(e) => { e.stopPropagation(); onToggle(); }}
       className={`group relative inline-flex ${s} shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors duration-150
@@ -146,7 +147,7 @@ export function Modal({ open, onClose, title, children, footer, width = 480 }) {
       >
         <div className="flex items-center justify-between gap-4 px-5 pt-4 pb-2">
           <h2 className="text-lg font-semibold">{title}</h2>
-          <button className="icon-btn -mr-2" onClick={onClose} aria-label="Закрыть"><X className="h-5 w-5" /></button>
+          <button className="icon-btn -mr-2" onClick={onClose} aria-label={t("Закрыть")}><X className="h-5 w-5" /></button>
         </div>
         <div className="px-5 pb-5 overflow-y-auto scrollbar-thin">{children}</div>
         {footer && <div className="flex justify-end gap-2 border-t border-line px-5 py-3">{footer}</div>}

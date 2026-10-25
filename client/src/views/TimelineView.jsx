@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { addDays, differenceInCalendarDays, format, isToday, isWeekend, parseISO, startOfWeek } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { dateLocale as ru } from '../i18n/index.js';
 import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { toISODate } from '../lib/format.js';
 import { useTaskPanel, useUpdateTask } from '../lib/hooks.js';
 import { Avatar } from '../components/ui.jsx';
 import { groupBySection } from './shared.js';
+import { t } from '../i18n/index.js';
 
 const DAY_W = 36;
 const ROW_H = 40;
@@ -108,19 +109,19 @@ export default function TimelineView({ project, tasks }) {
   return (
     <div className="flex h-full flex-col px-2 sm:px-6 py-4">
       <div className="mb-3 flex items-center gap-2">
-        <button className="icon-btn" onClick={() => setRangeStart((d) => addDays(d, -28))} aria-label="Раньше"><ChevronLeft className="h-5 w-5" /></button>
+        <button className="icon-btn" onClick={() => setRangeStart((d) => addDays(d, -28))} aria-label={t("Раньше")}><ChevronLeft className="h-5 w-5" /></button>
         <button className="btn-secondary h-8" onClick={() => {
           setRangeStart(startOfWeek(addDays(new Date(), -14), { weekStartsOn: 1 }));
           requestAnimationFrame(() => { if (scrollRef.current) scrollRef.current.scrollLeft = 14 * DAY_W - 120; });
-        }}>Сегодня</button>
-        <button className="icon-btn" onClick={() => setRangeStart((d) => addDays(d, 28))} aria-label="Позже"><ChevronRight className="h-5 w-5" /></button>
-        <span className="ml-2 hidden sm:inline text-sm text-muted">Перетаскивайте полосы, чтобы менять даты. Края — изменить длительность.</span>
+        }}>{t("Сегодня")}</button>
+        <button className="icon-btn" onClick={() => setRangeStart((d) => addDays(d, 28))} aria-label={t("Позже")}><ChevronRight className="h-5 w-5" /></button>
+        <span className="ml-2 hidden sm:inline text-sm text-muted">{t("Перетаскивайте полосы, чтобы менять даты. Края — изменить длительность.")}</span>
       </div>
 
       <div className="flex-1 min-h-0 overflow-hidden rounded-xl border border-line bg-surface flex">
         {/* Названия задач */}
         <div className="w-[150px] sm:w-[260px] shrink-0 border-r border-line overflow-hidden flex flex-col">
-          <div className="h-[52px] shrink-0 border-b border-line px-3 flex items-end pb-2 text-xs font-semibold uppercase tracking-wide text-muted">Задача</div>
+          <div className="h-[52px] shrink-0 border-b border-line px-3 flex items-end pb-2 text-xs font-semibold uppercase tracking-wide text-muted">{t("Задача")}</div>
           <div className="overflow-hidden" id="tl-names">
             {rows.map((r) => r.type === 'section' ? (
               <div key={`s${r.section.id}`} className="flex items-center px-3 text-sm font-semibold bg-subtle/60 border-b border-line" style={{ height: ROW_H }}>{r.section.name}</div>
@@ -180,7 +181,7 @@ export default function TimelineView({ project, tasks }) {
                 }}
               >
                 {r.task.due_date ? <Bar task={r.task} rangeStart={rangeStart} canEdit={project.canEdit} /> : (
-                  project.canEdit && <span className="absolute inset-0 flex items-center px-3 text-xs text-muted/0 hover:text-muted cursor-pointer">Нажмите на день, чтобы назначить срок</span>
+                  project.canEdit && <span className="absolute inset-0 flex items-center px-3 text-xs text-muted/0 hover:text-muted cursor-pointer">{t("Нажмите на день, чтобы назначить срок")}</span>
                 )}
               </div>
             ))}

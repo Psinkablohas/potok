@@ -18,6 +18,11 @@ services:
         fromDatabase:
           name: potok-db
           property: connectionString
+      # Письма: заполните в Render → potok → Environment (необязательно)
+      - key: BREVO_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        sync: false
 
 databases:
   - name: potok-db

@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api.js';
 import { useToast } from './toast.jsx';
+import { t } from '../i18n/index.js';
 
 export const useMe = () => useQuery({ queryKey: ['me'], queryFn: () => api.get('/auth/me'), retry: false, staleTime: 60_000 });
 
@@ -77,12 +78,12 @@ export function useToggleComplete() {
     const completed = !task.completed;
     const run = (force) => update.mutate({ id: task.id, completed, force }, {
       onError: (err) => {
-        if (err.code === 'blocked' && window.confirm(`${err.message}\n\nВсё равно завершить?`)) run(true);
+        if (err.code === 'blocked' && window.confirm(t("{0}\n\nВсё равно завершить?", err.message))) run(true);
       },
       onSuccess: (res) => {
         if (!completed) return;
-        toast(res.spawned_id ? 'Готово! Следующая повторяющаяся задача создана.' : 'Задача завершена', {
-          action: { label: 'Отменить', onClick: () => update.mutate({ id: task.id, completed: false }) },
+        toast(res.spawned_id ? t("Готово! Следующая повторяющаяся задача создана.") : t("Задача завершена"), {
+          action: { label: t("Отменить"), onClick: () => update.mutate({ id: task.id, completed: false }) },
         });
       },
     });

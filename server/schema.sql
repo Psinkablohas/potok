@@ -249,3 +249,7 @@ CREATE TABLE IF NOT EXISTS forms (
   enabled     BOOLEAN NOT NULL DEFAULT false,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- ===== Этап 3: языки и письма =====
+ALTER TABLE users ADD COLUMN IF NOT EXISTS locale TEXT NOT NULL DEFAULT 'ru';
+ALTER TABLE users ADD COLUMN IF NOT EXISTS email_notify BOOLEAN NOT NULL DEFAULT true;

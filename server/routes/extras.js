@@ -6,6 +6,8 @@ import { h, fail, str, oneOf, intOrNull } from '../util.js';
 import { requireProject } from '../access.js';
 import { emitWorkspace, emitUser } from '../realtime.js';
 import { runRules, TRIGGERS, ACTIONS } from '../rules.js';
+import { sendNotificationEmail } from '../mailer.js';
+import { st } from '../i18n.js';
 
 // Маршруты, которым нужен вход
 const router = Router();
@@ -91,10 +93,12 @@ router.post('/projects/:pid/status', h(async (req, res) => {
   // Сообщаем участникам проекта
   const members = await many('SELECT user_id FROM project_members WHERE project_id=$1 AND user_id<>$2', [pid, req.user.id]);
   for (const m of members) {
+    const data = { title, status, projectId: pid, projectName: project.name };
     await query(
       "INSERT INTO notifications (user_id, workspace_id, actor_id, type, data) VALUES ($1,$2,$3,'status',$4)",
-      [m.user_id, project.workspace_id, req.user.id, { title, status, projectId: pid, projectName: project.name }],
+      [m.user_id, project.workspace_id, req.user.id, data],
     );
+    sendNotificationEmail({ userId: m.user_id, workspaceId: project.workspace_id, actorId: req.user.id, type: 'status', data: { ...data, excerpt: body.slice(0, 300) } });
   }
   emitWorkspace(project.workspace_id, 'projects', { projectId: pid });
   members.forEach((m) => emitUser(m.user_id, 'notification', { workspaceId: project.workspace_id }));
@@ -279,7 +283,7 @@ router.get('/projects/:pid/form', h(async (req, res) => {
   if (!form) {
     form = await one(
       'INSERT INTO forms (project_id, token, title) VALUES ($1,$2,$3) ON CONFLICT (project_id) DO UPDATE SET title=forms.title RETURNING *',
-      [pid, crypto.randomBytes(12).toString('base64url'), `Заявка в проект «${project.name}»`],
+      [pid, crypto.randomBytes(12).toString('base64url'), st('formTitle', req.user.locale, project.name)],
     );
   }
   res.json(form);

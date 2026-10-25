@@ -15,6 +15,7 @@ import { QuickAdd, TaskMeta, Tags } from '../components/TaskBits.jsx';
 import { groupBySection, computeDrop, SECTION_PREFIX } from './shared.js';
 import { FieldEditor } from '../components/CustomFields.jsx';
 import { TaskMark } from '../components/TaskBits.jsx';
+import { t } from '../i18n/index.js';
 
 // На телефоне — название, исполнитель, срок; на широком экране — все колонки, включая свои поля
 const GRID = 'grid grid-cols-[1fr_auto_auto] md:[grid-template-columns:var(--cols)] items-center';
@@ -34,7 +35,7 @@ export function TaskRow({ task, canEdit, dragHandle, showProject = false, isOver
     >
       <div className="flex items-center gap-2 min-w-0 py-2">
         {dragHandle ? (
-          <span {...dragHandle} onClick={(e) => e.stopPropagation()} className="hidden sm:flex -ml-1 h-6 w-4 items-center justify-center text-muted/0 group-hover:text-muted cursor-grab active:cursor-grabbing touch-none" aria-label="Перетащить">
+          <span {...dragHandle} onClick={(e) => e.stopPropagation()} className="hidden sm:flex -ml-1 h-6 w-4 items-center justify-center text-muted/0 group-hover:text-muted cursor-grab active:cursor-grabbing touch-none" aria-label={t("Перетащить")}>
             <GripVertical className="h-4 w-4" />
           </span>
         ) : <span className="hidden sm:block w-3" />}
@@ -90,14 +91,14 @@ function SectionBlock({ section, tasks, project, collapsed, onToggle, fields }) 
     try { await api.patch(`/sections/${section.id}`, { name: name.trim() }); refresh(); } catch (e) { toast(e.message, { type: 'error' }); }
   };
   const remove = async () => {
-    if (!window.confirm(`Удалить раздел «${section.name}»? Задачи из него переместятся в первый раздел.`)) return;
+    if (!window.confirm(t("Удалить раздел «{0}»? Задачи из него переместятся в первый раздел.", section.name))) return;
     try { await api.del(`/sections/${section.id}`); refresh(); } catch (e) { toast(e.message, { type: 'error' }); }
   };
 
   return (
     <section className="mb-2">
       <div className="group flex items-center gap-1 px-1 h-11 mt-2">
-        <button onClick={onToggle} className="icon-btn h-7 w-7" aria-label={collapsed ? 'Развернуть раздел' : 'Свернуть раздел'} aria-expanded={!collapsed}>
+        <button onClick={onToggle} className="icon-btn h-7 w-7" aria-label={collapsed ? t("Развернуть раздел") : t("Свернуть раздел")} aria-expanded={!collapsed}>
           <ChevronDown className={`h-4 w-4 transition-transform duration-150 ${collapsed ? '-rotate-90' : ''}`} />
         </button>
         {renaming ? (
@@ -108,12 +109,12 @@ function SectionBlock({ section, tasks, project, collapsed, onToggle, fields }) 
         <span className="text-sm text-muted ml-1">{tasks.length}</span>
         {project.canEdit && (
           <Dropdown width={220} trigger={({ ref, toggle }) => (
-            <button ref={ref} onClick={toggle} className="icon-btn h-7 w-7 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100" aria-label="Действия с разделом"><MoreHorizontal className="h-4 w-4" /></button>
+            <button ref={ref} onClick={toggle} className="icon-btn h-7 w-7 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100" aria-label={t("Действия с разделом")}><MoreHorizontal className="h-4 w-4" /></button>
           )}>
             {(close) => (
               <>
-                <button className="menu-item" onClick={() => { close(); setRenaming(true); }}><Pencil className="h-4 w-4" />Переименовать</button>
-                <button className="menu-item text-danger" onClick={() => { close(); remove(); }}><Trash2 className="h-4 w-4" />Удалить раздел</button>
+                <button className="menu-item" onClick={() => { close(); setRenaming(true); }}><Pencil className="h-4 w-4" />{t("Переименовать")}</button>
+                <button className="menu-item text-danger" onClick={() => { close(); remove(); }}><Trash2 className="h-4 w-4" />{t("Удалить раздел")}</button>
               </>
             )}
           </Dropdown>
@@ -124,10 +125,10 @@ function SectionBlock({ section, tasks, project, collapsed, onToggle, fields }) 
           <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
             {tasks.map((t) => <SortableRow key={t.id} task={t} canEdit={project.canEdit} fields={fields} />)}
           </SortableContext>
-          {!tasks.length && <div className="px-4 py-3 text-sm text-muted">Здесь пока пусто{project.canEdit ? ' — перетащите задачу или добавьте новую' : ''}</div>}
+          {!tasks.length && <div className="px-4 py-3 text-sm text-muted">{project.canEdit ? t("Здесь пока пусто — перетащите задачу или добавьте новую") : t("Здесь пока пусто")}</div>}
           {project.canEdit && (
             <div className="px-3 sm:pl-12 py-2 border-b border-line">
-              <QuickAdd payload={{ project_id: project.id, section_id: section.id }} label="Добавить задачу…" />
+              <QuickAdd payload={{ project_id: project.id, section_id: section.id }} label={t("Добавить задачу…")} />
             </div>
           )}
         </div>
@@ -167,7 +168,7 @@ export default function ListView({ project, tasks, fields = [] }) {
   const toast = useToast();
 
   const addSection = async () => {
-    const name = window.prompt('Название раздела');
+    const name = window.prompt(t("Название раздела"));
     if (!name?.trim()) return;
     try {
       await api.post(`/projects/${project.id}/sections`, { name: name.trim() });
@@ -179,11 +180,11 @@ export default function ListView({ project, tasks, fields = [] }) {
     <div className="px-2 sm:px-6 pb-6 overflow-x-auto scrollbar-thin">
      <div style={minWidthFor(fields)} className="md:min-w-0">
       <div style={colsFor(fields)} className={`${GRID} sticky top-0 z-[2] gap-2 md:gap-0 md:divide-x md:divide-line bg-surface px-2 sm:px-0 h-9 text-xs font-medium text-muted border-y border-line [&>*]:md:px-3 [&>*]:flex [&>*]:items-center [&>*]:h-full`}>
-        <span className="sm:pl-9">Название задачи</span>
-        <span className="hidden md:flex">Исполнитель</span>
-        <span className="hidden md:flex">Срок</span>
-        <span className="hidden md:flex">Приоритет</span>
-        <span className="hidden md:flex">Метки</span>
+        <span className="sm:pl-9">{t("Название задачи")}</span>
+        <span className="hidden md:flex">{t("Исполнитель")}</span>
+        <span className="hidden md:flex">{t("Срок")}</span>
+        <span className="hidden md:flex">{t("Приоритет")}</span>
+        <span className="hidden md:flex">{t("Метки")}</span>
         {fields.map((f) => <span key={f.id} className="hidden md:flex truncate">{f.name}</span>)}
       </div>
       <DndContext {...handlers}>
@@ -203,7 +204,7 @@ export default function ListView({ project, tasks, fields = [] }) {
         <DragOverlay>{active ? <TaskRow task={active} canEdit isOverlay fields={fields} /> : null}</DragOverlay>
       </DndContext>
       {project.canEdit && (
-        <button onClick={addSection} className="btn-ghost ml-1"><Plus className="h-4 w-4" />Добавить раздел</button>
+        <button onClick={addSection} className="btn-ghost ml-1"><Plus className="h-4 w-4" />{t("Добавить раздел")}</button>
       )}
      </div>
     </div>

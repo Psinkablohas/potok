@@ -4,7 +4,9 @@
   "private": true,
   "description": "Поток — совместный менеджер задач и проектов",
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "npm install --prefix client --include=dev && npm run build --prefix client",
     "start": "node server/index.js",
@@ -20,6 +22,7 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.10.1",
     "pg": "^8.13.1",
     "socket.io": "^4.8.1"
   }

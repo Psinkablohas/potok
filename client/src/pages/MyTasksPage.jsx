@@ -7,14 +7,15 @@ import { useMe, useWorkspaceId } from '../lib/hooks.js';
 import { PageLoader, EmptyState, Avatar } from '../components/ui.jsx';
 import { QuickAdd } from '../components/TaskBits.jsx';
 import { TaskRow } from '../views/ListView.jsx';
+import { t } from '../i18n/index.js';
 
 const BUCKETS = [
-  ['overdue', 'Просрочено'],
-  ['today', 'Сегодня'],
-  ['week', 'Ближайшие 7 дней'],
-  ['later', 'Позже'],
-  ['nodate', 'Без срока'],
-  ['done', 'Недавно выполненные'],
+  ['overdue', t("Просрочено")],
+  ['today', t("Сегодня")],
+  ['week', t("Ближайшие 7 дней")],
+  ['later', t("Позже")],
+  ['nodate', t("Без срока")],
+  ['done', t("Недавно выполненные")],
 ];
 
 function bucketOf(t) {
@@ -48,21 +49,21 @@ export default function MyTasksPage() {
       <header className="border-b border-line bg-surface px-4 sm:px-6 py-4 flex items-center gap-3">
         {me && <Avatar user={me.user} size={40} />}
         <div className="flex-1">
-          <h1 className="text-xl font-semibold">Мои задачи</h1>
-          <p className="text-sm text-muted">Всё, что назначено вам, из всех проектов</p>
+          <h1 className="text-xl font-semibold">{t("Мои задачи")}</h1>
+          <p className="text-sm text-muted">{t("Всё, что назначено вам, из всех проектов")}</p>
         </div>
         <label className="flex items-center gap-2 text-sm text-muted cursor-pointer select-none">
           <input type="checkbox" className="h-4 w-4 accent-[rgb(var(--primary))]" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} />
-          Показать выполненные
+          {t("Показать выполненные")}
         </label>
       </header>
 
       <div className="px-2 sm:px-6 py-4 max-w-5xl">
         <div className="mb-4 px-2">
-          <QuickAdd autoOpen={false} payload={{ workspace_id: wid, assignee_id: me?.user.id }} label="Добавить личную задачу" placeholder="Что нужно сделать?" />
+          <QuickAdd autoOpen={false} payload={{ workspace_id: wid, assignee_id: me?.user.id }} label={t("Добавить личную задачу")} placeholder={t("Что нужно сделать?")} />
         </div>
         {isLoading ? <PageLoader /> : tasks.length === 0 ? (
-          <EmptyState icon={CheckCircle2} title="Все задачи выполнены" text="Новые задачи, назначенные вам, появятся здесь. Можно добавить личную задачу выше." />
+          <EmptyState icon={CheckCircle2} title={t("Все задачи выполнены")} text={t("Новые задачи, назначенные вам, появятся здесь. Можно добавить личную задачу выше.")} />
         ) : BUCKETS.map(([key, label]) => groups[key].length > 0 && (
           <section key={key} className="mb-5">
             <button onClick={() => setCollapsed((c) => ({ ...c, [key]: !c[key] }))} className="flex items-center gap-1.5 px-2 h-9 font-semibold" aria-expanded={!collapsed[key]}>

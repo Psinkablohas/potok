@@ -7,12 +7,7 @@ import { TASK_LIST_SELECT } from './tasks.js';
 
 const router = Router();
 
-const TEMPLATES = {
-  empty: ['Без раздела'],
-  kanban: ['К выполнению', 'В работе', 'На проверке', 'Готово'],
-  sprint: ['Бэклог', 'Спринт', 'В работе', 'Тестирование', 'Готово'],
-  marketing: ['Идеи', 'Подготовка', 'Публикация', 'Аналитика'],
-};
+import { SECTION_TEMPLATES, normLocale } from '../i18n.js';
 
 router.get('/workspaces/:wid/projects', h(async (req, res) => {
   const wid = intOrNull(req.params.wid);
@@ -40,7 +35,8 @@ router.post('/workspaces/:wid/projects', h(async (req, res) => {
   const privacy = oneOf(req.body.privacy ?? 'workspace', ['workspace', 'private'], 'Доступ');
   const view = oneOf(req.body.default_view ?? 'list', ['list', 'board', 'calendar', 'timeline'], 'Вид');
   const color = PROJECT_COLORS.includes(req.body.color) ? req.body.color : PROJECT_COLORS[0];
-  const sections = TEMPLATES[req.body.template] || TEMPLATES.kanban;
+  const tpl = SECTION_TEMPLATES[req.body.template] || SECTION_TEMPLATES.kanban;
+  const sections = tpl[normLocale(req.user.locale)];
 
   const project = await tx(async (c) => {
     const { rows: [p] } = await c.query(

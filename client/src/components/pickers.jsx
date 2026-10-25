@@ -7,6 +7,7 @@ import { useWorkspace, useWorkspaceId } from '../lib/hooks.js';
 import { dueLabel, dueState, dueClass, PRIORITY, RECURRENCE, toISODate, PROJECT_COLORS } from '../lib/format.js';
 import { api } from '../lib/api.js';
 import { useToast } from '../lib/toast.jsx';
+import { t } from '../i18n/index.js';
 
 function SearchBox({ value, onChange, placeholder }) {
   return (
@@ -38,23 +39,23 @@ export function AssigneePicker({ value, onChange, disabled, compact = false, mem
           onClick={(e) => { e.stopPropagation(); setQ(''); toggle(); }}
           className={`inline-flex max-w-full min-w-0 items-center gap-2 rounded-md text-sm transition-colors duration-150 disabled:cursor-default
             ${compact ? 'p-1 hover:bg-subtle' : 'h-8 px-2 hover:bg-subtle'}`}
-          aria-label={current ? `Исполнитель: ${current.name}` : 'Назначить исполнителя'}
+          aria-label={current ? t("Исполнитель: {0}", current.name) : t("Назначить исполнителя")}
         >
           {current ? <Avatar user={current} size={compact ? 22 : 24} /> : (
             <span className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full border border-dashed border-muted/60 text-muted">
               <UserRound className="h-3.5 w-3.5" />
             </span>
           )}
-          {!compact && <span className={`truncate whitespace-nowrap ${current ? '' : 'text-muted'}`}>{current ? current.name : 'Не назначено'}</span>}
+          {!compact && <span className={`truncate whitespace-nowrap ${current ? '' : 'text-muted'}`}>{current ? current.name : t("Не назначено")}</span>}
         </button>
       )}
     >
       {(close) => (
         <div onClick={(e) => e.stopPropagation()}>
-          <SearchBox value={q} onChange={setQ} placeholder="Имя или почта" />
+          <SearchBox value={q} onChange={setQ} placeholder={t("Имя или почта")} />
           {value && (
             <button className="menu-item text-muted" onClick={() => { onChange(null); close(); }}>
-              <X className="h-4 w-4" /> Снять исполнителя
+              <X className="h-4 w-4" />{' '}{t("Снять исполнителя")}
             </button>
           )}
           {list.map((m) => (
@@ -67,7 +68,7 @@ export function AssigneePicker({ value, onChange, disabled, compact = false, mem
               {m.id === value && <Check className="h-4 w-4 text-primary" />}
             </button>
           ))}
-          {!list.length && <p className="px-2.5 py-3 text-sm text-muted">Никого не нашлось</p>}
+          {!list.length && <p className="px-2.5 py-3 text-sm text-muted">{t("Никого не нашлось")}</p>}
         </div>
       )}
     </Dropdown>
@@ -79,10 +80,10 @@ export function DueDatePicker({ value, onChange, disabled, completed, compact = 
   const quick = useMemo(() => {
     const now = new Date();
     return [
-      ['Сегодня', toISODate(now)],
-      ['Завтра', toISODate(addDays(now, 1))],
-      ['Через неделю', toISODate(addDays(now, 7))],
-      ['Следующий понедельник', toISODate(nextMonday(now))],
+      [t("Сегодня"), toISODate(now)],
+      [t("Завтра"), toISODate(addDays(now, 1))],
+      [t("Через неделю"), toISODate(addDays(now, 7))],
+      [t("Следующий понедельник"), toISODate(nextMonday(now))],
     ];
   }, []);
 
@@ -97,10 +98,10 @@ export function DueDatePicker({ value, onChange, disabled, completed, compact = 
           onClick={(e) => { e.stopPropagation(); toggle(); }}
           className={`inline-flex items-center gap-1.5 rounded-md text-sm transition-colors duration-150 hover:bg-subtle disabled:cursor-default
             ${compact ? 'h-7 px-1.5' : 'h-8 px-2'} ${value ? dueClass[state] : 'text-muted'}`}
-          aria-label={value ? `Срок: ${dueLabel(value)}` : 'Указать срок'}
+          aria-label={value ? t("Срок: {0}", dueLabel(value)) : t("Указать срок")}
         >
           <Calendar className="h-4 w-4 shrink-0" />
-          {value ? <span className="whitespace-nowrap">{startDate && !compact ? `${dueLabel(startDate)} – ` : ''}{dueLabel(value)}</span> : !compact && <span>Без срока</span>}
+          {value ? <span className="whitespace-nowrap">{startDate && !compact ? `${dueLabel(startDate)} – ` : ''}{dueLabel(value)}</span> : !compact && <span>{t("Без срока")}</span>}
         </button>
       )}
     >
@@ -115,17 +116,17 @@ export function DueDatePicker({ value, onChange, disabled, completed, compact = 
           </div>
           {onStartChange && (
             <label className="block">
-              <span className="text-xs text-muted">Дата начала</span>
+              <span className="text-xs text-muted">{t("Дата начала")}</span>
               <input type="date" className="input h-9 mt-0.5" value={startDate || ''} max={value || undefined} onChange={(e) => onStartChange(e.target.value || null)} />
             </label>
           )}
           <label className="block">
-            <span className="text-xs text-muted">Срок</span>
+            <span className="text-xs text-muted">{t("Срок")}</span>
             <input type="date" className="input h-9 mt-0.5" value={value || ''} min={startDate || undefined} onChange={(e) => onChange(e.target.value || null)} />
           </label>
           {(value || startDate) && (
             <button className="menu-item text-muted" onClick={() => { onChange(null); onStartChange?.(null); close(); }}>
-              <X className="h-4 w-4" /> Убрать даты
+              <X className="h-4 w-4" />{' '}{t("Убрать даты")}
             </button>
           )}
         </div>
@@ -146,9 +147,9 @@ export function PriorityPicker({ value, onChange, disabled }) {
           disabled={disabled}
           onClick={(e) => { e.stopPropagation(); toggle(); }}
           className="inline-flex items-center gap-1.5 h-8 px-2 rounded-md text-sm hover:bg-subtle transition-colors duration-150 disabled:cursor-default"
-          aria-label={`Приоритет: ${p.label}`}
+          aria-label={t("Приоритет: {0}", p.label)}
         >
-          {value === 'none' ? <span className="inline-flex items-center gap-1.5 text-muted"><Flag className="h-4 w-4" />Без приоритета</span> : <span className={`chip ${p.cls}`}>{p.label}</span>}
+          {value === 'none' ? <span className="inline-flex items-center gap-1.5 text-muted"><Flag className="h-4 w-4" />{t("Без приоритета")}</span> : <span className={`chip ${p.cls}`}>{p.label}</span>}
         </button>
       )}
     >
@@ -202,7 +203,7 @@ export function TagChip({ tag, onRemove }) {
       <ColorDot color={tag.color} className="h-2 w-2" />
       {tag.name}
       {onRemove && (
-        <button onClick={(e) => { e.stopPropagation(); onRemove(); }} className="ml-0.5 opacity-60 hover:opacity-100" aria-label={`Убрать метку ${tag.name}`}>
+        <button onClick={(e) => { e.stopPropagation(); onRemove(); }} className="ml-0.5 opacity-60 hover:opacity-100" aria-label={t("Убрать метку {0}", tag.name)}>
           <X className="h-3 w-3" />
         </button>
       )}
@@ -242,13 +243,13 @@ export function TagPicker({ selected, onAdd, onRemove, disabled }) {
           width={260}
           trigger={({ ref, toggle }) => (
             <button ref={ref} onClick={() => { setQ(''); toggle(); }} className="inline-flex items-center gap-1 h-7 px-2 rounded-md text-sm text-muted hover:bg-subtle hover:text-ink">
-              {selected.length ? <Plus className="h-4 w-4" /> : <><Tag className="h-4 w-4" />Добавить метку</>}
+              {selected.length ? <Plus className="h-4 w-4" /> : <><Tag className="h-4 w-4" />{t("Добавить метку")}</>}
             </button>
           )}
         >
           {(close) => (
             <div>
-              <SearchBox value={q} onChange={setQ} placeholder="Найти или создать метку" />
+              <SearchBox value={q} onChange={setQ} placeholder={t("Найти или создать метку")} />
               {list.map((t) => (
                 <button key={t.id} className="menu-item" onClick={() => { selectedIds.has(t.id) ? onRemove(t.id) : onAdd(t.id); close(); }}>
                   <ColorDot color={t.color} />
@@ -258,10 +259,10 @@ export function TagPicker({ selected, onAdd, onRemove, disabled }) {
               ))}
               {q.trim() && !exact && (
                 <button className="menu-item text-primary" onClick={() => create(close)}>
-                  <Plus className="h-4 w-4" /> Создать «{q.trim()}»
+                  <Plus className="h-4 w-4" />{t("Создать «{0}»", q.trim())}
                 </button>
               )}
-              {!list.length && !q && <p className="px-2.5 py-3 text-sm text-muted">Меток пока нет. Начните вводить название.</p>}
+              {!list.length && !q && <p className="px-2.5 py-3 text-sm text-muted">{t("Меток пока нет. Начните вводить название.")}</p>}
             </div>
           )}
         </Dropdown>
@@ -277,13 +278,13 @@ export function ProjectPicker({ projects, value, onChange, disabled }) {
       width={260}
       trigger={({ ref, toggle }) => (
         <button ref={ref} disabled={disabled} onClick={toggle} className="inline-flex items-center gap-2 h-8 px-2 rounded-md text-sm hover:bg-subtle disabled:cursor-default">
-          {current ? <><ColorDot color={current.color} />{current.name}</> : <span className="text-muted">Без проекта (личная)</span>}
+          {current ? <><ColorDot color={current.color} />{current.name}</> : <span className="text-muted">{t("Без проекта (личная)")}</span>}
         </button>
       )}
     >
       {(close) => (
         <>
-          <button className="menu-item text-muted" onClick={() => { onChange(null); close(); }}>Без проекта (личная)</button>
+          <button className="menu-item text-muted" onClick={() => { onChange(null); close(); }}>{t("Без проекта (личная)")}</button>
           {projects.filter((p) => !p.archived).map((p) => (
             <button key={p.id} className="menu-item" onClick={() => { onChange(p.id); close(); }}>
               <ColorDot color={p.color} />

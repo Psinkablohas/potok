@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
 import { DndContext, DragOverlay, PointerSensor, TouchSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { addDays, addMonths, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfWeek } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { dateLocale as ru } from '../i18n/index.js';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api.js';
 import { toISODate } from '../lib/format.js';
 import { useTaskPanel, useUpdateTask } from '../lib/hooks.js';
 import { useToast } from '../lib/toast.jsx';
+import { t } from '../i18n/index.js';
 
-const WEEKDAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+const WEEKDAYS = [t("Пн"), t("Вт"), t("Ср"), t("Чт"), t("Пт"), t("Сб"), t("Вс")];
 
 function Chip({ task, canEdit, overlay }) {
   const { open } = useTaskPanel();
@@ -48,14 +49,14 @@ function Day({ date, month, tasks, project, onAdd }) {
           {format(date, 'd')}
         </span>
         {project.canEdit && (
-          <button onClick={() => onAdd(iso)} className="icon-btn h-6 w-6 opacity-0 group-hover:opacity-100 focus:opacity-100" aria-label={`Добавить задачу на ${format(date, 'd MMMM', { locale: ru })}`}>
+          <button onClick={() => onAdd(iso)} className="icon-btn h-6 w-6 opacity-0 group-hover:opacity-100 focus:opacity-100" aria-label={t("Добавить задачу на {0}", format(date, 'd MMMM', { locale: ru }))}>
             <Plus className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
       <div className="space-y-1">
         {tasks.slice(0, 4).map((t) => <Chip key={t.id} task={t} canEdit={project.canEdit} />)}
-        {tasks.length > 4 && <p className="px-1 text-xs text-muted">ещё {tasks.length - 4}</p>}
+        {tasks.length > 4 && <p className="px-1 text-xs text-muted">{t("ещё {0}", tasks.length - 4)}</p>}
       </div>
     </div>
   );
@@ -89,7 +90,7 @@ export default function CalendarView({ project, tasks }) {
   const undated = tasks.filter((t) => !t.due_date && !t.completed).length;
 
   const addOn = async (iso) => {
-    const title = window.prompt(`Новая задача на ${format(new Date(iso), 'd MMMM', { locale: ru })}`);
+    const title = window.prompt(t("Новая задача на {0}", format(new Date(iso), 'd MMMM', { locale: ru })));
     if (!title?.trim()) return;
     try {
       await api.post('/tasks', { project_id: project.id, title: title.trim(), due_date: iso });
@@ -103,10 +104,10 @@ export default function CalendarView({ project, tasks }) {
     <div className="px-2 sm:px-6 py-4">
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <h2 className="text-lg font-semibold capitalize min-w-[150px]">{format(month, 'LLLL yyyy', { locale: ru })}</h2>
-        <button className="icon-btn" onClick={() => setMonth((m) => addMonths(m, -1))} aria-label="Предыдущий месяц"><ChevronLeft className="h-5 w-5" /></button>
-        <button className="btn-secondary h-8" onClick={() => setMonth(startOfMonth(new Date()))}>Сегодня</button>
-        <button className="icon-btn" onClick={() => setMonth((m) => addMonths(m, 1))} aria-label="Следующий месяц"><ChevronRight className="h-5 w-5" /></button>
-        {undated > 0 && <span className="ml-auto text-sm text-muted">Без срока: {undated} — они видны в списке</span>}
+        <button className="icon-btn" onClick={() => setMonth((m) => addMonths(m, -1))} aria-label={t("Предыдущий месяц")}><ChevronLeft className="h-5 w-5" /></button>
+        <button className="btn-secondary h-8" onClick={() => setMonth(startOfMonth(new Date()))}>{t("Сегодня")}</button>
+        <button className="icon-btn" onClick={() => setMonth((m) => addMonths(m, 1))} aria-label={t("Следующий месяц")}><ChevronRight className="h-5 w-5" /></button>
+        {undated > 0 && <span className="ml-auto text-sm text-muted">{t("Без срока: {0} — они видны в списке", undated)}</span>}
       </div>
       <div className="overflow-x-auto scrollbar-thin">
         <div className="min-w-[700px] rounded-xl border-l border-t border-line overflow-hidden">

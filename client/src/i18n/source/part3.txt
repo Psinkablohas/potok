@@ -1,0 +1,139 @@
+Отмена‖Скасувати‖Cancel‖取消‖Abbrechen
+Отменить‖Скасувати‖Undo‖撤销‖Rückgängig
+Отметить веху‖Позначити віху‖Mark milestone‖标记里程碑‖Meilenstein markieren
+Отметить веху достигнутой‖Позначити віху досягнутою‖Mark milestone as reached‖将里程碑标记为已达成‖Meilenstein als erreicht markieren
+Отметить выполненной‖Позначити виконаним‖Mark complete‖标记为完成‖Als erledigt markieren
+Отметить как выполненную‖Позначити як виконане‖Mark as complete‖标记为完成‖Als erledigt markieren
+Отметить как невыполненную‖Позначити як невиконане‖Mark as incomplete‖标记为未完成‖Als offen markieren
+Отметьте ключевые точки проекта: в карточке задачи выберите тип «Веха».‖Позначте ключові точки проєкту: у картці завдання виберіть тип «Віха».‖Mark key points of the project: choose the “Milestone” type in a task.‖标记项目的关键节点：在任务详情中选择“里程碑”类型。‖Markieren Sie wichtige Punkte: Wählen Sie in einer Aufgabe den Typ „Meilenstein“.
+Отписаться‖Відписатися‖Unfollow‖取消关注‖Nicht mehr folgen
+Отправить‖Надіслати‖Send‖发送‖Senden
+Отправить ещё одну‖Надіслати ще одну‖Send another one‖再提交一个‖Weitere senden
+Отправить заявку‖Надіслати заявку‖Submit request‖提交请求‖Anfrage senden
+Отправить комментарий‖Надіслати коментар‖Send comment‖发送评论‖Kommentar senden
+Отстаём‖Відстаємо‖Off track‖进度落后‖Im Verzug
+Отчёт не найден‖Звіт не знайдено‖Update not found‖未找到报告‖Update nicht gefunden
+Отчёт о статусе опубликован‖Звіт про статус опубліковано‖Status update published‖状态报告已发布‖Status-Update veröffentlicht
+Отчёт о статусе проекта‖Звіт про статус проєкту‖Project status update‖项目状态报告‖Projekt-Status-Update
+Отчётов пока нет. Короткий отчёт раз в неделю помогает всей команде понимать, всё ли идёт по плану.‖Звітів поки немає. Короткий звіт раз на тиждень допомагає всій команді розуміти, чи все йде за планом.‖No updates yet. A short weekly update helps the whole team know whether things are on track.‖暂无报告。每周一份简短报告，能帮助团队了解进展是否顺利。‖Noch keine Updates. Ein kurzes wöchentliches Update zeigt dem Team, ob alles im Plan ist.
+Оформление‖Оформлення‖Appearance‖外观‖Darstellung
+Очистить‖Очистити‖Clear‖清除‖Leeren
+Панель‖Панель‖Dashboard‖仪表板‖Dashboard
+Пароль‖Пароль‖Password‖密码‖Passwort
+Пароль должен быть не короче 8 символов‖Пароль має бути не коротшим за 8 символів‖Password must be at least 8 characters‖密码至少需要 8 个字符‖Das Passwort muss mindestens 8 Zeichen lang sein
+Пароль изменён‖Пароль змінено‖Password changed‖密码已更改‖Passwort geändert
+Переименовать‖Перейменувати‖Rename‖重命名‖Umbenennen
+Переместить в раздел‖Перемістити в розділ‖Move to section‖移到分区‖In Abschnitt verschieben
+Перетаскивайте полосы, чтобы менять даты. Края — изменить длительность.‖Перетягуйте смуги, щоб змінювати дати. Краї — змінити тривалість.‖Drag bars to change dates. Drag edges to change duration.‖拖动条形以更改日期，拖动边缘以调整时长。‖Balken ziehen, um Daten zu ändern. Ränder ziehen, um die Dauer zu ändern.
+Перетащите файлы сюда или нажмите, чтобы прикрепить (до 10 МБ)‖Перетягніть файли сюди або натисніть, щоб прикріпити (до 10 МБ)‖Drop files here or click to attach (up to 10 MB)‖将文件拖到此处或点击上传（最大 10 MB）‖Dateien hierher ziehen oder klicken zum Anhängen (bis 10 MB)
+Перетащить‖Перетягнути‖Drag‖拖动‖Ziehen
+Пн‖Пн‖Mon‖一‖Mo
+По будням‖У будні‖Weekdays‖工作日‖Werktags
+По плану‖За планом‖On track‖按计划‖Im Plan
+Повтор‖Повтор‖Repeat‖重复‖Wiederholung
+Повторяется‖Повторюється‖Repeats‖重复‖Wiederholt sich
+Поделиться‖Поділитися‖Share‖共享‖Teilen
+Подготовка‖Підготовка‖Preparation‖准备‖Vorbereitung
+Подзадачи‖Підзавдання‖Subtasks‖子任务‖Unteraufgaben
+Подписаны:‖Підписані:‖Followers:‖关注者：‖Follower:
+Подписаться на изменения‖Підписатися на зміни‖Follow task‖关注任务‖Aufgabe folgen
+Подробности‖Подробиці‖Details‖详情‖Details
+Позже‖Пізніше‖Later‖以后‖Später
+Поиск‖Пошук‖Search‖搜索‖Suche
+Поиск  ( / )‖Пошук  ( / )‖Search  ( / )‖搜索  ( / )‖Suche  ( / )
+Поиск в проекте‖Пошук у проєкті‖Search in project‖在项目中搜索‖Im Projekt suchen
+Показать выполненные‖Показати виконані‖Show completed‖显示已完成‖Erledigte anzeigen
+Показать пароль‖Показати пароль‖Show password‖显示密码‖Passwort anzeigen
+Покинуть‖Залишити‖Leave‖离开‖Verlassen
+Покинуть пространство?‖Залишити простір?‖Leave the workspace?‖离开工作区？‖Arbeitsbereich verlassen?
+Поле‖Поле‖Field‖字段‖Feld
+Поле не найдено‖Поле не знайдено‖Field not found‖未找到字段‖Feld nicht gefunden
+Поле не найдено в проекте задачи‖Поле не знайдено в проєкті завдання‖Field not found in the task's project‖任务所在项目中没有该字段‖Feld im Projekt der Aufgabe nicht gefunden
+Получится замкнутый круг зависимостей‖Вийде замкнене коло залежностей‖This would create a circular dependency‖这会造成循环依赖‖Das würde eine zirkuläre Abhängigkeit erzeugen
+Пользователь‖Користувач‖User‖用户‖Benutzer
+Пользователь с такой почтой уже есть. Войдите.‖Користувач із такою поштою вже існує. Увійдіть.‖A user with this email already exists. Please log in.‖该邮箱已注册，请直接登录。‖Diese E-Mail ist bereits registriert. Bitte anmelden.
+Поля‖Поля‖Fields‖字段‖Felder
+Поля, правила, форма‖Поля, правила, форма‖Fields, rules, form‖字段、规则、表单‖Felder, Regeln, Formular
+Поставить срок через N дней‖Поставити термін через N днів‖Set due date in N days‖设置 N 天后截止‖Fällig in N Tagen setzen
+Поток‖Потік‖Potok‖Potok‖Potok
+Почта‖Пошта‖Email‖邮箱‖E-Mail
+Почта для ответа‖Пошта для відповіді‖Reply-to email‖回复邮箱‖E-Mail für Antwort
+Почта: {0}‖Пошта: {0}‖Email: {0}‖邮箱：{0}‖E-Mail: {0}
+Пояснение для отправителя‖Пояснення для відправника‖Instructions for the submitter‖给提交者的说明‖Hinweis für Absender
+Правила‖Правила‖Rules‖规则‖Regeln
+Правила делают рутину за вас: «когда произошло событие — выполнить действия». Работают для всех участников проекта.‖Правила виконують рутину за вас: «коли сталася подія — виконати дії». Працюють для всіх учасників проєкту.‖Rules handle routine work for you: “when something happens, do these actions”. They work for everyone in the project.‖规则帮您处理重复工作：“当发生某事件时，执行这些操作”。对项目所有成员生效。‖Regeln erledigen Routine für Sie: „Wenn etwas passiert, führe diese Aktionen aus“. Sie gelten für alle im Projekt.
+Правило включено‖Правило ввімкнено‖Rule enabled‖规则已启用‖Regel aktiv
+Правило не найдено‖Правило не знайдено‖Rule not found‖未找到规则‖Regel nicht gefunden
+Предстоящие‖Майбутні‖Upcoming‖即将到期‖Anstehend
+Предыдущий месяц‖Попередній місяць‖Previous month‖上个月‖Vorheriger Monat
+Пригласить и настроить‖Запросити й налаштувати‖Invite and settings‖邀请与设置‖Einladen und Einstellungen
+Пригласить коллег‖Запросити колег‖Invite teammates‖邀请同事‖Teammitglieder einladen
+Приглашение не найдено или устарело‖Запрошення не знайдено або воно застаріло‖Invitation not found or expired‖邀请不存在或已过期‖Einladung nicht gefunden oder abgelaufen
+Прикрепить файл‖Прикріпити файл‖Attach file‖附加文件‖Datei anhängen
+Приоритет‖Пріоритет‖Priority‖优先级‖Priorität
+Приоритет: {0}‖Пріоритет: {0}‖Priority: {0}‖优先级：{0}‖Priorität: {0}
+Присоединиться‖Приєднатися‖Join‖加入‖Beitreten
+Проект‖Проєкт‖Project‖项目‖Projekt
+Проект в архиве‖Проєкт в архіві‖Project archived‖项目已归档‖Projekt archiviert
+Проект возвращён из архива‖Проєкт повернуто з архіву‖Project restored‖项目已恢复‖Projekt wiederhergestellt
+Проект из другого пространства‖Проєкт з іншого простору‖Project is from another workspace‖项目属于其他工作区‖Projekt aus einem anderen Arbeitsbereich
+Проект не найден‖Проєкт не знайдено‖Project not found‖未找到项目‖Projekt nicht gefunden
+Проект недоступен‖Проєкт недоступний‖Project unavailable‖项目不可用‖Projekt nicht verfügbar
+Проект удалён‖Проєкт видалено‖Project deleted‖项目已删除‖Projekt gelöscht
+Проекты‖Проєкти‖Projects‖项目‖Projekte
+Проекты, доски, календарь и график работ. Совместная работа в реальном времени, полностью на русском и без платных ограничений.‖Проєкти, дошки, календар і графік робіт. Спільна робота в реальному часі, рідною мовою і без платних обмежень.‖Projects, boards, calendar and timeline. Real-time collaboration in your language, with no paywalls.‖项目、看板、日历和时间线。实时协作，支持多种语言，没有付费限制。‖Projekte, Boards, Kalender und Zeitachse. Zusammenarbeit in Echtzeit, in Ihrer Sprache und ohne Bezahlschranken.
+Просроченные{0}‖Прострочені{0}‖Overdue{0}‖已逾期{0}‖Überfällig{0}
+Просроченных задач нет.‖Прострочених завдань немає.‖No overdue tasks.‖没有逾期任务。‖Keine überfälligen Aufgaben.
+Просрочено‖Прострочено‖Overdue‖已逾期‖Überfällig
+Пространства‖Простори‖Workspaces‖工作区‖Arbeitsbereiche
+Пространство‖Простір‖Workspace‖工作区‖Arbeitsbereich
+Пространство удалено‖Простір видалено‖Workspace deleted‖工作区已删除‖Arbeitsbereich gelöscht
+Пространство — это отдельная компания или команда со своими людьми и проектами.‖Простір — це окрема компанія або команда зі своїми людьми та проєктами.‖A workspace is a separate company or team with its own people and projects.‖工作区代表一个独立的公司或团队，拥有自己的成员和项目。‖Ein Arbeitsbereich ist ein eigenes Unternehmen oder Team mit eigenen Personen und Projekten.
+Профиль‖Профіль‖Profile‖个人资料‖Profil
+Профиль сохранён‖Профіль збережено‖Profile saved‖资料已保存‖Profil gespeichert
+Прочитать все‖Прочитати все‖Mark all as read‖全部标为已读‖Alle als gelesen markieren
+Пт‖Пт‖Fri‖五‖Fr
+Публикация‖Публікація‖Publishing‖发布‖Veröffentlichung
+Публичная форма: клиенты и коллеги без аккаунта отправляют заявки, а они сразу появляются задачами в проекте.‖Публічна форма: клієнти й колеги без акаунта надсилають заявки, а вони одразу з'являються завданнями в проєкті.‖A public form: clients and colleagues without an account submit requests that instantly become tasks in the project.‖公开表单：没有账户的客户和同事也能提交请求，请求会立即成为项目中的任务。‖Ein öffentliches Formular: Kunden und Kollegen ohne Konto senden Anfragen, die sofort als Aufgaben im Projekt erscheinen.
+Пустой проект‖Порожній проєкт‖Blank project‖空白项目‖Leeres Projekt
+Рабочая почта‖Робоча пошта‖Work email‖工作邮箱‖Geschäftliche E-Mail
+Рабочее пространство не найдено‖Робочий простір не знайдено‖Workspace not found‖未找到工作区‖Arbeitsbereich nicht gefunden
+Раз в две недели‖Раз на два тижні‖Every 2 weeks‖每两周‖Alle 2 Wochen
+Развернуть раздел‖Розгорнути розділ‖Expand section‖展开分区‖Abschnitt aufklappen
+Раздел‖Розділ‖Section‖分区‖Abschnitt
+Раздел не из этого проекта‖Розділ не з цього проєкту‖Section is not from this project‖分区不属于此项目‖Abschnitt gehört nicht zu diesem Projekt
+Раздел не найден‖Розділ не знайдено‖Section not found‖未找到分区‖Abschnitt nicht gefunden
+Раздел не относится к проекту‖Розділ не належить до проєкту‖Section doesn't belong to the project‖分区不属于该项目‖Abschnitt gehört nicht zum Projekt
+Раздел…‖Розділ…‖Section…‖分区…‖Abschnitt…
+Разработка: Бэклог → Спринт → В работе → Тестирование → Готово‖Розробка: Беклог → Спринт → В роботі → Тестування → Готово‖Development: Backlog → Sprint → In progress → Testing → Done‖开发：待办池 → 冲刺 → 进行中 → 测试 → 已完成‖Entwicklung: Backlog → Sprint → In Arbeit → Test → Erledigt
+Раньше‖Раніше‖Earlier‖更早‖Früher
+Расскажите, зачем этот проект, какие цели и как будете работать‖Розкажіть, навіщо цей проєкт, які цілі та як працюватимете‖Describe why this project exists, its goals and how you'll work‖说明项目的目的、目标和工作方式‖Beschreiben Sie Zweck, Ziele und Arbeitsweise des Projekts
+Редактор‖Редактор‖Editor‖编辑者‖Bearbeiter
+Решение‖Рішення‖Decision‖决定‖Entscheidung
+Родительская задача‖Батьківське завдання‖Parent task‖父任务‖Übergeordnete Aufgabe
+Роль‖Роль‖Role‖角色‖Rolle
+Роль {0}‖Роль {0}‖Role of {0}‖{0} 的角色‖Rolle von {0}
+Роль изменена‖Роль змінено‖Role changed‖角色已更改‖Rolle geändert
+Роль приглашённых‖Роль запрошених‖Role for invitees‖受邀者角色‖Rolle der Eingeladenen
+Сб‖Сб‖Sat‖六‖Sa
+Сбросить фильтры‖Скинути фільтри‖Reset filters‖重置筛选‖Filter zurücksetzen
+Свернуть раздел‖Згорнути розділ‖Collapse section‖收起分区‖Abschnitt zuklappen
+Светлая‖Світла‖Light‖浅色‖Hell
+Светлая тема‖Світла тема‖Light theme‖浅色主题‖Helles Design
+Свои поля появятся колонками в списке и строками в карточке задачи: этап, бюджет, оценка в часах, клиент — что угодно.‖Власні поля з'являться колонками у списку та рядками в картці завдання: етап, бюджет, оцінка в годинах, клієнт — що завгодно.‖Custom fields appear as list columns and as rows in task details: stage, budget, hour estimate, client — anything.‖自定义字段会作为列表列和任务详情中的行显示：阶段、预算、工时估算、客户等皆可。‖Eigene Felder erscheinen als Spalten in der Liste und als Zeilen in der Aufgabe: Phase, Budget, Stundenschätzung, Kunde — alles Mögliche.
+Сделать‖Зробити‖Do‖执行‖Ausführen
+Сделать закрытым‖Зробити закритим‖Make private‖设为私有‖Privat machen
+Сегодня‖Сьогодні‖Today‖今天‖Heute
+Скачать‖Завантажити‖Download‖下载‖Herunterladen
+Скопировать‖Скопіювати‖Copy‖复制‖Kopieren
+Скопировать ссылку‖Скопіювати посилання‖Copy link‖复制链接‖Link kopieren
+Скрыть архив‖Сховати архів‖Hide archive‖隐藏归档‖Archiv ausblenden
+Скрыть пароль‖Сховати пароль‖Hide password‖隐藏密码‖Passwort verbergen
+Следующий месяц‖Наступний місяць‖Next month‖下个月‖Nächster Monat
+Следующий понедельник‖Наступний понеділок‖Next Monday‖下周一‖Nächster Montag
+Слишком длинный пароль‖Задовгий пароль‖Password is too long‖密码过长‖Passwort ist zu lang
+Слишком много заявок. Попробуйте позже.‖Забагато заявок. Спробуйте пізніше.‖Too many requests. Try again later.‖请求过多，请稍后再试。‖Zu viele Anfragen. Bitte später erneut versuchen.
+Слишком много попыток. Подождите 15 минут.‖Забагато спроб. Зачекайте 15 хвилин.‖Too many attempts. Wait 15 minutes.‖尝试次数过多，请等待 15 分钟。‖Zu viele Versuche. Bitte 15 Minuten warten.
+Сменить‖Змінити‖Change‖更改‖Ändern
+Снять исполнителя‖Зняти виконавця‖Remove assignee‖移除负责人‖Zuweisung entfernen
+Согласование‖Погодження‖Approval‖审批‖Genehmigung

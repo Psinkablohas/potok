@@ -6,6 +6,7 @@ import { useMe } from '../lib/hooks.js';
 import { useToast } from '../lib/toast.jsx';
 import { Avatar, Modal, Field, Spinner } from '../components/ui.jsx';
 import { PROJECT_STATUS, ROLE_LABEL, fmtDateTime, dueLabel } from '../lib/format.js';
+import { t } from '../i18n/index.js';
 
 function StatusModal({ project, open, onClose }) {
   const [form, setForm] = useState({ status: 'on_track', title: '', body: '' });
@@ -19,14 +20,14 @@ function StatusModal({ project, open, onClose }) {
       qc.invalidateQueries({ queryKey: ['status', project.id] });
       setForm({ status: 'on_track', title: '', body: '' });
       onClose();
-      toast('Отчёт о статусе опубликован');
+      toast(t("Отчёт о статусе опубликован"));
     } catch (e) { toast(e.message, { type: 'error' }); } finally { setBusy(false); }
   };
   return (
-    <Modal open={open} onClose={onClose} title="Отчёт о статусе проекта" width={560}
-      footer={<><button className="btn-ghost" onClick={onClose}>Отмена</button><button className="btn-primary" disabled={!form.title.trim() || busy} onClick={submit}>Опубликовать</button></>}>
+    <Modal open={open} onClose={onClose} title={t("Отчёт о статусе проекта")} width={560}
+      footer={<><button className="btn-ghost" onClick={onClose}>{t("Отмена")}</button><button className="btn-primary" disabled={!form.title.trim() || busy} onClick={submit}>{t("Опубликовать")}</button></>}>
       <div className="space-y-4">
-        <Field label="Как идут дела?">
+        <Field label={t("Как идут дела?")}>
           <div className="flex flex-wrap gap-2">
             {Object.entries(PROJECT_STATUS).map(([k, s]) => (
               <button key={k} type="button" onClick={() => setForm({ ...form, status: k })}
@@ -36,9 +37,9 @@ function StatusModal({ project, open, onClose }) {
             ))}
           </div>
         </Field>
-        <Field label="Заголовок" htmlFor="st-title"><input id="st-title" className="input" placeholder="Например: макеты готовы, начинаем вёрстку" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} /></Field>
-        <Field label="Подробности" htmlFor="st-body"><textarea id="st-body" rows={6} className="input h-auto py-2" placeholder="Что сделано, что мешает, что дальше" value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} /></Field>
-        <p className="text-xs text-muted">Участники проекта получат уведомление во «Входящих».</p>
+        <Field label={t("Заголовок")} htmlFor="st-title"><input id="st-title" className="input" placeholder={t("Например: макеты готовы, начинаем вёрстку")} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} /></Field>
+        <Field label={t("Подробности")} htmlFor="st-body"><textarea id="st-body" rows={6} className="input h-auto py-2" placeholder={t("Что сделано, что мешает, что дальше")} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} /></Field>
+        <p className="text-xs text-muted">{t("Участники проекта получат уведомление во «Входящих».")}</p>
       </div>
     </Modal>
   );
@@ -62,7 +63,7 @@ export default function OverviewView({ project, tasks }) {
     } catch (e) { toast(e.message, { type: 'error' }); }
   };
   const remove = async (id) => {
-    if (!window.confirm('Удалить отчёт?')) return;
+    if (!window.confirm(t("Удалить отчёт?"))) return;
     try { await api.del(`/status/${id}`); qc.invalidateQueries({ queryKey: ['status', project.id] }); } catch (e) { toast(e.message, { type: 'error' }); }
   };
 
@@ -70,26 +71,26 @@ export default function OverviewView({ project, tasks }) {
     <div className="mx-auto max-w-5xl px-3 sm:px-6 py-6 grid gap-6 lg:grid-cols-[1fr_300px]">
       <div className="space-y-6 min-w-0">
         <section>
-          <h2 className="font-semibold mb-2">О проекте</h2>
+          <h2 className="font-semibold mb-2">{t("О проекте")}</h2>
           <textarea
             rows={4}
             disabled={!project.canEdit}
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
             onBlur={saveDesc}
-            placeholder={project.canEdit ? 'Расскажите, зачем этот проект, какие цели и как будете работать' : 'Описания нет'}
+            placeholder={project.canEdit ? t("Расскажите, зачем этот проект, какие цели и как будете работать") : t("Описания нет")}
             className="w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm leading-relaxed outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 resize-y"
           />
         </section>
 
         <section>
           <div className="flex items-center justify-between mb-2">
-            <h2 className="font-semibold">Статус проекта</h2>
-            {project.canEdit && <button className="btn-secondary h-8" onClick={() => setModal(true)}><Plus className="h-4 w-4" />Новый отчёт</button>}
+            <h2 className="font-semibold">{t("Статус проекта")}</h2>
+            {project.canEdit && <button className="btn-secondary h-8" onClick={() => setModal(true)}><Plus className="h-4 w-4" />{t("Новый отчёт")}</button>}
           </div>
           {isLoading ? <Spinner /> : !latest ? (
             <div className="card p-5 text-sm text-muted">
-              Отчётов пока нет. Короткий отчёт раз в неделю помогает всей команде понимать, всё ли идёт по плану.
+              {t("Отчётов пока нет. Короткий отчёт раз в неделю помогает всей команде понимать, всё ли идёт по плану.")}
             </div>
           ) : (
             <div className="space-y-3">
@@ -100,7 +101,7 @@ export default function OverviewView({ project, tasks }) {
                     <div className="flex flex-wrap items-center gap-2">
                       <span className={`chip ${s.cls}`}>{s.label}</span>
                       <h3 className="font-semibold flex-1 min-w-0">{u.title}</h3>
-                      {(u.user_id === me?.user.id || project.canManage) && <button className="icon-btn h-8 w-8" aria-label="Удалить отчёт" onClick={() => remove(u.id)}><Trash2 className="h-4 w-4" /></button>}
+                      {(u.user_id === me?.user.id || project.canManage) && <button className="icon-btn h-8 w-8" aria-label={t("Удалить отчёт")} onClick={() => remove(u.id)}><Trash2 className="h-4 w-4" /></button>}
                     </div>
                     {u.body && <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed">{u.body}</p>}
                     <p className="mt-3 flex items-center gap-2 text-xs text-muted"><Avatar user={u.author} size={20} />{u.author?.name} · {fmtDateTime(u.created_at)}</p>
@@ -114,7 +115,7 @@ export default function OverviewView({ project, tasks }) {
 
       <aside className="space-y-6">
         <section>
-          <h2 className="font-semibold mb-2">Участники · {project.members.length}</h2>
+          <h2 className="font-semibold mb-2">{t("Участники · {0}", project.members.length)}</h2>
           <ul className="space-y-2">
             {project.members.map((m) => (
               <li key={m.id} className="flex items-center gap-2.5">
@@ -128,9 +129,9 @@ export default function OverviewView({ project, tasks }) {
           </ul>
         </section>
         <section>
-          <h2 className="font-semibold mb-2">Вехи</h2>
+          <h2 className="font-semibold mb-2">{t("Вехи")}</h2>
           {milestones.length === 0 ? (
-            <p className="text-sm text-muted">Отметьте ключевые точки проекта: в карточке задачи выберите тип «Веха».</p>
+            <p className="text-sm text-muted">{t("Отметьте ключевые точки проекта: в карточке задачи выберите тип «Веха».")}</p>
           ) : (
             <ul className="space-y-2">
               {milestones.map((m) => (

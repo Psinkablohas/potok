@@ -5,6 +5,7 @@ import { useMe, useProjects, useTaskPanel, useWorkspaceId } from '../lib/hooks.j
 import { useToast } from '../lib/toast.jsx';
 import { Modal } from './ui.jsx';
 import { AssigneePicker, DueDatePicker, ProjectPicker } from './pickers.jsx';
+import { t } from '../i18n/index.js';
 
 // Быстрое создание задачи откуда угодно: кнопка «Создать» или клавиши Tab + Q
 export default function QuickTaskModal({ open, onClose, defaultProjectId = null }) {
@@ -30,30 +31,30 @@ export default function QuickTaskModal({ open, onClose, defaultProjectId = null 
       if (form.project_id) qc.invalidateQueries({ queryKey: ['project-tasks', form.project_id] });
       onClose();
       if (andOpen) openTask(task.id);
-      else toast('Задача создана', { action: { label: 'Открыть', onClick: () => openTask(task.id) } });
+      else toast(t("Задача создана"), { action: { label: t("Открыть"), onClick: () => openTask(task.id) } });
     } catch (e) { toast(e.message, { type: 'error' }); } finally { setBusy(false); }
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Новая задача" width={560}
+    <Modal open={open} onClose={onClose} title={t("Новая задача")} width={560}
       footer={<>
-        <button className="btn-ghost" onClick={() => submit(true)} disabled={!form.title.trim() || busy}>Создать и открыть</button>
-        <button className="btn-primary" onClick={() => submit(false)} disabled={!form.title.trim() || busy}>Создать</button>
+        <button className="btn-ghost" onClick={() => submit(true)} disabled={!form.title.trim() || busy}>{t("Создать и открыть")}</button>
+        <button className="btn-primary" onClick={() => submit(false)} disabled={!form.title.trim() || busy}>{t("Создать")}</button>
       </>}>
       <div className="space-y-3">
-        <input autoFocus className="input h-11 text-base font-medium" placeholder="Что нужно сделать?" value={form.title}
+        <input autoFocus className="input h-11 text-base font-medium" placeholder={t("Что нужно сделать?")} value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
-          onKeyDown={(e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submit(false); }} aria-label="Название задачи" />
+          onKeyDown={(e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submit(false); }} aria-label={t("Название задачи")} />
         <div className="flex flex-wrap items-center gap-1">
-          <span className="text-sm text-muted mr-1">Для</span>
+          <span className="text-sm text-muted mr-1">{t("Для")}</span>
           <AssigneePicker value={form.assignee_id} onChange={(v) => setForm({ ...form, assignee_id: v })} />
-          <span className="text-sm text-muted mx-1">в</span>
+          <span className="text-sm text-muted mx-1">{t("в")}</span>
           <ProjectPicker projects={projects} value={form.project_id} onChange={(v) => setForm({ ...form, project_id: v })} />
           <DueDatePicker value={form.due_date} onChange={(v) => setForm({ ...form, due_date: v })} />
         </div>
-        <textarea rows={4} className="input h-auto py-2" placeholder="Описание (необязательно)" value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })} aria-label="Описание" />
-        <p className="text-xs text-muted">Ctrl + Enter — создать. Открыть это окно с любой страницы: Tab, затем Q.</p>
+        <textarea rows={4} className="input h-auto py-2" placeholder={t("Описание (необязательно)")} value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })} aria-label={t("Описание")} />
+        <p className="text-xs text-muted">{t("Ctrl + Enter — создать. Открыть это окно с любой страницы: Tab, затем Q.")}</p>
       </div>
     </Modal>
   );

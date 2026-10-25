@@ -1,0 +1,131 @@
+{0}\n\nВсё равно завершить?‖{0}\n\nВсе одно завершити?‖{0}\n\nComplete anyway?‖{0}\n\n仍然完成？‖{0}\n\nTrotzdem abschließen?
+{0} Б‖{0} Б‖{0} B‖{0} B‖{0} B
+{0} КБ‖{0} КБ‖{0} KB‖{0} KB‖{0} KB
+{0} МБ‖{0} МБ‖{0} MB‖{0} MB‖{0} MB
+{0} в работе‖{0} у роботі‖{0} in progress‖{0} 进行中‖{0} in Arbeit
+{0} выполнено за неделю‖{0} виконано за тиждень‖{0} completed this week‖本周完成 {0}‖{0} diese Woche erledigt
+{0} из {1}‖{0} з {1}‖{0} of {1}‖{0} / {1}‖{0} von {1}
+{0} приглашает вас в пространство‖{0} запрошує вас до простору‖{0} invites you to the workspace‖{0} 邀请您加入工作区‖{0} lädt Sie in den Arbeitsbereich ein
+{0} приглашает вас в пространство «{1}»‖{0} запрошує вас до простору «{1}»‖{0} invites you to the workspace “{1}”‖{0} 邀请您加入工作区“{1}”‖{0} lädt Sie in den Arbeitsbereich „{1}“ ein
+{0} просрочено‖{0} прострочено‖{0} overdue‖{0} 已逾期‖{0} überfällig
+{0}% готово‖{0}% готово‖{0}% done‖已完成 {0}%‖{0}% erledigt
+{0}: не длиннее {1} символов‖{0}: не довше {1} символів‖{0}: no longer than {1} characters‖{0}：不超过 {1} 个字符‖{0}: höchstens {1} Zeichen
+{0}: не может быть пустым‖{0}: не може бути порожнім‖{0}: cannot be empty‖{0}：不能为空‖{0}: darf nicht leer sein
+{0}: недопустимое значение‖{0}: неприпустиме значення‖{0}: invalid value‖{0}：无效值‖{0}: ungültiger Wert
+{0}: некорректный идентификатор‖{0}: некоректний ідентифікатор‖{0}: invalid identifier‖{0}：无效的标识符‖{0}: ungültige Kennung
+{0}: обязательно‖{0}: обов'язково‖{0}: required‖{0}：必填‖{0}: erforderlich
+{0}: ожидается строка‖{0}: очікується рядок‖{0}: text expected‖{0}：应为文本‖{0}: Text erwartet
+{0}: создано {1}, выполнено {2}‖{0}: створено {1}, виконано {2}‖{0}: created {1}, completed {2}‖{0}：创建 {1}，完成 {2}‖{0}: erstellt {1}, erledigt {2}
+{0}: формат ГГГГ-ММ-ДД‖{0}: формат РРРР-ММ-ДД‖{0}: format YYYY-MM-DD‖{0}：格式为 YYYY-MM-DD‖{0}: Format JJJJ-MM-TT
+Ctrl + Enter — отправить‖Ctrl + Enter — надіслати‖Ctrl + Enter to send‖Ctrl + Enter 发送‖Strg + Enter zum Senden
+Ctrl + Enter — создать. Открыть это окно с любой страницы: Tab, затем Q.‖Ctrl + Enter — створити. Відкрити це вікно з будь-якої сторінки: Tab, потім Q.‖Ctrl + Enter to create. Open this window from any page: Tab, then Q.‖Ctrl + Enter 创建。在任意页面打开此窗口：先按 Tab，再按 Q。‖Strg + Enter zum Erstellen. Dieses Fenster von jeder Seite öffnen: Tab, dann Q.
+Enter — добавить, Esc — отмена‖Enter — додати, Esc — скасувати‖Enter to add, Esc to cancel‖Enter 添加，Esc 取消‖Enter zum Hinzufügen, Esc zum Abbrechen
+Администратор‖Адміністратор‖Admin‖管理员‖Administrator
+Активные‖Активні‖Active‖活动‖Aktiv
+Аналитика‖Аналітика‖Analytics‖分析‖Analyse
+Архив‖Архів‖Archive‖归档‖Archiv
+Архив ({0})‖Архів ({0})‖Archive ({0})‖归档（{0}）‖Archiv ({0})
+Архив пуст‖Архів порожній‖Archive is empty‖归档为空‖Archiv ist leer
+Архивировать все‖Архівувати все‖Archive all‖全部归档‖Alle archivieren
+Без исполнителя‖Без виконавця‖Unassigned‖未分配‖Nicht zugewiesen
+Без приоритета‖Без пріоритету‖No priority‖无优先级‖Keine Priorität
+Без проекта (личная)‖Без проєкту (особиста)‖No project (personal)‖无项目（个人）‖Kein Projekt (persönlich)
+Без раздела‖Без розділу‖Untitled section‖未命名分区‖Ohne Abschnitt
+Без срока‖Без терміну‖No due date‖无截止日期‖Kein Fälligkeitsdatum
+Без срока: {0} — они видны в списке‖Без терміну: {0} — вони видні у списку‖No due date: {0} — see them in the list‖无截止日期：{0} 个，可在列表中查看‖Ohne Fälligkeit: {0} — sichtbar in der Liste
+Ближайшие 7 дней‖Найближчі 7 днів‖Next 7 days‖未来 7 天‖Nächste 7 Tage
+Блокирует:‖Блокує:‖Blocking:‖阻塞：‖Blockiert:
+Бэклог‖Беклог‖Backlog‖待办池‖Backlog
+В архив‖В архів‖Archive‖归档‖Archivieren
+В архиве‖В архіві‖Archived‖已归档‖Archiviert
+В первый раздел‖У перший розділ‖To the first section‖到第一个分区‖In den ersten Abschnitt
+В пространстве должен остаться хотя бы один владелец‖У просторі має залишитися хоча б один власник‖The workspace must keep at least one owner‖工作区必须至少保留一名所有者‖Der Arbeitsbereich braucht mindestens einen Eigentümer
+В работе‖В роботі‖In progress‖进行中‖In Arbeit
+ВНИМАНИЕ: JWT_SECRET не задан. Задайте его в настройках хостинга.‖УВАГА: JWT_SECRET не задано. Вкажіть його в налаштуваннях хостингу.‖WARNING: JWT_SECRET is not set. Set it in your hosting settings.‖警告：未设置 JWT_SECRET。请在托管设置中设置。‖ACHTUNG: JWT_SECRET ist nicht gesetzt. Legen Sie ihn in den Hosting-Einstellungen fest.
+Вариант‖Варіант‖Option‖选项‖Option
+Вариант {0}‖Варіант {0}‖Option {0}‖选项 {0}‖Option {0}
+Варианты‖Варіанти‖Options‖选项‖Optionen
+Вас приглашают в пространство‖Вас запрошують до простору‖You are invited to the workspace‖您受邀加入工作区‖Sie sind in den Arbeitsbereich eingeladen
+Вас приглашают в пространство «{0}»‖Вас запрошують до простору «{0}»‖You are invited to the workspace “{0}”‖您受邀加入工作区“{0}”‖Sie sind in den Arbeitsbereich „{0}“ eingeladen
+Ваше имя‖Ваше ім'я‖Your name‖您的姓名‖Ihr Name
+Введите запрос в строке поиска сверху: название задачи, проекта или имя коллеги.‖Введіть запит у рядку пошуку вгорі: назву завдання, проєкту або ім'я колеги.‖Type in the search bar above: a task, a project or a colleague's name.‖在上方搜索栏输入：任务、项目或同事姓名。‖Geben Sie oben in die Suche ein: Aufgabe, Projekt oder Name einer Person.
+Введите хотя бы 2 символа‖Введіть щонайменше 2 символи‖Type at least 2 characters‖请至少输入 2 个字符‖Mindestens 2 Zeichen eingeben
+Вернуть из архива‖Повернути з архіву‖Restore from archive‖从归档恢复‖Aus dem Archiv holen
+Веха‖Віха‖Milestone‖里程碑‖Meilenstein
+Веха достигнута‖Віху досягнуто‖Milestone reached‖里程碑已达成‖Meilenstein erreicht
+Вехи‖Віхи‖Milestones‖里程碑‖Meilensteine
+Вид‖Вигляд‖View‖视图‖Ansicht
+Вид по умолчанию‖Вигляд за замовчуванням‖Default view‖默认视图‖Standardansicht
+Виды проекта‖Вигляди проєкту‖Project views‖项目视图‖Projektansichten
+Видят только участники из списка ниже и администраторы.‖Бачать лише учасники зі списку нижче та адміністратори.‖Only the members below and admins can see it.‖仅下方成员和管理员可见。‖Nur die Mitglieder unten und Administratoren sehen es.
+Включить‖Увімкнути‖Turn on‖开启‖Einschalten
+Владелец‖Власник‖Owner‖所有者‖Eigentümer
+Войти‖Увійти‖Log in‖登录‖Anmelden
+Войти и присоединиться‖Увійти й приєднатися‖Log in and join‖登录并加入‖Anmelden und beitreten
+Вс‖Нд‖Sun‖日‖So
+Все‖Усі‖All‖全部‖Alle
+Все задачи‖Усі завдання‖All tasks‖所有任务‖Alle Aufgaben
+Все задачи выполнены‖Усі завдання виконано‖All tasks are done‖所有任务已完成‖Alle Aufgaben erledigt
+Все задачи команды — в одном потоке‖Усі завдання команди — в одному потоці‖All your team's work in one flow‖团队的所有任务，一处掌握‖Die ganze Teamarbeit in einem Fluss
+Все участники пространства видят и редактируют задачи. Наблюдатели — только читают.‖Усі учасники простору бачать і редагують завдання. Спостерігачі — лише читають.‖Everyone in the workspace can see and edit tasks. Viewers can only read.‖工作区所有成员均可查看和编辑任务。观察者仅可查看。‖Alle im Arbeitsbereich sehen und bearbeiten Aufgaben. Betrachter können nur lesen.
+Все файлы, прикреплённые к задачам проекта, будут собраны здесь.‖Усі файли, прикріплені до завдань проєкту, будуть зібрані тут.‖All files attached to tasks in this project will appear here.‖附加到本项目任务的所有文件都会显示在这里。‖Alle an Aufgaben dieses Projekts angehängten Dateien erscheinen hier.
+Всего задач‖Усього завдань‖Total tasks‖任务总数‖Aufgaben gesamt
+Всё пространство‖Увесь простір‖Whole workspace‖整个工作区‖Gesamter Arbeitsbereich
+Всё, что назначено вам, из всех проектов‖Усе, що призначено вам, з усіх проєктів‖Everything assigned to you across all projects‖分配给您的所有项目中的任务‖Alles, was Ihnen zugewiesen ist, aus allen Projekten
+Вт‖Вт‖Tue‖二‖Di
+Вход‖Вхід‖Log in‖登录‖Anmelden
+Входящие‖Вхідні‖Inbox‖收件箱‖Posteingang
+Вчера‖Учора‖Yesterday‖昨天‖Gestern
+Вы отписались от задачи‖Ви відписалися від завдання‖You unfollowed the task‖您已取消关注该任务‖Sie folgen der Aufgabe nicht mehr
+Вы подписаны на задачу‖Ви підписані на завдання‖You are following the task‖您已关注该任务‖Sie folgen der Aufgabe
+Вы покинули пространство‖Ви залишили простір‖You left the workspace‖您已离开工作区‖Sie haben den Arbeitsbereich verlassen
+Выберите участника пространства‖Виберіть учасника простору‖Choose a workspace member‖选择工作区成员‖Mitglied des Arbeitsbereichs wählen
+Выбор из списка‖Вибір зі списку‖Single select‖单选列表‖Auswahlliste
+Выйти‖Вийти‖Log out‖退出登录‖Abmelden
+Выключить‖Вимкнути‖Turn off‖关闭‖Ausschalten
+Выполнена‖Виконано‖Completed‖已完成‖Erledigt
+Выполненные‖Виконані‖Completed‖已完成‖Erledigt
+Выполнено‖Виконано‖Completed‖已完成‖Erledigt
+Выполнено → переместить в последний раздел‖Виконано → перемістити в останній розділ‖Completed → move to last section‖已完成 → 移到最后一个分区‖Erledigt → in letzten Abschnitt verschieben
+Высокий‖Високий‖High‖高‖Hoch
+Выход из пространства‖Вихід із простору‖Leave workspace‖离开工作区‖Arbeitsbereich verlassen
+Главная‖Головна‖Home‖首页‖Startseite
+Готово‖Готово‖Done‖已完成‖Erledigt
+Готово → отметить выполненной‖Готово → позначити виконаним‖Done → mark complete‖已完成分区 → 标记为完成‖Erledigt → als abgeschlossen markieren
+Готово! Следующая повторяющаяся задача создана.‖Готово! Наступне повторюване завдання створено.‖Done! The next recurring task has been created.‖完成！已创建下一个重复任务。‖Erledigt! Die nächste wiederkehrende Aufgabe wurde erstellt.
+Готовые варианты‖Готові варіанти‖Templates‖预设‖Vorlagen
+График‖Графік‖Timeline‖时间线‖Zeitachse
+Да‖Так‖Yes‖是‖Ja
+Дата‖Дата‖Date‖日期‖Datum
+Дата выполнения‖Дата виконання‖Completed on‖完成日期‖Erledigt am
+Дата начала‖Дата початку‖Start date‖开始日期‖Startdatum
+Дата начала не может быть позже срока‖Дата початку не може бути пізніше за термін‖Start date can't be after the due date‖开始日期不能晚于截止日期‖Das Startdatum darf nicht nach dem Fälligkeitsdatum liegen
+Действие‖Дія‖Action‖操作‖Aktion
+Действия с проектом‖Дії з проєктом‖Project actions‖项目操作‖Projektaktionen
+Действия с разделом‖Дії з розділом‖Section actions‖分区操作‖Abschnittsaktionen
+День‖День‖Day‖日期‖Tag
+Для‖Для‖For‖负责人‖Für
+Дней‖Днів‖Days‖天数‖Tage
+Добавить‖Додати‖Add‖添加‖Hinzufügen
+Добавить вариант‖Додати варіант‖Add option‖添加选项‖Option hinzufügen
+Добавить действие‖Додати дію‖Add action‖添加操作‖Aktion hinzufügen
+Добавить задачу‖Додати завдання‖Add task‖添加任务‖Aufgabe hinzufügen
+Добавить задачу на {0}‖Додати завдання на {0}‖Add task on {0}‖在 {0} 添加任务‖Aufgabe am {0} hinzufügen
+Добавить задачу…‖Додати завдання…‖Add task…‖添加任务…‖Aufgabe hinzufügen…
+Добавить колонку‖Додати колонку‖Add column‖添加列‖Spalte hinzufügen
+Добавить личную задачу‖Додати особисте завдання‖Add a personal task‖添加个人任务‖Persönliche Aufgabe hinzufügen
+Добавить метку‖Додати мітку‖Add tag‖添加标签‖Tag hinzufügen
+Добавить подзадачу‖Додати підзавдання‖Add subtask‖添加子任务‖Unteraufgabe hinzufügen
+Добавить подписчика‖Додати підписника‖Add follower‖添加关注者‖Follower hinzufügen
+Добавить раздел‖Додати розділ‖Add section‖添加分区‖Abschnitt hinzufügen
+Добавьте подробности: цель, ссылки, критерии готовности…‖Додайте подробиці: мета, посилання, критерії готовності…‖Add details: goal, links, definition of done…‖添加详情：目标、链接、完成标准…‖Details hinzufügen: Ziel, Links, Abnahmekriterien…
+Добавьте хотя бы один вариант‖Додайте хоча б один варіант‖Add at least one option‖请至少添加一个选项‖Mindestens eine Option hinzufügen
+Добавьте хотя бы одно действие‖Додайте хоча б одну дію‖Add at least one action‖请至少添加一个操作‖Mindestens eine Aktion hinzufügen
+Доброе утро‖Доброго ранку‖Good morning‖早上好‖Guten Morgen
+Доброй ночи‖Доброї ночі‖Good night‖晚安‖Gute Nacht
+Добрый вечер‖Добрий вечір‖Good evening‖晚上好‖Guten Abend
+Добрый день‖Добрий день‖Good afternoon‖下午好‖Guten Tag
+Дополнительные вопросы из полей проекта‖Додаткові питання з полів проєкту‖Extra questions from project fields‖来自项目字段的附加问题‖Zusätzliche Fragen aus Projektfeldern
+Доска‖Дошка‖Board‖看板‖Board
+Доступ‖Доступ‖Access‖权限‖Zugriff
+Дублировать‖Дублювати‖Duplicate‖复制‖Duplizieren

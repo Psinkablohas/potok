@@ -6,14 +6,15 @@ import { useWorkspaceId, useTaskPanel } from '../lib/hooks.js';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, PageLoader, EmptyState, Segmented } from '../components/ui.jsx';
 import { timeAgo } from '../lib/format.js';
+import { t } from '../i18n/index.js';
 
 const TYPES = {
-  assigned: { icon: UserPlus, text: 'назначил(а) вам задачу' },
-  mentioned: { icon: AtSign, text: 'упомянул(а) вас' },
-  commented: { icon: MessageSquare, text: 'оставил(а) комментарий' },
-  completed: { icon: CheckCircle2, text: 'завершил(а) задачу' },
-  liked: { icon: Heart, text: 'отметил(а) задачу как понравившуюся' },
-  status: { icon: Activity, text: 'опубликовал(а) отчёт о статусе проекта' },
+  assigned: { icon: UserPlus, text: t("назначил(а) вам задачу") },
+  mentioned: { icon: AtSign, text: t("упомянул(а) вас") },
+  commented: { icon: MessageSquare, text: t("оставил(а) комментарий") },
+  completed: { icon: CheckCircle2, text: t("завершил(а) задачу") },
+  liked: { icon: Heart, text: t("отметил(а) задачу как понравившуюся") },
+  status: { icon: Activity, text: t("опубликовал(а) отчёт о статусе проекта") },
 };
 
 export default function InboxPage() {
@@ -37,18 +38,18 @@ export default function InboxPage() {
   return (
     <div className="h-full overflow-y-auto scrollbar-thin">
       <header className="border-b border-line bg-surface px-4 sm:px-6 py-4 flex flex-wrap items-center gap-3">
-        <h1 className="text-xl font-semibold flex-1">Входящие</h1>
-        <Segmented value={tab} onChange={setTab} options={[{ value: 'new', label: 'Активные' }, { value: 'archive', label: 'Архив' }]} />
+        <h1 className="text-xl font-semibold flex-1">{t("Входящие")}</h1>
+        <Segmented value={tab} onChange={setTab} options={[{ value: 'new', label: t("Активные") }, { value: 'archive', label: t("Архив") }]} />
         {!archived && data.length > 0 && (
           <>
-            <button className="btn-secondary h-9" onClick={() => mark({ read: true })}><CheckCheck className="h-4 w-4" /><span className="hidden sm:inline">Прочитать все</span></button>
-            <button className="btn-secondary h-9" onClick={() => mark({ archived: true })}><Archive className="h-4 w-4" /><span className="hidden sm:inline">Архивировать все</span></button>
+            <button className="btn-secondary h-9" onClick={() => mark({ read: true })}><CheckCheck className="h-4 w-4" /><span className="hidden sm:inline">{t("Прочитать все")}</span></button>
+            <button className="btn-secondary h-9" onClick={() => mark({ archived: true })}><Archive className="h-4 w-4" /><span className="hidden sm:inline">{t("Архивировать все")}</span></button>
           </>
         )}
       </header>
       <div className="mx-auto max-w-3xl px-2 sm:px-6 py-4">
         {isLoading ? <PageLoader /> : data.length === 0 ? (
-          <EmptyState icon={Inbox} title={archived ? 'Архив пуст' : 'Новых уведомлений нет'} text="Здесь появятся назначения, упоминания и комментарии к задачам, на которые вы подписаны." />
+          <EmptyState icon={Inbox} title={archived ? t("Архив пуст") : t("Новых уведомлений нет")} text={t("Здесь появятся назначения, упоминания и комментарии к задачам, на которые вы подписаны.")} />
         ) : (
           <ul className="card divide-y divide-line overflow-hidden">
             {data.map((n) => {
@@ -61,15 +62,15 @@ export default function InboxPage() {
                   </div>
                   <button className="flex-1 min-w-0 text-left" onClick={() => { if (!n.read) mark({ ids: [n.id], read: true }); if (n.task_id) open(n.task_id); else if (n.data.projectId) navigate(`/w/${wid}/projects/${n.data.projectId}/overview`); }}>
                     <p className="text-sm">
-                      <span className="font-semibold">{n.actor?.name || 'Кто-то'}</span> <span className="text-muted">{T.text}</span>
+                      <span className="font-semibold">{n.actor?.name || t("Кто-то")}</span> <span className="text-muted">{T.text}</span>
                     </p>
                     <p className={`text-sm font-medium truncate ${n.task_completed ? 'line-through text-muted' : ''}`}>{n.task_title || n.data.title}{n.type === 'status' && n.data.projectName ? <span className="font-normal text-muted"> · {n.data.projectName}</span> : null}</p>
                     {n.data.excerpt && <p className="mt-0.5 text-sm text-muted line-clamp-2">{n.data.excerpt.replace(/@\[([^\]]+)\]\(\d+\)/g, '@$1')}</p>}
                     <p className="mt-1 text-xs text-muted">{timeAgo(n.created_at)}</p>
                   </button>
-                  {!n.read && <span className="mt-2 h-2 w-2 rounded-full bg-primary shrink-0" aria-label="Не прочитано" />}
+                  {!n.read && <span className="mt-2 h-2 w-2 rounded-full bg-primary shrink-0" aria-label={t("Не прочитано")} />}
                   {!archived && (
-                    <button className="icon-btn h-8 w-8 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100" aria-label="В архив" onClick={() => mark({ ids: [n.id], archived: true })}>
+                    <button className="icon-btn h-8 w-8 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100" aria-label={t("В архив")} onClick={() => mark({ ids: [n.id], archived: true })}>
                       <Archive className="h-4 w-4" />
                     </button>
                   )}

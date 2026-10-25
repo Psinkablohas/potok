@@ -1,0 +1,162 @@
+Создайте ссылку и отправьте её в мессенджер или по почте. По ссылке можно зарегистрироваться или войти — человек сразу попадёт в пространство.‖Створіть посилання та надішліть його в месенджер або поштою. За посиланням можна зареєструватися або увійти — людина одразу потрапить до простору.‖Create a link and share it in a messenger or by email. Anyone can sign up or log in with it and land straight in the workspace.‖创建链接并通过聊天工具或邮件发送。对方通过链接注册或登录后会直接进入工作区。‖Erstellen Sie einen Link und teilen Sie ihn per Messenger oder E-Mail. Damit kann man sich registrieren oder anmelden und landet direkt im Arbeitsbereich.
+Создал(а) {0} · {1}‖Створив(ла) {0} · {1}‖Created by {0} · {1}‖由 {0} 创建 · {1}‖Erstellt von {0} · {1}
+Создана‖Створено‖Created‖创建日期‖Erstellt
+Создана копия задачи‖Створено копію завдання‖Task duplicated‖已复制任务‖Aufgabe dupliziert
+Создано‖Створено‖Created‖已创建‖Erstellt
+Создано и выполнено за 4 недели‖Створено й виконано за 4 тижні‖Created and completed over 4 weeks‖4 周内创建与完成‖Erstellt und erledigt in 4 Wochen
+Создано и выполнено задач по дням за 4 недели‖Створено й виконано завдань по днях за 4 тижні‖Tasks created and completed per day over 4 weeks‖4 周内每日创建与完成的任务数‖Erstellte und erledigte Aufgaben pro Tag in 4 Wochen
+Создать‖Створити‖Create‖新建‖Erstellen
+Создать «{0}»‖Створити «{0}»‖Create “{0}”‖创建“{0}”‖„{0}“ erstellen
+Создать аккаунт‖Створити акаунт‖Create account‖创建账户‖Konto erstellen
+Создать аккаунт и присоединиться‖Створити акаунт і приєднатися‖Create account and join‖创建账户并加入‖Konto erstellen und beitreten
+Создать и открыть‖Створити й відкрити‖Create and open‖创建并打开‖Erstellen und öffnen
+Создать первый проект‖Створити перший проєкт‖Create your first project‖创建第一个项目‖Erstes Projekt erstellen
+Создать проект‖Створити проєкт‖Create project‖创建项目‖Projekt erstellen
+Создать ссылку‖Створити посилання‖Create link‖创建链接‖Link erstellen
+Сообщение‖Повідомлення‖Message‖消息‖Nachricht
+Сообщение для всех участников проекта‖Повідомлення для всіх учасників проєкту‖Message to everyone in the project‖发给项目所有成员的消息‖Nachricht an alle im Projekt
+Сообщение не найдено‖Повідомлення не знайдено‖Message not found‖未找到消息‖Nachricht nicht gefunden
+Сообщения‖Повідомлення‖Messages‖消息‖Nachrichten
+Сохранить‖Зберегти‖Save‖保存‖Speichern
+Спасибо! Команда проекта «{0}» уже видит её.‖Дякуємо! Команда проєкту «{0}» уже її бачить.‖Thank you! The “{0}” project team can already see it.‖谢谢！“{0}”项目团队已收到。‖Danke! Das Team des Projekts „{0}“ sieht sie bereits.
+Списки · Доски · Календарь · Диаграмма Ганта · Уведомления‖Списки · Дошки · Календар · Діаграма Ганта · Сповіщення‖Lists · Boards · Calendar · Gantt chart · Notifications‖列表 · 看板 · 日历 · 甘特图 · 通知‖Listen · Boards · Kalender · Gantt-Diagramm · Benachrichtigungen
+Список‖Список‖List‖列表‖Liste
+Спринт‖Спринт‖Sprint‖冲刺‖Sprint
+Ср‖Ср‖Wed‖三‖Mi
+Средний‖Середній‖Medium‖中‖Mittel
+Срок‖Термін‖Due date‖截止日期‖Fällig
+Срок: {0}‖Термін: {0}‖Due: {0}‖截止：{0}‖Fällig: {0}
+Ссылка на форму скопирована‖Посилання на форму скопійовано‖Form link copied‖表单链接已复制‖Formularlink kopiert
+Ссылка отключена‖Посилання вимкнено‖Link disabled‖链接已停用‖Link deaktiviert
+Ссылка скопирована‖Посилання скопійовано‖Link copied‖链接已复制‖Link kopiert
+Ссылка-приглашение скопирована‖Посилання-запрошення скопійовано‖Invite link copied‖邀请链接已复制‖Einladungslink kopiert
+Статус‖Статус‖Status‖状态‖Status
+Статус проекта‖Статус проєкту‖Project status‖项目状态‖Projektstatus
+Таблица‖Таблиця‖Table‖表格‖Tabelle
+Текст‖Текст‖Text‖文本‖Text
+Текущий пароль‖Поточний пароль‖Current password‖当前密码‖Aktuelles Passwort
+Текущий пароль указан неверно‖Поточний пароль вказано неправильно‖Current password is incorrect‖当前密码不正确‖Aktuelles Passwort ist falsch
+Тема‖Тема‖Subject‖主题‖Betreff
+Тема заявки *‖Тема заявки *‖Request subject *‖请求主题 *‖Betreff der Anfrage *
+Тестирование‖Тестування‖Testing‖测试‖Test
+Тип‖Тип‖Type‖类型‖Typ
+Тип задачи‖Тип завдання‖Task type‖任务类型‖Aufgabentyp
+Тип поля‖Тип поля‖Field type‖字段类型‖Feldtyp
+Только мои‖Лише мої‖Only mine‖仅我的‖Nur meine
+Только приглашённые‖Лише запрошені‖Invited only‖仅受邀者‖Nur Eingeladene
+Требуется вход‖Потрібен вхід‖Login required‖需要登录‖Anmeldung erforderlich
+Тёмная‖Темна‖Dark‖深色‖Dunkel
+Тёмная тема‖Темна тема‖Dark theme‖深色主题‖Dunkles Design
+У вас доступ только для просмотра‖У вас доступ лише для перегляду‖You have view-only access‖您只有查看权限‖Sie haben nur Leserechte
+У вас доступ только для просмотра и комментариев.‖У вас доступ лише для перегляду та коментарів.‖You can only view and comment.‖您只能查看和评论。‖Sie können nur ansehen und kommentieren.
+У проекта должен остаться владелец‖У проєкту має залишитися власник‖The project must keep an owner‖项目必须保留一位所有者‖Das Projekt braucht einen Eigentümer
+Убрать {0}‖Прибрати {0}‖Remove {0}‖移除 {0}‖{0} entfernen
+Убрать вариант‖Прибрати варіант‖Remove option‖移除选项‖Option entfernen
+Убрать даты‖Прибрати дати‖Clear dates‖清除日期‖Daten entfernen
+Убрать действие‖Прибрати дію‖Remove action‖移除操作‖Aktion entfernen
+Убрать зависимость‖Прибрати залежність‖Remove dependency‖移除依赖‖Abhängigkeit entfernen
+Убрать метку {0}‖Прибрати мітку {0}‖Remove tag {0}‖移除标签 {0}‖Tag {0} entfernen
+Удалить‖Видалити‖Delete‖删除‖Löschen
+Удалить {0}‖Видалити {0}‖Remove {0}‖移除 {0}‖{0} entfernen
+Удалить {0} из пространства? Его незавершённые задачи останутся без исполнителя.‖Видалити {0} з простору? Незавершені завдання залишаться без виконавця.‖Remove {0} from the workspace? Their unfinished tasks will be unassigned.‖将 {0} 移出工作区？其未完成的任务将变为未分配。‖{0} aus dem Arbeitsbereich entfernen? Offene Aufgaben werden nicht mehr zugewiesen sein.
+Удалить владельца может только владелец‖Видалити власника може лише власник‖Only an owner can remove an owner‖只有所有者可以移除所有者‖Nur ein Eigentümer kann einen Eigentümer entfernen
+Удалить задачу‖Видалити завдання‖Delete task‖删除任务‖Aufgabe löschen
+Удалить задачу вместе с подзадачами и комментариями? Это нельзя отменить.‖Видалити завдання разом із підзавданнями та коментарями? Це не можна скасувати.‖Delete the task with its subtasks and comments? This can't be undone.‖删除任务及其子任务和评论？此操作无法撤销。‖Aufgabe samt Unteraufgaben und Kommentaren löschen? Das kann nicht rückgängig gemacht werden.
+Удалить комментарий?‖Видалити коментар?‖Delete comment?‖删除评论？‖Kommentar löschen?
+Удалить метку {0}‖Видалити мітку {0}‖Delete tag {0}‖删除标签 {0}‖Tag {0} löschen
+Удалить метку «{0}» из всех задач?‖Видалити мітку «{0}» з усіх завдань?‖Delete tag “{0}” from all tasks?‖从所有任务中删除标签“{0}”？‖Tag „{0}“ aus allen Aufgaben löschen?
+Удалить можно только свой отчёт‖Видалити можна лише свій звіт‖You can only delete your own update‖只能删除自己的报告‖Sie können nur eigene Updates löschen
+Удалить можно только своё сообщение‖Видалити можна лише своє повідомлення‖You can only delete your own message‖只能删除自己的消息‖Sie können nur eigene Nachrichten löschen
+Удалить ответ‖Видалити відповідь‖Delete reply‖删除回复‖Antwort löschen
+Удалить отчёт‖Видалити звіт‖Delete update‖删除报告‖Update löschen
+Удалить отчёт?‖Видалити звіт?‖Delete update?‖删除报告？‖Update löschen?
+Удалить поле {0}‖Видалити поле {0}‖Delete field {0}‖删除字段 {0}‖Feld {0} löschen
+Удалить поле «{0}» и все его значения?‖Видалити поле «{0}» і всі його значення?‖Delete field “{0}” and all its values?‖删除字段“{0}”及其所有值？‖Feld „{0}“ und alle Werte löschen?
+Удалить правило‖Видалити правило‖Delete rule‖删除规则‖Regel löschen
+Удалить правило «{0}»?‖Видалити правило «{0}»?‖Delete rule “{0}”?‖删除规则“{0}”？‖Regel „{0}“ löschen?
+Удалить проект‖Видалити проєкт‖Delete project‖删除项目‖Projekt löschen
+Удалить пространство‖Видалити простір‖Delete workspace‖删除工作区‖Arbeitsbereich löschen
+Удалить пространство может только владелец‖Видалити простір може лише власник‖Only an owner can delete the workspace‖只有所有者可以删除工作区‖Nur ein Eigentümer kann den Arbeitsbereich löschen
+Удалить пространство со всеми проектами и задачами? Введите его название: {0}‖Видалити простір з усіма проєктами та завданнями? Введіть його назву: {0}‖Delete the workspace with all projects and tasks? Type its name: {0}‖删除工作区及其所有项目和任务？请输入其名称：{0}‖Arbeitsbereich mit allen Projekten und Aufgaben löschen? Geben Sie seinen Namen ein: {0}
+Удалить раздел‖Видалити розділ‖Delete section‖删除分区‖Abschnitt löschen
+Удалить раздел «{0}»? Задачи из него переместятся в первый раздел.‖Видалити розділ «{0}»? Завдання з нього перемістяться в перший розділ.‖Delete section “{0}”? Its tasks will move to the first section.‖删除分区“{0}”？其中的任务将移到第一个分区。‖Abschnitt „{0}“ löschen? Seine Aufgaben werden in den ersten Abschnitt verschoben.
+Удалить сообщение?‖Видалити повідомлення?‖Delete message?‖删除消息？‖Nachricht löschen?
+Удалить файл‖Видалити файл‖Delete file‖删除文件‖Datei löschen
+Удалить файл?‖Видалити файл?‖Delete file?‖删除文件？‖Datei löschen?
+Удалённый пользователь‖Видалений користувач‖Deleted user‖已删除的用户‖Gelöschter Benutzer
+Уже есть аккаунт? ‖Вже маєте акаунт? ‖Already have an account? ‖已有账户？‖Schon ein Konto? 
+Указать срок‖Вказати термін‖Set due date‖设置截止日期‖Fälligkeit festlegen
+Управлять проектом может только его владелец‖Керувати проєктом може лише його власник‖Only the project owner can manage it‖只有项目所有者可以管理‖Nur der Projekteigentümer kann es verwalten
+Условие‖Умова‖Trigger‖触发条件‖Auslöser
+Установить приоритет‖Встановити пріоритет‖Set priority‖设置优先级‖Priorität festlegen
+Участник‖Учасник‖Member‖成员‖Mitglied
+Участник не найден‖Учасника не знайдено‖Member not found‖未找到成员‖Mitglied nicht gefunden
+Участник удалён‖Учасника видалено‖Member removed‖成员已移除‖Mitglied entfernt
+Участники · {0}‖Учасники · {0}‖Members · {0}‖成员 · {0}‖Mitglieder · {0}
+Участники и доступ‖Учасники й доступ‖Members and access‖成员与权限‖Mitglieder und Zugriff
+Участники проекта‖Учасники проєкту‖Project members‖项目成员‖Projektmitglieder
+Участники проекта получат уведомление во «Входящих».‖Учасники проєкту отримають сповіщення у «Вхідних».‖Project members will be notified in their Inbox.‖项目成员会在收件箱中收到通知。‖Projektmitglieder werden im Posteingang benachrichtigt.
+Файл больше 10 МБ‖Файл більший за 10 МБ‖File is larger than 10 MB‖文件超过 10 MB‖Datei ist größer als 10 MB
+Файл не найден‖Файл не знайдено‖File not found‖未找到文件‖Datei nicht gefunden
+Файлов пока нет‖Файлів поки немає‖No files yet‖暂无文件‖Noch keine Dateien
+Файлы‖Файли‖Files‖文件‖Dateien
+Фильтры‖Фільтри‖Filters‖筛选‖Filter
+Форма‖Форма‖Form‖表单‖Formular
+Форма не найдена‖Форму не знайдено‖Form not found‖未找到表单‖Formular nicht gefunden
+Форма не найдена или отключена‖Форму не знайдено або вимкнено‖Form not found or disabled‖表单不存在或已停用‖Formular nicht gefunden oder deaktiviert
+Форма недоступна‖Форма недоступна‖Form unavailable‖表单不可用‖Formular nicht verfügbar
+Форма принимает заявки‖Форма приймає заявки‖Form is accepting requests‖表单正在接收请求‖Formular nimmt Anfragen an
+Формат даты ГГГГ-ММ-ДД‖Формат дати РРРР-ММ-ДД‖Date format YYYY-MM-DD‖日期格式为 YYYY-MM-DD‖Datumsformat JJJJ-MM-TT
+Цвет‖Колір‖Color‖颜色‖Farbe
+Цвет {0}‖Колір {0}‖Color {0}‖颜色 {0}‖Farbe {0}
+Цвет аватара‖Колір аватара‖Avatar color‖头像颜色‖Avatarfarbe
+Цвет варианта‖Колір варіанта‖Option color‖选项颜色‖Optionsfarbe
+Человек‖Людина‖Person‖人员‖Person
+Человек не состоит в пространстве‖Людина не є учасником простору‖This person isn't in the workspace‖此人不在工作区中‖Diese Person ist nicht im Arbeitsbereich
+Через неделю‖Через тиждень‖In a week‖一周后‖In einer Woche
+Число‖Число‖Number‖数字‖Zahl
+Чт‖Чт‖Thu‖四‖Do
+Что ищем?‖Що шукаємо?‖What are you looking for?‖要找什么？‖Wonach suchen Sie?
+Что нужно сделать?‖Що потрібно зробити?‖What needs to be done?‖需要做什么？‖Was ist zu tun?
+Что сделано, что мешает, что дальше‖Що зроблено, що заважає, що далі‖What's done, what's blocking, what's next‖已完成什么、遇到什么阻碍、下一步做什么‖Was ist erledigt, was blockiert, was kommt als Nächstes
+Что-то пошло не так‖Щось пішло не так‖Something went wrong‖出了点问题‖Etwas ist schiefgelaufen
+Чтобы удалить проект со всеми задачами, введите его название: {0}‖Щоб видалити проєкт з усіма завданнями, введіть його назву: {0}‖To delete the project with all tasks, type its name: {0}‖如需删除项目及其所有任务，请输入项目名称：{0}‖Um das Projekt mit allen Aufgaben zu löschen, geben Sie seinen Namen ein: {0}
+Шаблон разделов‖Шаблон розділів‖Section template‖分区模板‖Abschnittsvorlage
+Экспорт в Excel‖Експорт в Excel‖Export to Excel‖导出到 Excel‖Nach Excel exportieren
+Это не задача на согласование‖Це не завдання на погодження‖This isn't an approval task‖这不是审批任务‖Das ist keine Genehmigungsaufgabe
+Этот человек не состоит в пространстве‖Ця людина не є учасником простору‖This person isn't in the workspace‖此人不在工作区中‖Diese Person ist nicht im Arbeitsbereich
+в‖в‖in‖项目‖in
+вернул(а) задачу в работу‖повернув(ла) завдання в роботу‖reopened the task‖重新打开了任务‖hat die Aufgabe wieder geöffnet
+добавил(а) зависимость от «{0}»‖додав(ла) залежність від «{0}»‖added a dependency on “{0}”‖添加了对“{0}”的依赖‖hat eine Abhängigkeit von „{0}“ hinzugefügt
+до {0} · использована {1}‖до {0} · використано {1}‖until {0} · used {1}‖有效期至 {0} · 已使用 {1} 次‖bis {0} · {1}× genutzt
+завершил(а) задачу‖завершив(ла) завдання‖completed the task‖完成了任务‖hat die Aufgabe erledigt
+изменил(а) приоритет: {0}‖змінив(ла) пріоритет: {0}‖changed priority: {0}‖更改了优先级：{0}‖hat die Priorität geändert: {0}
+изменил(а) срок на {0}‖змінив(ла) термін на {0}‖changed the due date to {0}‖将截止日期改为 {0}‖hat das Fälligkeitsdatum auf {0} geändert
+любой раздел‖будь-який розділ‖any section‖任意分区‖beliebiger Abschnitt
+назначил(а) вам задачу‖призначив(ла) вам завдання‖assigned you a task‖给您分配了任务‖hat Ihnen eine Aufgabe zugewiesen
+назначил(а) исполнителя: {0}‖призначив(ла) виконавця: {0}‖assigned to {0}‖将任务分配给 {0}‖hat {0} zugewiesen
+опубликовал(а) отчёт о статусе проекта‖опублікував(ла) звіт про статус проєкту‖posted a project status update‖发布了项目状态报告‖hat ein Projekt-Status-Update veröffentlicht
+оставил(а) комментарий‖залишив(ла) коментар‖left a comment‖发表了评论‖hat kommentiert
+отметил(а) задачу как понравившуюся‖позначив(ла) завдання як вподобане‖liked a task‖赞了任务‖gefällt eine Aufgabe
+переименовал(а) задачу в «{0}»‖перейменував(ла) завдання на «{0}»‖renamed the task to “{0}”‖将任务重命名为“{0}”‖hat die Aufgabe in „{0}“ umbenannt
+переместил(а) в раздел «{0}»‖перемістив(ла) у розділ «{0}»‖moved to section “{0}”‖移到分区“{0}”‖hat in Abschnitt „{0}“ verschoben
+перенёс(ла) в другой проект‖переніс(ла) в інший проєкт‖moved to another project‖移到了其他项目‖hat in ein anderes Projekt verschoben
+принял(а) решение: {0}‖ухвалив(ла) рішення: {0}‖made a decision: {0}‖做出了决定：{0}‖hat entschieden: {0}
+снял(а) исполнителя‖зняв(ла) виконавця‖removed the assignee‖移除了负责人‖hat die Zuweisung entfernt
+создал(а) задачу‖створив(ла) завдання‖created the task‖创建了任务‖hat die Aufgabe erstellt
+создано повтором предыдущей задачи‖створено повтором попереднього завдання‖created by repeating the previous task‖由上一个重复任务创建‖aus der vorherigen wiederkehrenden Aufgabe erstellt
+только что‖щойно‖just now‖刚刚‖gerade eben
+убрал(а) срок‖прибрав(ла) термін‖removed the due date‖移除了截止日期‖hat das Fälligkeitsdatum entfernt
+упомянул(а) вас‖згадав(ла) вас‖mentioned you‖提及了您‖hat Sie erwähnt
+— заявка из формы{0}‖— заявка з форми{0}‖— form submission{0}‖— 来自表单的请求{0}‖— Formularanfrage{0}
+— сработало правило «{0}»‖— спрацювало правило «{0}»‖— rule “{0}” ran‖— 规则“{0}”已执行‖— Regel „{0}“ ausgeführt
+ · изменён‖ · змінено‖ · edited‖ · 已编辑‖ · bearbeitet
+(вы)‖(ви)‖(you)‖（您）‖(Sie)
+Ошибка сервера. Попробуйте ещё раз.‖Помилка сервера. Спробуйте ще раз.‖Server error. Please try again.‖服务器错误，请重试。‖Serverfehler. Bitte erneut versuchen.
+Когда:‖Коли:‖When:‖当：‖Wenn:
+Язык‖Мова‖Language‖语言‖Sprache
+Уведомления на почту‖Сповіщення на пошту‖Email notifications‖邮件通知‖E-Mail-Benachrichtigungen
+Письма о назначениях, упоминаниях, комментариях и завершённых задачах.‖Листи про призначення, згадки, коментарі та завершені завдання.‖Emails about assignments, mentions, comments and completed tasks.‖关于分配、提及、评论和已完成任务的邮件。‖E-Mails zu Zuweisungen, Erwähnungen, Kommentaren und erledigten Aufgaben.
+Присылать уведомления на {0}‖Надсилати сповіщення на {0}‖Send notifications to {0}‖将通知发送到 {0}‖Benachrichtigungen an {0} senden
+Письма включены‖Листи ввімкнено‖Emails turned on‖邮件通知已开启‖E-Mails aktiviert
+Письма выключены‖Листи вимкнено‖Emails turned off‖邮件通知已关闭‖E-Mails deaktiviert

@@ -1,0 +1,195 @@
+Есть риски‖Є ризики‖At risk‖有风险‖Gefährdet
+Ещё‖Ще‖More‖更多‖Mehr
+ещё {0}‖ще {0}‖{0} more‖还有 {0} 个‖{0} weitere
+Ещё нет аккаунта? ‖Ще немає акаунта? ‖No account yet? ‖还没有账户？‖Noch kein Konto? 
+Ждёт‖Чекає‖Waiting‖等待中‖Wartet
+Ждёт другую задачу‖Чекає на інше завдання‖Waiting on another task‖等待其他任务‖Wartet auf eine andere Aufgabe
+Ждёт задачу‖Чекає на завдання‖Waiting on‖等待任务‖Wartet auf
+Ждёт решения‖Чекає рішення‖Pending‖待审批‖Ausstehend
+Ждёт:‖Чекає:‖Waiting on:‖等待：‖Wartet auf:
+Завершён‖Завершено‖Complete‖已完成‖Abgeschlossen
+Зависимости‖Залежності‖Dependencies‖依赖关系‖Abhängigkeiten
+Завтра‖Завтра‖Tomorrow‖明天‖Morgen
+Заголовок‖Заголовок‖Title‖标题‖Titel
+Заголовок формы‖Заголовок форми‖Form title‖表单标题‖Formulartitel
+Загружаем…‖Завантажуємо…‖Uploading…‖正在上传…‖Wird hochgeladen…
+Загрузка‖Завантаження‖Loading‖加载中‖Wird geladen
+Загрузка…‖Завантаження…‖Loading…‖加载中…‖Wird geladen…
+Задать статус‖Задати статус‖Set status‖设置状态‖Status festlegen
+Задач не найдено. Попробуйте другое слово.‖Завдань не знайдено. Спробуйте інше слово.‖No tasks found. Try another word.‖未找到任务。请尝试其他关键词。‖Keine Aufgaben gefunden. Versuchen Sie ein anderes Wort.
+Задач нет — отличное время, чтобы спланировать следующие шаги.‖Завдань немає — чудовий час спланувати наступні кроки.‖No tasks — a great time to plan your next steps.‖暂无任务——正是规划下一步的好时机。‖Keine Aufgaben — ein guter Moment, die nächsten Schritte zu planen.
+Задача‖Завдання‖Task‖任务‖Aufgabe
+Задача выполнена‖Завдання виконано‖Task completed‖任务已完成‖Aufgabe erledigt
+Задача добавлена в проект‖Завдання додано до проєкту‖Task added to project‖任务已添加到项目‖Aufgabe zum Projekt hinzugefügt
+Задача ждёт завершения: {0}‖Завдання чекає на завершення: {0}‖This task is waiting on: {0}‖此任务正在等待：{0}‖Diese Aufgabe wartet auf: {0}
+Задача завершена‖Завдання завершено‖Task completed‖任务已完成‖Aufgabe erledigt
+Задача из другого пространства‖Завдання з іншого простору‖Task is from another workspace‖任务属于其他工作区‖Aufgabe aus einem anderen Arbeitsbereich
+Задача не может зависеть от самой себя‖Завдання не може залежати від самого себе‖A task can't depend on itself‖任务不能依赖自身‖Eine Aufgabe kann nicht von sich selbst abhängen
+Задача не найдена‖Завдання не знайдено‖Task not found‖未找到任务‖Aufgabe nicht gefunden
+Задача перемещена в раздел‖Завдання переміщено в розділ‖Task moved to section‖任务移到分区‖Aufgabe in Abschnitt verschoben
+Задача создана‖Завдання створено‖Task created‖任务已创建‖Aufgabe erstellt
+Задача удалена‖Завдання видалено‖Task deleted‖任务已删除‖Aufgabe gelöscht
+Задачи · {0}‖Завдання · {0}‖Tasks · {0}‖任务 · {0}‖Aufgaben · {0}
+Задачи по разделам‖Завдання за розділами‖Tasks by section‖按分区统计任务‖Aufgaben nach Abschnitt
+Задачу‖Завдання‖Task‖任务‖Aufgabe
+Закрытый проект‖Закритий проєкт‖Private project‖私有项目‖Privates Projekt
+Закрыть‖Закрити‖Close‖关闭‖Schließen
+Закрыть карточку‖Закрити картку‖Close task‖关闭任务详情‖Aufgabe schließen
+Закрыть меню‖Закрити меню‖Close menu‖关闭菜单‖Menü schließen
+Зарегистрироваться‖Зареєструватися‖Sign up‖注册‖Registrieren
+Заявка отправлена‖Заявку надіслано‖Request sent‖请求已提交‖Anfrage gesendet
+Здесь пока пусто‖Тут поки порожньо‖Nothing here yet‖这里还没有内容‖Hier ist noch nichts
+Здесь пока пусто — перетащите задачу или добавьте новую‖Тут поки порожньо — перетягніть завдання або додайте нове‖Nothing here yet — drag a task here or add a new one‖这里还没有内容——拖入任务或添加新任务‖Hier ist noch nichts — Aufgabe hierher ziehen oder neu hinzufügen
+Здесь появятся назначения, упоминания и комментарии к задачам, на которые вы подписаны.‖Тут з'являться призначення, згадки та коментарі до завдань, на які ви підписані.‖Assignments, mentions and comments on tasks you follow will appear here.‖分配、提及以及您关注任务的评论会显示在这里。‖Zuweisungen, Erwähnungen und Kommentare zu Aufgaben, denen Sie folgen, erscheinen hier.
+Здесь удобно делиться новостями проекта и обсуждать вопросы, которые не относятся к конкретной задаче.‖Тут зручно ділитися новинами проєкту та обговорювати питання, що не стосуються конкретного завдання.‖Share project news and discuss topics that aren't tied to a specific task.‖在这里分享项目动态，讨论与具体任务无关的问题。‖Hier teilen Sie Projektneuigkeiten und besprechen Themen ohne konkrete Aufgabe.
+Идеи‖Ідеї‖Ideas‖想法‖Ideen
+Изменить‖Змінити‖Edit‖编辑‖Bearbeiten
+Изменить поле‖Змінити поле‖Edit field‖编辑字段‖Feld bearbeiten
+Изменить правило‖Змінити правило‖Edit rule‖编辑规则‖Regel bearbeiten
+Изменить проект‖Змінити проєкт‖Edit project‖编辑项目‖Projekt bearbeiten
+Изменён исполнитель‖Змінено виконавця‖Assignee changed‖负责人已更改‖Zuständige Person geändert
+Изменён срок‖Змінено термін‖Due date changed‖截止日期已更改‖Fälligkeitsdatum geändert
+Имя‖Ім'я‖Name‖姓名‖Name
+Имя и фамилия‖Ім'я та прізвище‖Full name‖姓名‖Vor- und Nachname
+Имя или почта‖Ім'я або пошта‖Name or email‖姓名或邮箱‖Name oder E-Mail
+Исполнитель‖Виконавець‖Assignee‖负责人‖Zuständig
+Исполнитель не состоит в пространстве‖Виконавець не є учасником простору‖The assignee isn't a member of the workspace‖负责人不是工作区成员‖Die zuständige Person ist kein Mitglied des Arbeitsbereichs
+Исполнитель: {0}‖Виконавець: {0}‖Assignee: {0}‖负责人：{0}‖Zuständig: {0}
+История‖Історія‖Activity‖动态‖Verlauf
+К выполнению‖До виконання‖To do‖待办‖Zu erledigen
+Каждую неделю‖Щотижня‖Weekly‖每周‖Wöchentlich
+Каждый год‖Щороку‖Yearly‖每年‖Jährlich
+Каждый день‖Щодня‖Daily‖每天‖Täglich
+Каждый месяц‖Щомісяця‖Monthly‖每月‖Monatlich
+Как администратора‖Як адміністратора‖As admin‖作为管理员‖Als Administrator
+Как в системе‖Як у системі‖System‖跟随系统‖Wie im System
+Как идут дела?‖Як ідуть справи?‖How is it going?‖进展如何？‖Wie läuft es?
+Как участника‖Як учасника‖As member‖作为成员‖Als Mitglied
+Календарь‖Календар‖Calendar‖日历‖Kalender
+Канбан: К выполнению → В работе → На проверке → Готово‖Канбан: До виконання → В роботі → На перевірці → Готово‖Kanban: To do → In progress → In review → Done‖看板：待办 → 进行中 → 审核中 → 已完成‖Kanban: Zu erledigen → In Arbeit → In Prüfung → Erledigt
+Карточка задачи‖Картка завдання‖Task details‖任务详情‖Aufgabendetails
+Когда‖Коли‖When‖当‖Wenn
+Кого добавить‖Кого додати‖Who to add‖添加谁‖Wen hinzufügen
+Комментариев пока нет. Задайте вопрос или отметьте коллегу через @.‖Коментарів поки немає. Поставте запитання або позначте колегу через @.‖No comments yet. Ask a question or mention a colleague with @.‖暂无评论。提个问题，或用 @ 提及同事。‖Noch keine Kommentare. Stellen Sie eine Frage oder erwähnen Sie jemanden mit @.
+Комментарии‖Коментарі‖Comments‖评论‖Kommentare
+Комментарии {0}‖Коментарі {0}‖Comments {0}‖评论 {0}‖Kommentare {0}
+Комментарий‖Коментар‖Comment‖评论‖Kommentar
+Комментарий не найден‖Коментар не знайдено‖Comment not found‖未找到评论‖Kommentar nicht gefunden
+Контент: Идеи → Подготовка → Публикация → Аналитика‖Контент: Ідеї → Підготовка → Публікація → Аналітика‖Content: Ideas → Preparation → Publishing → Analytics‖内容：想法 → 准备 → 发布 → 分析‖Content: Ideen → Vorbereitung → Veröffentlichung → Analyse
+Кто-то‖Хтось‖Someone‖某人‖Jemand
+Кто…‖Хто…‖Who…‖谁…‖Wer…
+Куда добавлять заявки‖Куди додавати заявки‖Where to add requests‖请求添加到‖Wohin Anfragen kommen
+Любой‖Будь-який‖Any‖任意‖Beliebig
+Любой раздел‖Будь-який розділ‖Any section‖任意分区‖Beliebiger Abschnitt
+Люди‖Люди‖People‖人员‖Personen
+Метка‖Мітка‖Tag‖标签‖Tag
+Метка не найдена‖Мітку не знайдено‖Tag not found‖未找到标签‖Tag nicht gefunden
+Метки‖Мітки‖Tags‖标签‖Tags
+Метки общие для всего пространства. Новые создаются прямо в задаче.‖Мітки спільні для всього простору. Нові створюються прямо в завданні.‖Tags are shared across the workspace. Create new ones right in a task.‖标签在整个工作区共享。可直接在任务中新建。‖Tags gelten im ganzen Arbeitsbereich. Neue legen Sie direkt in einer Aufgabe an.
+Меток пока нет.‖Міток поки немає.‖No tags yet.‖暂无标签。‖Noch keine Tags.
+Меток пока нет. Начните вводить название.‖Міток поки немає. Почніть вводити назву.‖No tags yet. Start typing a name.‖暂无标签。开始输入名称即可创建。‖Noch keine Tags. Beginnen Sie, einen Namen einzugeben.
+Можно править только свои комментарии‖Можна редагувати лише свої коментарі‖You can only edit your own comments‖只能编辑自己的评论‖Sie können nur eigene Kommentare bearbeiten
+Можно удалять только свои комментарии‖Можна видаляти лише свої коментарі‖You can only delete your own comments‖只能删除自己的评论‖Sie können nur eigene Kommentare löschen
+Мои задачи‖Мої завдання‖My tasks‖我的任务‖Meine Aufgaben
+Мой профиль‖Мій профіль‖My profile‖我的资料‖Mein Profil
+На главную‖На головну‖Go home‖返回首页‖Zur Startseite
+На паузе‖На паузі‖On hold‖已暂停‖Pausiert
+На проверке‖На перевірці‖In review‖审核中‖In Prüfung
+Наблюдатель‖Спостерігач‖Viewer‖观察者‖Betrachter
+Нажмите на день, чтобы назначить срок‖Натисніть на день, щоб призначити термін‖Click a day to set the due date‖点击日期以设置截止日期‖Klicken Sie auf einen Tag, um das Fälligkeitsdatum festzulegen
+Название‖Назва‖Name‖名称‖Name
+Название задачи‖Назва завдання‖Task name‖任务名称‖Aufgabenname
+Название колонки‖Назва колонки‖Column name‖列名称‖Spaltenname
+Название подзадачи‖Назва підзавдання‖Subtask name‖子任务名称‖Name der Unteraufgabe
+Название поля‖Назва поля‖Field name‖字段名称‖Feldname
+Название правила‖Назва правила‖Rule name‖规则名称‖Regelname
+Название пространства‖Назва простору‖Workspace name‖工作区名称‖Name des Arbeitsbereichs
+Название раздела‖Назва розділу‖Section name‖分区名称‖Abschnittsname
+Название сохранено‖Назву збережено‖Name saved‖名称已保存‖Name gespeichert
+Назначить владельца может только владелец‖Призначити власника може лише власник‖Only an owner can assign an owner‖只有所有者可以指定所有者‖Nur ein Eigentümer kann einen Eigentümer festlegen
+Назначить исполнителя‖Призначити виконавця‖Assign‖分配负责人‖Zuweisen
+Найти в проекте‖Знайти в проєкті‖Search project‖在项目中搜索‖Im Projekt suchen
+Найти задачу по названию‖Знайти завдання за назвою‖Find a task by name‖按名称查找任务‖Aufgabe nach Namen suchen
+Найти или создать метку‖Знайти або створити мітку‖Find or create a tag‖查找或创建标签‖Tag suchen oder erstellen
+Напишите комментарий. @ — упомянуть коллегу‖Напишіть коментар. @ — згадати колегу‖Write a comment. Use @ to mention someone‖写评论。用 @ 提及同事‖Kommentar schreiben. Mit @ jemanden erwähnen
+Например, Запуск сайта‖Наприклад, Запуск сайту‖e.g. Website launch‖例如：网站上线‖z. B. Website-Launch
+Например: Готово → закрыть задачу‖Наприклад: Готово → закрити завдання‖e.g. Done → close task‖例如：已完成 → 关闭任务‖z. B. Erledigt → Aufgabe schließen
+Например: макеты готовы, начинаем вёрстку‖Наприклад: макети готові, починаємо верстку‖e.g. Mockups are ready, starting development‖例如：设计稿已完成，开始开发‖z. B. Entwürfe fertig, Umsetzung beginnt
+Настроить‖Налаштувати‖Customize‖自定义‖Anpassen
+Настроить проект‖Налаштувати проєкт‖Customize project‖自定义项目‖Projekt anpassen
+Настройка проекта‖Налаштування проєкту‖Project customization‖项目自定义‖Projektanpassung
+Настройки‖Налаштування‖Settings‖设置‖Einstellungen
+Настройки проекта‖Налаштування проєкту‖Project settings‖项目设置‖Projekteinstellungen
+Начало‖Початок‖Start‖开始‖Beginn
+Начните обсуждение для всей команды проекта…‖Почніть обговорення для всієї команди проєкту…‖Start a conversation with the whole project team…‖与整个项目团队开始讨论…‖Gespräch mit dem ganzen Projektteam beginnen…
+Не выбрано‖Не вибрано‖Not selected‖未选择‖Nicht ausgewählt
+Не задано условие‖Не задано умову‖No trigger set‖未设置触发条件‖Kein Auslöser festgelegt
+Не короче 8 символов‖Не коротше 8 символів‖At least 8 characters‖至少 8 个字符‖Mindestens 8 Zeichen
+Не назначено‖Не призначено‖Unassigned‖未分配‖Nicht zugewiesen
+Не найдено‖Не знайдено‖Not found‖未找到‖Nicht gefunden
+Не повторять‖Не повторювати‖Does not repeat‖不重复‖Nicht wiederholen
+Не прочитано‖Не прочитано‖Unread‖未读‖Ungelesen
+Не сейчас‖Не зараз‖Not now‖以后再说‖Nicht jetzt
+Не удалось загрузить файл‖Не вдалося завантажити файл‖Couldn't upload the file‖文件上传失败‖Datei konnte nicht hochgeladen werden
+Не удалось подготовить базу данных:‖Не вдалося підготувати базу даних:‖Couldn't prepare the database:‖无法准备数据库：‖Datenbank konnte nicht vorbereitet werden:
+Не указано пространство‖Не вказано простір‖No workspace specified‖未指定工作区‖Kein Arbeitsbereich angegeben
+Неверная почта или пароль‖Невірна пошта або пароль‖Wrong email or password‖邮箱或密码错误‖Falsche E-Mail oder falsches Passwort
+Невыполненные‖Невиконані‖Incomplete‖未完成‖Offen
+Недавние‖Нещодавні‖Recent‖最近‖Zuletzt
+Недавно выполненные‖Нещодавно виконані‖Recently completed‖最近完成‖Kürzlich erledigt
+Недопустимый цвет‖Неприпустимий колір‖Invalid color‖无效的颜色‖Ungültige Farbe
+Некорректный адрес почты‖Некоректна адреса пошти‖Invalid email address‖邮箱地址无效‖Ungültige E-Mail-Adresse
+Некорректный цвет‖Некоректний колір‖Invalid color‖无效的颜色‖Ungültige Farbe
+Нельзя менять роль владельца‖Не можна змінювати роль власника‖You can't change the owner's role‖不能更改所有者的角色‖Die Rolle des Eigentümers kann nicht geändert werden
+Нельзя удалить единственного владельца. Сначала назначьте другого.‖Не можна видалити єдиного власника. Спершу призначте іншого.‖You can't remove the only owner. Assign another one first.‖不能移除唯一的所有者。请先指定另一位。‖Der einzige Eigentümer kann nicht entfernt werden. Legen Sie zuerst einen anderen fest.
+Нельзя удалить последний раздел‖Не можна видалити останній розділ‖You can't delete the last section‖不能删除最后一个分区‖Der letzte Abschnitt kann nicht gelöscht werden
+Нет‖Ні‖No‖否‖Nein
+Нет связи с сервером. Проверьте интернет.‖Немає зв'язку з сервером. Перевірте інтернет.‖Can't reach the server. Check your connection.‖无法连接服务器。请检查网络。‖Keine Verbindung zum Server. Prüfen Sie Ihre Internetverbindung.
+Нет такого варианта‖Немає такого варіанта‖No such option‖没有该选项‖Diese Option gibt es nicht
+Нет файлов‖Немає файлів‖No files‖没有文件‖Keine Dateien
+Нечего менять‖Нічого змінювати‖Nothing to change‖没有可更改的内容‖Nichts zu ändern
+Низкий‖Низький‖Low‖低‖Niedrig
+Никого не нашлось‖Нікого не знайдено‖No one found‖未找到人员‖Niemand gefunden
+Ничего не найдено‖Нічого не знайдено‖Nothing found‖未找到结果‖Nichts gefunden
+Новая задача‖Нове завдання‖New task‖新任务‖Neue Aufgabe
+Новая задача на {0}‖Нове завдання на {0}‖New task on {0}‖{0} 的新任务‖Neue Aufgabe am {0}
+Новая задача → срок через 3 дня‖Нове завдання → термін через 3 дні‖New task → due in 3 days‖新任务 → 3 天后截止‖Neue Aufgabe → fällig in 3 Tagen
+Новое поле‖Нове поле‖New field‖新字段‖Neues Feld
+Новое правило‖Нове правило‖New rule‖新规则‖Neue Regel
+Новое пространство‖Новий простір‖New workspace‖新工作区‖Neuer Arbeitsbereich
+Новые задачи, назначенные вам, появятся здесь. Можно добавить личную задачу выше.‖Нові завдання, призначені вам, з'являться тут. Можна додати особисте завдання вище.‖New tasks assigned to you will appear here. You can add a personal task above.‖分配给您的新任务会显示在这里。也可以在上方添加个人任务。‖Neue Aufgaben für Sie erscheinen hier. Oben können Sie eine persönliche Aufgabe hinzufügen.
+Новый отчёт‖Новий звіт‖New update‖新报告‖Neues Update
+Новый пароль‖Новий пароль‖New password‖新密码‖Neues Passwort
+Новый проект‖Новий проєкт‖New project‖新项目‖Neues Projekt
+Новых уведомлений нет‖Нових сповіщень немає‖No new notifications‖没有新通知‖Keine neuen Benachrichtigungen
+Нравится‖Подобається‖Like‖赞‖Gefällt mir
+Нравится{0}‖Подобається{0}‖Like{0}‖赞{0}‖Gefällt mir{0}
+Нужно число‖Потрібне число‖A number is required‖需要数字‖Eine Zahl ist erforderlich
+Нужны права администратора‖Потрібні права адміністратора‖Admin rights required‖需要管理员权限‖Administratorrechte erforderlich
+Нужны правки‖Потрібні правки‖Changes requested‖需要修改‖Änderungen nötig
+О проекте‖Про проєкт‖About the project‖项目简介‖Über das Projekt
+Обзор‖Огляд‖Overview‖概览‖Übersicht
+Обсуждение не найдено‖Обговорення не знайдено‖Conversation not found‖未找到讨论‖Unterhaltung nicht gefunden
+Обсуждений пока нет‖Обговорень поки немає‖No conversations yet‖暂无讨论‖Noch keine Unterhaltungen
+Одобрено‖Схвалено‖Approved‖已批准‖Genehmigt
+Одобрить‖Схвалити‖Approve‖批准‖Genehmigen
+Описание‖Опис‖Description‖描述‖Beschreibung
+Описание (необязательно)‖Опис (необов'язково)‖Description (optional)‖描述（可选）‖Beschreibung (optional)
+Описание задачи‖Опис завдання‖Task description‖任务描述‖Aufgabenbeschreibung
+Описания нет‖Опису немає‖No description‖无描述‖Keine Beschreibung
+Опубликовать‖Опублікувати‖Publish‖发布‖Veröffentlichen
+Основное меню‖Головне меню‖Main menu‖主菜单‖Hauptmenü
+Ответ‖Відповідь‖Reply‖回复‖Antwort
+Ответить…‖Відповісти…‖Reply…‖回复…‖Antworten…
+Отклонено‖Відхилено‖Rejected‖已拒绝‖Abgelehnt
+Отклонить‖Відхилити‖Reject‖拒绝‖Ablehnen
+Отключить ссылку‖Вимкнути посилання‖Disable link‖停用链接‖Link deaktivieren
+Открытые‖Відкриті‖Open‖未完成‖Offen
+Открытые задачи по исполнителям‖Відкриті завдання за виконавцями‖Open tasks by assignee‖按负责人统计未完成任务‖Offene Aufgaben nach zuständiger Person
+Открытые задачи по приоритету‖Відкриті завдання за пріоритетом‖Open tasks by priority‖按优先级统计未完成任务‖Offene Aufgaben nach Priorität
+Открытый проект‖Відкритий проєкт‖Public project‖公开项目‖Öffentliches Projekt
+Открытых задач нет.‖Відкритих завдань немає.‖No open tasks.‖没有未完成的任务。‖Keine offenen Aufgaben.
+Открыть‖Відкрити‖Open‖打开‖Öffnen
+Открыть всем‖Відкрити всім‖Make public‖设为公开‖Für alle öffnen
+Открыть меню‖Відкрити меню‖Open menu‖打开菜单‖Menü öffnen
+Открыть форму‖Відкрити форму‖Open form‖打开表单‖Formular öffnen

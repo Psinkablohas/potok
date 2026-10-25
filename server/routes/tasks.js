@@ -5,6 +5,8 @@ import { h, fail, str, oneOf, dateOrNull, intOrNull } from '../util.js';
 import { requireTask, requireProject, requireWorkspace, workspaceRole, taskAccess } from '../access.js';
 import { emitWorkspace, emitUser } from '../realtime.js';
 import { runRules } from '../rules.js';
+import { sendNotificationEmail } from '../mailer.js';
+import { st } from '../i18n.js';
 
 const router = Router();
 
@@ -52,6 +54,7 @@ async function notify(userIds, { workspaceId, actorId, taskId, type, data = {} }
       [uid, workspaceId, actorId, taskId, type, data],
     );
     emitUser(uid, 'notification', { workspaceId });
+    sendNotificationEmail({ userId: uid, workspaceId, actorId, taskId, type, data });
   }
 }
 
@@ -372,7 +375,7 @@ router.post('/tasks/:id/duplicate', h(async (req, res) => {
       `INSERT INTO tasks (workspace_id, project_id, section_id, parent_id, title, description, assignee_id, created_by,
                           start_date, due_date, priority, recurrence, position)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
-      [task.workspace_id, task.project_id, task.section_id, task.parent_id, `${task.title} (копия)`, task.description,
+      [task.workspace_id, task.project_id, task.section_id, task.parent_id, st('copy', req.user.locale, task.title), task.description,
         task.assignee_id, req.user.id, task.start_date, task.due_date, task.priority, task.recurrence, task.position + 0.001],
     );
     await c.query('INSERT INTO task_tags (task_id, tag_id) SELECT $1, tag_id FROM task_tags WHERE task_id=$2', [n.id, id]);

@@ -1,3 +1,4 @@
+import { t, tError } from '../i18n/index.js';
 export class ApiError extends Error {
   constructor(status, message, code) {
     super(message);
@@ -18,12 +19,12 @@ async function request(method, url, body) {
   try {
     res = await fetch(`/api${url}`, opts);
   } catch {
-    throw new ApiError(0, 'Нет связи с сервером. Проверьте интернет.');
+    throw new ApiError(0, t("Нет связи с сервером. Проверьте интернет."));
   }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     if (res.status === 401 && !url.startsWith('/auth/')) window.dispatchEvent(new Event('potok:unauthorized'));
-    throw new ApiError(res.status, data.error || 'Что-то пошло не так', data.code);
+    throw new ApiError(res.status, tError(data.error) || t("Что-то пошло не так"), data.code);
   }
   return data;
 }

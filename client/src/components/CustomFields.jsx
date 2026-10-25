@@ -6,6 +6,7 @@ import { useWorkspace } from '../lib/hooks.js';
 import { useToast } from '../lib/toast.jsx';
 import { fmtDate } from '../lib/format.js';
 import { Avatar, Dropdown, ColorDot } from './ui.jsx';
+import { t } from '../i18n/index.js';
 
 // Короткое отображение значения поля в списке и на карточке
 export function FieldValue({ field, value, members = [] }) {
@@ -62,7 +63,7 @@ export function FieldEditor({ field, value, taskId, projectId, disabled, compact
       )}>
         {(close) => (
           <div onClick={(e) => e.stopPropagation()}>
-            {value !== undefined && value !== null && <button className="menu-item text-muted" onClick={() => { save(null); close(); }}><X className="h-4 w-4" />Очистить</button>}
+            {value !== undefined && value !== null && <button className="menu-item text-muted" onClick={() => { save(null); close(); }}><X className="h-4 w-4" />{t("Очистить")}</button>}
             {options.map((o) => (
               <button key={o.id} className="menu-item" onClick={() => { save(o.id); close(); }}>
                 {o.icon}<span className="flex-1 truncate">{o.label}</span>{o.id === value && <Check className="h-4 w-4 text-primary" />}

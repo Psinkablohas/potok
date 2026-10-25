@@ -5,6 +5,7 @@ import { one, many, tx } from '../db.js';
 import { h, fail, str, PROJECT_COLORS } from '../util.js';
 import { requireAuth, setSessionCookie, clearSessionCookie, publicUser } from '../auth.js';
 import { acceptInvite } from './workspaces.js';
+import { st, normLocale } from '../i18n.js';
 
 const router = Router();
 
@@ -42,17 +43,18 @@ router.post('/register', authLimiter, h(async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const color = PROJECT_COLORS[Math.floor(Math.random() * PROJECT_COLORS.length)];
   const inviteToken = typeof req.body.invite === 'string' ? req.body.invite : null;
+  const locale = normLocale(req.body.locale);
 
   const user = await tx(async (c) => {
     const { rows: [u] } = await c.query(
-      'INSERT INTO users (email, name, password_hash, color) VALUES ($1,$2,$3,$4) RETURNING *',
-      [email, name, hash, color],
+      'INSERT INTO users (email, name, password_hash, color, locale) VALUES ($1,$2,$3,$4,$5) RETURNING *',
+      [email, name, hash, color, locale],
     );
     // Если человек пришёл по приглашению, отдельное пространство ему не создаём
     if (!inviteToken) {
       const { rows: [w] } = await c.query(
         'INSERT INTO workspaces (name, created_by) VALUES ($1,$2) RETURNING id',
-        [`Пространство ${name}`, u.id],
+        [st('workspace', locale, name), u.id],
       );
       await c.query("INSERT INTO workspace_members (workspace_id, user_id, role) VALUES ($1,$2,'owner')", [w.id, u.id]);
     }
@@ -65,7 +67,7 @@ router.post('/register', authLimiter, h(async (req, res) => {
       joinedWorkspaceId = await acceptInvite(user.id, inviteToken);
     } catch (e) {
       // Приглашение устарело — создаём личное пространство, чтобы аккаунт не остался пустым
-      const w = await one('INSERT INTO workspaces (name, created_by) VALUES ($1,$2) RETURNING id', [`Пространство ${name}`, user.id]);
+      const w = await one('INSERT INTO workspaces (name, created_by) VALUES ($1,$2) RETURNING id', [st('workspace', locale, name), user.id]);
       await one("INSERT INTO workspace_members (workspace_id, user_id, role) VALUES ($1,$2,'owner') RETURNING 1", [w.id, user.id]);
     }
   }
@@ -108,9 +110,12 @@ router.patch('/me', requireAuth, h(async (req, res) => {
     await one('UPDATE users SET password_hash=$1 WHERE id=$2 RETURNING id', [await bcrypt.hash(req.body.newPassword, 10), req.user.id]);
   }
 
+  const locale = req.body.locale !== undefined ? normLocale(req.body.locale) : null;
+  const emailNotify = typeof req.body.email_notify === 'boolean' ? req.body.email_notify : null;
   const user = await one(
-    `UPDATE users SET name = COALESCE($1, name), color = COALESCE($2, color) WHERE id=$3 RETURNING *`,
-    [name || null, color || null, req.user.id],
+    `UPDATE users SET name = COALESCE($1, name), color = COALESCE($2, color), locale = COALESCE($3, locale),
+            email_notify = COALESCE($4, email_notify) WHERE id=$5 RETURNING *`,
+    [name || null, color || null, locale, emailNotify, req.user.id],
   );
   res.json({ user: publicUser(user) });
 }));

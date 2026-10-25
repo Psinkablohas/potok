@@ -34,12 +34,12 @@ export function clearSessionCookie(res) {
   res.clearCookie(COOKIE);
 }
 
-export const publicUser = (u) => u && { id: u.id, email: u.email, name: u.name, color: u.color };
+export const publicUser = (u) => u && { id: u.id, email: u.email, name: u.name, color: u.color, locale: u.locale, email_notify: u.email_notify };
 
 export async function requireAuth(req, res, next) {
   const uid = verifySession(req.cookies?.[COOKIE]);
   if (!uid) return res.status(401).json({ error: 'Требуется вход' });
-  const user = await one('SELECT id, email, name, color FROM users WHERE id=$1', [uid]).catch(() => null);
+  const user = await one('SELECT id, email, name, color, locale, email_notify FROM users WHERE id=$1', [uid]).catch(() => null);
   if (!user) return res.status(401).json({ error: 'Требуется вход' });
   req.user = user;
   next();

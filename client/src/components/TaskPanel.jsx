@@ -13,6 +13,7 @@ import { FieldEditor } from './CustomFields.jsx';
 import { Avatar, CompleteToggle, Dropdown, Spinner } from './ui.jsx';
 import { AssigneePicker, DueDatePicker, PriorityPicker, TagPicker, ProjectPicker, RecurrencePicker } from './pickers.jsx';
 import { QuickAdd, DueText } from './TaskBits.jsx';
+import { t } from '../i18n/index.js';
 
 function AutoTextarea({ value, onSave, className, placeholder, disabled, ariaLabel, singleLine }) {
   const [v, setV] = useState(value);
@@ -128,34 +129,34 @@ function CommentComposer({ taskId, members }) {
             if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) send();
             if (e.key === 'Escape') setMention(null);
           }}
-          placeholder="Напишите комментарий. @ — упомянуть коллегу"
-          aria-label="Комментарий"
+          placeholder={t("Напишите комментарий. @ — упомянуть коллегу")}
+          aria-label={t("Комментарий")}
           className="flex-1 resize-none bg-transparent text-sm outline-none px-1"
         />
-        <button className="btn-primary h-8 px-3" onClick={send} disabled={!text.trim() || busy} aria-label="Отправить комментарий">
+        <button className="btn-primary h-8 px-3" onClick={send} disabled={!text.trim() || busy} aria-label={t("Отправить комментарий")}>
           {busy ? <Spinner className="h-4 w-4 text-white" /> : <Send className="h-4 w-4" />}
         </button>
       </div>
-      <p className="mt-1 text-xs text-muted">Ctrl + Enter — отправить</p>
+      <p className="mt-1 text-xs text-muted">{t("Ctrl + Enter — отправить")}</p>
     </div>
   );
 }
 
 const ACTIVITY_TEXT = {
-  created: () => 'создал(а) задачу',
-  renamed: (d) => `переименовал(а) задачу в «${d.to}»`,
-  assigned: (d, members) => (d.to ? `назначил(а) исполнителя: ${members.find((m) => m.id === d.to)?.name || 'участник'}` : 'снял(а) исполнителя'),
-  due: (d) => (d.to ? `изменил(а) срок на ${fmtDate(d.to, 'd MMMM')}` : 'убрал(а) срок'),
-  priority: (d) => `изменил(а) приоритет: ${PRIORITY[d.to]?.label.toLowerCase()}`,
-  completed: () => 'завершил(а) задачу',
-  reopened: () => 'вернул(а) задачу в работу',
-  moved_section: (d) => `переместил(а) в раздел «${d.to}»`,
-  moved_project: () => 'перенёс(ла) в другой проект',
-  dependency: (d) => `добавил(а) зависимость от «${d.title}»`,
-  recurred: () => 'создано повтором предыдущей задачи',
-  approval: (d) => `принял(а) решение: ${APPROVAL[d.to]?.label.toLowerCase() || 'сброшено'}`,
-  rule: (d) => `— сработало правило «${d.name}»`,
-  form: (d) => `— заявка из формы${d.name ? ` от ${d.name}` : ''}`,
+  created: () => t("создал(а) задачу"),
+  renamed: (d) => t("переименовал(а) задачу в «{0}»", d.to),
+  assigned: (d, members) => (d.to ? t("назначил(а) исполнителя: {0}", members.find((m) => m.id === d.to)?.name || 'участник') : t("снял(а) исполнителя")),
+  due: (d) => (d.to ? t("изменил(а) срок на {0}", fmtDate(d.to, 'd MMMM')) : t("убрал(а) срок")),
+  priority: (d) => t("изменил(а) приоритет: {0}", PRIORITY[d.to]?.label.toLowerCase()),
+  completed: () => t("завершил(а) задачу"),
+  reopened: () => t("вернул(а) задачу в работу"),
+  moved_section: (d) => t("переместил(а) в раздел «{0}»", d.to),
+  moved_project: () => t("перенёс(ла) в другой проект"),
+  dependency: (d) => t("добавил(а) зависимость от «{0}»", d.title),
+  recurred: () => t("создано повтором предыдущей задачи"),
+  approval: (d) => t("принял(а) решение: {0}", APPROVAL[d.to]?.label.toLowerCase() || 'сброшено'),
+  rule: (d) => t("— сработало правило «{0}»", d.name),
+  form: (d) => t("— заявка из формы{0}", d.name ? ` от ${d.name}` : ''),
 };
 
 function DependencyAdder({ taskId, onAdd }) {
@@ -171,21 +172,21 @@ function DependencyAdder({ taskId, onAdd }) {
       width={320}
       trigger={({ ref, toggle }) => (
         <button ref={ref} onClick={() => { setQ(''); toggle(); }} className="inline-flex items-center gap-1 h-7 px-2 rounded-md text-sm text-muted hover:bg-subtle hover:text-ink">
-          <Plus className="h-4 w-4" /> Ждёт задачу
+          <Plus className="h-4 w-4" />{' '}{t("Ждёт задачу")}
         </button>
       )}
     >
       {(close) => (
         <div>
-          <input autoFocus className="input h-9 mb-1" placeholder="Найти задачу по названию" value={q} onChange={(e) => setQ(e.target.value)} />
+          <input autoFocus className="input h-9 mb-1" placeholder={t("Найти задачу по названию")} value={q} onChange={(e) => setQ(e.target.value)} />
           {(data?.tasks || []).filter((t) => t.id !== taskId).map((t) => (
             <button key={t.id} className="menu-item" onClick={() => { onAdd(t.id); close(); }}>
               <span className={`flex-1 truncate ${t.completed ? 'line-through text-muted' : ''}`}>{t.title}</span>
               {t.project && <span className="text-xs text-muted truncate max-w-[100px]">{t.project.name}</span>}
             </button>
           ))}
-          {q.trim().length > 1 && data && !data.tasks.length && <p className="px-2.5 py-3 text-sm text-muted">Ничего не найдено</p>}
-          {q.trim().length <= 1 && <p className="px-2.5 py-2 text-xs text-muted">Введите хотя бы 2 символа</p>}
+          {q.trim().length > 1 && data && !data.tasks.length && <p className="px-2.5 py-3 text-sm text-muted">{t("Ничего не найдено")}</p>}
+          {q.trim().length <= 1 && <p className="px-2.5 py-2 text-xs text-muted">{t("Введите хотя бы 2 символа")}</p>}
         </div>
       )}
     </Dropdown>
@@ -262,13 +263,13 @@ export default function TaskPanel() {
   };
 
   const remove = async () => {
-    if (!window.confirm('Удалить задачу вместе с подзадачами и комментариями? Это нельзя отменить.')) return;
+    if (!window.confirm(t("Удалить задачу вместе с подзадачами и комментариями? Это нельзя отменить."))) return;
     try {
       await api.del(`/tasks/${openId}`);
       if (task.project_id) qc.invalidateQueries({ queryKey: ['project-tasks', task.project_id] });
       qc.invalidateQueries({ queryKey: ['my-tasks'] });
       if (task.parent_id) open(task.parent_id); else close();
-      toast('Задача удалена');
+      toast(t("Задача удалена"));
     } catch (e) {
       toast(e.message, { type: 'error' });
     }
@@ -279,15 +280,15 @@ export default function TaskPanel() {
       <div className="fixed inset-0 z-panel bg-slate-950/30 lg:hidden animate-fade-in" onClick={close} />
       <aside
         className="fixed inset-y-0 right-0 z-panel w-full sm:w-[560px] lg:w-[600px] bg-surface border-l border-line shadow-pop flex flex-col animate-slide-in"
-        aria-label="Карточка задачи"
+        aria-label={t("Карточка задачи")}
       >
         {/* Верхняя панель */}
         <div className="flex items-center gap-2 border-b border-line px-3 sm:px-4 h-14 shrink-0">
           {task && task.task_type === 'approval' ? (
             <div className="flex items-center gap-1 overflow-x-auto">
-              {[['approved', ThumbsUp, 'Одобрить', 'hover:border-success hover:text-success', 'border-success bg-success/10 text-success'],
-                ['changes', PenLine, 'Нужны правки', 'hover:border-warn hover:text-warn', 'border-warn bg-warn/10 text-warn'],
-                ['rejected', ThumbsDown, 'Отклонить', 'hover:border-danger hover:text-danger', 'border-danger bg-danger/10 text-danger']].map(([key, Icon, label, hover, active]) => (
+              {[['approved', ThumbsUp, t("Одобрить"), 'hover:border-success hover:text-success', 'border-success bg-success/10 text-success'],
+                ['changes', PenLine, t("Нужны правки"), 'hover:border-warn hover:text-warn', 'border-warn bg-warn/10 text-warn'],
+                ['rejected', ThumbsDown, t("Отклонить"), 'hover:border-danger hover:text-danger', 'border-danger bg-danger/10 text-danger']].map(([key, Icon, label, hover, active]) => (
                 <button key={key} disabled={!canEdit} title={label} aria-label={label} aria-pressed={task.approval_status === key}
                   onClick={() => patch({ approval_status: task.approval_status === key ? 'pending' : key })}
                   className={`btn h-8 px-2.5 border ${task.approval_status === key ? active : `border-line text-ink ${hover}`}`}>
@@ -303,8 +304,8 @@ export default function TaskPanel() {
             >
               {task.task_type === 'milestone' ? <Diamond className="h-4 w-4" /> : <Check className="h-4 w-4" strokeWidth={2.5} />}
               {task.task_type === 'milestone'
-                ? (task.completed ? 'Веха достигнута' : 'Отметить веху')
-                : (task.completed ? 'Выполнена' : 'Отметить выполненной')}
+                ? (task.completed ? t("Веха достигнута") : t("Отметить веху"))
+                : (task.completed ? t("Выполнена") : t("Отметить выполненной"))}
             </button>
           )}
           <div className="flex-1" />
@@ -312,31 +313,31 @@ export default function TaskPanel() {
             <>
               <button
                 className={`icon-btn ${task.likes?.includes(me?.user.id) ? 'text-danger hover:text-danger' : ''}`}
-                title="Нравится"
+                title={t("Нравится")}
                 aria-pressed={task.likes?.includes(me?.user.id)}
-                aria-label={`Нравится${task.likes?.length ? `: ${task.likes.length}` : ''}`}
+                aria-label={t("Нравится{0}", task.likes?.length ? `: ${task.likes.length}` : '')}
                 onClick={() => call(() => api.post(`/tasks/${openId}/like`))}
               >
                 <Heart className="h-[18px] w-[18px]" fill={task.likes?.includes(me?.user.id) ? 'currentColor' : 'none'} />
                 {task.likes?.length > 0 && <span className="ml-0.5 text-xs">{task.likes.length}</span>}
               </button>
-              <button className="icon-btn" title="Скопировать ссылку" aria-label="Скопировать ссылку" onClick={() => {
-                navigator.clipboard?.writeText(window.location.href).then(() => toast('Ссылка скопирована'));
+              <button className="icon-btn" title={t("Скопировать ссылку")} aria-label={t("Скопировать ссылку")} onClick={() => {
+                navigator.clipboard?.writeText(window.location.href).then(() => toast(t("Ссылка скопирована")));
               }}><Link2 className="h-[18px] w-[18px]" /></button>
-              <label className="icon-btn" title="Прикрепить файл" aria-label="Прикрепить файл">
+              <label className="icon-btn" title={t("Прикрепить файл")} aria-label={t("Прикрепить файл")}>
                 <Paperclip className="h-[18px] w-[18px]" />
                 <input ref={fileRef} type="file" multiple className="sr-only" disabled={!canEdit} onChange={(e) => { upload(e.target.files); e.target.value = ''; }} />
               </label>
               <Dropdown
                 width={240}
                 align="end"
-                trigger={({ ref, toggle }) => <button ref={ref} onClick={toggle} className="icon-btn" aria-label="Ещё"><MoreHorizontal className="h-[18px] w-[18px]" /></button>}
+                trigger={({ ref, toggle }) => <button ref={ref} onClick={toggle} className="icon-btn" aria-label={t("Ещё")}><MoreHorizontal className="h-[18px] w-[18px]" /></button>}
               >
                 {(closeMenu) => (
                   <>
-                    <button className="menu-item" onClick={() => { closeMenu(); call(() => api[following ? 'del' : 'post'](`/tasks/${openId}/follow`), following ? 'Вы отписались от задачи' : 'Вы подписаны на задачу'); }}>
+                    <button className="menu-item" onClick={() => { closeMenu(); call(() => api[following ? 'del' : 'post'](`/tasks/${openId}/follow`), following ? t("Вы отписались от задачи") : t("Вы подписаны на задачу")); }}>
                       {following ? <BellOff className="h-4 w-4" /> : <Bell className="h-4 w-4" />}
-                      {following ? 'Отписаться' : 'Подписаться на изменения'}
+                      {following ? t("Отписаться") : t("Подписаться на изменения")}
                     </button>
                     {canEdit && (
                       <button className="menu-item" onClick={async () => {
@@ -345,17 +346,17 @@ export default function TaskPanel() {
                           const copy = await api.post(`/tasks/${openId}/duplicate`);
                           refresh();
                           open(copy.id);
-                          toast('Создана копия задачи');
+                          toast(t("Создана копия задачи"));
                         } catch (e) { toast(e.message, { type: 'error' }); }
-                      }}><Copy className="h-4 w-4" /> Дублировать</button>
+                      }}><Copy className="h-4 w-4" />{' '}{t("Дублировать")}</button>
                     )}
-                    {canEdit && <button className="menu-item text-danger" onClick={() => { closeMenu(); remove(); }}><Trash2 className="h-4 w-4" /> Удалить задачу</button>}
+                    {canEdit && <button className="menu-item text-danger" onClick={() => { closeMenu(); remove(); }}><Trash2 className="h-4 w-4" />{' '}{t("Удалить задачу")}</button>}
                   </>
                 )}
               </Dropdown>
             </>
           )}
-          <button className="icon-btn" onClick={close} aria-label="Закрыть карточку"><X className="h-5 w-5" /></button>
+          <button className="icon-btn" onClick={close} aria-label={t("Закрыть карточку")}><X className="h-5 w-5" /></button>
         </div>
 
         {isLoading && <div className="flex-1 flex items-center justify-center"><Spinner /></div>}
@@ -373,22 +374,22 @@ export default function TaskPanel() {
                   <GitBranch className="h-4 w-4" /> {task.parent.title} <ChevronRight className="h-4 w-4" />
                 </button>
               )}
-              {!canEdit && <p className="rounded-lg bg-subtle px-3 py-2 text-sm text-muted">У вас доступ только для просмотра и комментариев.</p>}
+              {!canEdit && <p className="rounded-lg bg-subtle px-3 py-2 text-sm text-muted">{t("У вас доступ только для просмотра и комментариев.")}</p>}
 
               <AutoTextarea
                 value={task.title}
                 singleLine
                 disabled={!canEdit}
-                ariaLabel="Название задачи"
+                ariaLabel={t("Название задачи")}
                 onSave={(v) => v.trim() && patch({ title: v.trim() })}
                 className={`text-xl sm:text-2xl font-semibold px-2 py-1 -mx-2 ${task.completed ? 'text-muted line-through' : ''}`}
               />
 
               <div className="space-y-0.5">
-                <Row label="Исполнитель">
+                <Row label={t("Исполнитель")}>
                   <AssigneePicker value={task.assignee_id} disabled={!canEdit} onChange={(v) => patch({ assignee_id: v })} />
                 </Row>
-                <Row label="Срок">
+                <Row label={t("Срок")}>
                   <DueDatePicker
                     value={task.due_date}
                     startDate={task.start_date}
@@ -399,7 +400,7 @@ export default function TaskPanel() {
                   />
                 </Row>
                 {!task.parent_id && (
-                  <Row label="Проект">
+                  <Row label={t("Проект")}>
                     <ProjectPicker projects={projects} value={task.project_id} disabled={!canEdit} onChange={(v) => patch({ project_id: v })} />
                     {task.project_id && task.sections?.length > 0 && (
                       <select
@@ -407,32 +408,32 @@ export default function TaskPanel() {
                         value={task.section_id || ''}
                         disabled={!canEdit}
                         onChange={(e) => patch({ section_id: Number(e.target.value) })}
-                        aria-label="Раздел"
+                        aria-label={t("Раздел")}
                       >
                         {task.sections.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
                       </select>
                     )}
                   </Row>
                 )}
-                <Row label="Тип">
+                <Row label={t("Тип")}>
                   <select
                     className="h-8 rounded-md bg-transparent px-1.5 text-sm hover:bg-subtle disabled:hover:bg-transparent"
                     value={task.task_type}
                     disabled={!canEdit}
                     onChange={(e) => patch({ task_type: e.target.value })}
-                    aria-label="Тип задачи"
+                    aria-label={t("Тип задачи")}
                   >
                     {Object.entries(TASK_TYPE).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                   </select>
                   {task.task_type === 'approval' && <span className={`chip ${APPROVAL[task.approval_status || 'pending'].cls}`}>{APPROVAL[task.approval_status || 'pending'].label}</span>}
                 </Row>
-                <Row label="Приоритет">
+                <Row label={t("Приоритет")}>
                   <PriorityPicker value={task.priority} disabled={!canEdit} onChange={(v) => patch({ priority: v })} />
                 </Row>
-                <Row label="Повтор">
+                <Row label={t("Повтор")}>
                   <RecurrencePicker value={task.recurrence} disabled={!canEdit} onChange={(v) => patch({ recurrence: v })} />
                 </Row>
-                <Row label="Метки">
+                <Row label={t("Метки")}>
                   <TagPicker
                     selected={task.tags}
                     disabled={!canEdit}
@@ -445,20 +446,20 @@ export default function TaskPanel() {
                     <FieldEditor field={f} value={task.fields?.[f.id]} taskId={task.id} projectId={task.project_id} disabled={!canEdit} />
                   </Row>
                 ))}
-                <Row label="Зависимости">
+                <Row label={t("Зависимости")}>
                   <div className="w-full space-y-1">
                     {task.blocked_by.map((d) => (
                       <div key={d.id} className="flex items-center gap-2 text-sm">
                         <Lock className={`h-3.5 w-3.5 shrink-0 ${d.completed ? 'text-success' : 'text-warn'}`} />
-                        <span className="text-muted shrink-0">Ждёт:</span>
+                        <span className="text-muted shrink-0">{t("Ждёт:")}</span>
                         <button onClick={() => open(d.id)} className={`truncate hover:text-primary ${d.completed ? 'line-through text-muted' : ''}`}>{d.title}</button>
-                        {canEdit && <button className="ml-auto opacity-60 hover:opacity-100" aria-label="Убрать зависимость" onClick={() => call(() => api.del(`/tasks/${openId}/dependencies/${d.id}`))}><X className="h-3.5 w-3.5" /></button>}
+                        {canEdit && <button className="ml-auto opacity-60 hover:opacity-100" aria-label={t("Убрать зависимость")} onClick={() => call(() => api.del(`/tasks/${openId}/dependencies/${d.id}`))}><X className="h-3.5 w-3.5" /></button>}
                       </div>
                     ))}
                     {task.blocking.map((d) => (
                       <div key={d.id} className="flex items-center gap-2 text-sm">
                         <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted" />
-                        <span className="text-muted shrink-0">Блокирует:</span>
+                        <span className="text-muted shrink-0">{t("Блокирует:")}</span>
                         <button onClick={() => open(d.id)} className="truncate hover:text-primary">{d.title}</button>
                       </div>
                     ))}
@@ -468,12 +469,12 @@ export default function TaskPanel() {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold mb-1.5">Описание</h3>
+                <h3 className="text-sm font-semibold mb-1.5">{t("Описание")}</h3>
                 <AutoTextarea
                   value={task.description}
                   disabled={!canEdit}
-                  ariaLabel="Описание задачи"
-                  placeholder={canEdit ? 'Добавьте подробности: цель, ссылки, критерии готовности…' : 'Описания нет'}
+                  ariaLabel={t("Описание задачи")}
+                  placeholder={canEdit ? t("Добавьте подробности: цель, ссылки, критерии готовности…") : t("Описания нет")}
                   onSave={(v) => patch({ description: v })}
                   className="min-h-[80px] text-sm leading-relaxed px-3 py-2 border border-line rounded-lg"
                 />
@@ -482,7 +483,7 @@ export default function TaskPanel() {
               {/* Подзадачи */}
               <div>
                 <h3 className="text-sm font-semibold mb-1.5">
-                  Подзадачи {task.subtasks.length > 0 && <span className="font-normal text-muted">{task.subtasks.filter((s) => s.completed).length} из {task.subtasks.length}</span>}
+                  {t("Подзадачи")}{' '}{task.subtasks.length > 0 && <span className="font-normal text-muted">{t("{0} из {1}", task.subtasks.filter((s) => s.completed).length, task.subtasks.length)}</span>}
                 </h3>
                 <div className="divide-y divide-line rounded-lg border border-line empty:hidden">
                   {task.subtasks.map((s) => (
@@ -494,13 +495,13 @@ export default function TaskPanel() {
                     </div>
                   ))}
                 </div>
-                {canEdit && <QuickAdd className="mt-2" payload={{ parent_id: openId }} label="Добавить подзадачу" placeholder="Название подзадачи" />}
+                {canEdit && <QuickAdd className="mt-2" payload={{ parent_id: openId }} label={t("Добавить подзадачу")} placeholder={t("Название подзадачи")} />}
               </div>
 
               {/* Файлы */}
               {(task.attachments.length > 0 || uploading) && (
                 <div>
-                  <h3 className="text-sm font-semibold mb-1.5">Файлы</h3>
+                  <h3 className="text-sm font-semibold mb-1.5">{t("Файлы")}</h3>
                   <div className="grid gap-2 sm:grid-cols-2">
                     {task.attachments.map((a) => (
                       <div key={a.id} className="group flex items-center gap-2.5 rounded-lg border border-line p-2.5">
@@ -513,17 +514,17 @@ export default function TaskPanel() {
                           <span className="block text-sm truncate hover:text-primary">{a.filename}</span>
                           <span className="block text-xs text-muted">{fileSize(a.size)} · {a.author}</span>
                         </a>
-                        <a href={`/api/attachments/${a.id}`} download className="icon-btn h-8 w-8" aria-label="Скачать"><Download className="h-4 w-4" /></a>
-                        {canEdit && <button className="icon-btn h-8 w-8" aria-label="Удалить файл" onClick={() => window.confirm('Удалить файл?') && call(() => api.del(`/attachments/${a.id}`))}><Trash2 className="h-4 w-4" /></button>}
+                        <a href={`/api/attachments/${a.id}`} download className="icon-btn h-8 w-8" aria-label={t("Скачать")}><Download className="h-4 w-4" /></a>
+                        {canEdit && <button className="icon-btn h-8 w-8" aria-label={t("Удалить файл")} onClick={() => window.confirm(t("Удалить файл?")) && call(() => api.del(`/attachments/${a.id}`))}><Trash2 className="h-4 w-4" /></button>}
                       </div>
                     ))}
-                    {uploading && <div className="flex items-center gap-2 p-3 text-sm text-muted"><Spinner className="h-4 w-4" /> Загружаем…</div>}
+                    {uploading && <div className="flex items-center gap-2 p-3 text-sm text-muted"><Spinner className="h-4 w-4" />{' '}{t("Загружаем…")}</div>}
                   </div>
                 </div>
               )}
               {canEdit && task.attachments.length === 0 && !uploading && (
                 <button onClick={() => fileRef.current?.click()} className="w-full rounded-lg border border-dashed border-line py-3 text-sm text-muted hover:border-primary hover:text-primary transition-colors">
-                  Перетащите файлы сюда или нажмите, чтобы прикрепить (до 10 МБ)
+                  {t("Перетащите файлы сюда или нажмите, чтобы прикрепить (до 10 МБ)")}
                 </button>
               )}
             </div>
@@ -531,32 +532,32 @@ export default function TaskPanel() {
             {/* Обсуждение и история */}
             <div className="border-t border-line bg-bg/60 px-4 sm:px-6 py-5 space-y-4">
               <div className="flex items-center gap-4 text-sm">
-                {[['comments', `Комментарии ${task.comments.length || ''}`], ['activity', 'История']].map(([k, label]) => (
+                {[['comments', t("Комментарии {0}", task.comments.length || '')], ['activity', t("История")]].map(([k, label]) => (
                   <button key={k} onClick={() => setFeed(k)} className={`pb-1 border-b-2 font-medium transition-colors ${feed === k ? 'border-primary text-ink' : 'border-transparent text-muted hover:text-ink'}`}>{label}</button>
                 ))}
               </div>
 
               {feed === 'comments' ? (
                 <div className="space-y-4">
-                  {task.comments.length === 0 && <p className="text-sm text-muted">Комментариев пока нет. Задайте вопрос или отметьте коллегу через @.</p>}
+                  {task.comments.length === 0 && <p className="text-sm text-muted">{t("Комментариев пока нет. Задайте вопрос или отметьте коллегу через @.")}</p>}
                   {task.comments.map((c) => (
                     <div key={c.id} className="flex gap-3 group">
                       <Avatar user={c.author} size={32} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-sm font-semibold">{c.author?.name || 'Удалённый пользователь'}</span>
-                          <span className="text-xs text-muted" title={fmtDateTime(c.created_at)}>{timeAgo(c.created_at)}{c.edited_at ? ' · изменён' : ''}</span>
+                          <span className="text-sm font-semibold">{c.author?.name || t("Удалённый пользователь")}</span>
+                          <span className="text-xs text-muted" title={fmtDateTime(c.created_at)}>{timeAgo(c.created_at)}{c.edited_at ? t(" · изменён") : ''}</span>
                           <span className="ml-auto flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
-                            {c.user_id === me?.user.id && <button className="icon-btn h-7 w-7" aria-label="Изменить" onClick={() => setEditing({ id: c.id, body: c.body })}><Pencil className="h-3.5 w-3.5" /></button>}
-                            {(c.user_id === me?.user.id || ws?.role !== 'member') && <button className="icon-btn h-7 w-7" aria-label="Удалить" onClick={() => window.confirm('Удалить комментарий?') && call(() => api.del(`/comments/${c.id}`))}><Trash2 className="h-3.5 w-3.5" /></button>}
+                            {c.user_id === me?.user.id && <button className="icon-btn h-7 w-7" aria-label={t("Изменить")} onClick={() => setEditing({ id: c.id, body: c.body })}><Pencil className="h-3.5 w-3.5" /></button>}
+                            {(c.user_id === me?.user.id || ws?.role !== 'member') && <button className="icon-btn h-7 w-7" aria-label={t("Удалить")} onClick={() => window.confirm(t("Удалить комментарий?")) && call(() => api.del(`/comments/${c.id}`))}><Trash2 className="h-3.5 w-3.5" /></button>}
                           </span>
                         </div>
                         {editing?.id === c.id ? (
                           <div className="mt-1 space-y-2">
                             <textarea className="input h-auto py-2" rows={3} value={editing.body} onChange={(e) => setEditing({ ...editing, body: e.target.value })} autoFocus />
                             <div className="flex gap-2">
-                              <button className="btn-primary h-8" onClick={() => call(() => api.patch(`/comments/${c.id}`, { body: editing.body })).then(() => setEditing(null))}>Сохранить</button>
-                              <button className="btn-ghost h-8" onClick={() => setEditing(null)}>Отмена</button>
+                              <button className="btn-primary h-8" onClick={() => call(() => api.patch(`/comments/${c.id}`, { body: editing.body })).then(() => setEditing(null))}>{t("Сохранить")}</button>
+                              <button className="btn-ghost h-8" onClick={() => setEditing(null)}>{t("Отмена")}</button>
                             </div>
                           </div>
                         ) : <CommentBody body={c.body} />}
@@ -564,7 +565,7 @@ export default function TaskPanel() {
                           onClick={() => call(() => api.post(`/comments/${c.id}/like`))}
                           className={`mt-1 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs transition-colors ${c.likes?.includes(me?.user.id) ? 'text-danger' : 'text-muted hover:text-ink'}`}
                           aria-pressed={c.likes?.includes(me?.user.id)}
-                          aria-label="Нравится"
+                          aria-label={t("Нравится")}
                         >
                           <Heart className="h-3.5 w-3.5" fill={c.likes?.includes(me?.user.id) ? 'currentColor' : 'none'} />
                           {c.likes?.length > 0 && c.likes.length}
@@ -580,7 +581,7 @@ export default function TaskPanel() {
                     <li key={a.id} className="flex gap-2 text-sm">
                       <span className="mt-2 h-1.5 w-1.5 rounded-full bg-muted/50 shrink-0" />
                       <span>
-                        <span className="font-medium">{a.user_name || 'Кто-то'}</span>{' '}
+                        <span className="font-medium">{a.user_name || t("Кто-то")}</span>{' '}
                         <span className="text-muted">{(ACTIVITY_TEXT[a.type] || (() => a.type))(a.data, members)}</span>
                         <span className="text-xs text-muted"> · {fmtDateTime(a.created_at)}</span>
                       </span>
@@ -590,9 +591,9 @@ export default function TaskPanel() {
               )}
 
               <div className="flex items-center gap-2 pt-2 text-xs text-muted flex-wrap">
-                <span>Подписаны:</span>
+                <span>{t("Подписаны:")}</span>
                 {task.followers.map((f) => <Avatar key={f.id} user={f} size={22} />)}
-                <span className="ml-auto">Создал(а) {task.creator?.name || '—'} · {fmtDateTime(task.created_at)}</span>
+                <span className="ml-auto">{t("Создал(а) {0} · {1}", task.creator?.name || '—', fmtDateTime(task.created_at))}</span>
               </div>
             </div>
           </div>
