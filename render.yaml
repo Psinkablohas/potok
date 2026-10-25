@@ -1,0 +1,26 @@
+# Настройки для хостинга Render: Dashboard → New → Blueprint → выбрать этот репозиторий
+services:
+  - type: web
+    name: potok
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: potok-db
+          property: connectionString
+
+databases:
+  - name: potok-db
+    plan: free
+    databaseName: potok
+    user: potok

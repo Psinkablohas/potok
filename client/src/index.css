@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Цветовые токены. Значения — каналы RGB, чтобы работала прозрачность Tailwind (bg-primary/10). */
+:root {
+  --bg: 248 250 252;          /* slate-50 */
+  --surface: 255 255 255;
+  --subtle: 241 245 249;      /* slate-100 */
+  --line: 226 232 240;        /* slate-200 */
+  --ink: 15 23 42;            /* slate-900 */
+  --muted: 71 85 105;         /* slate-600 — контраст 7:1 на белом */
+  --primary: 79 70 229;       /* indigo-600 */
+  --primary-soft: 238 242 255;/* indigo-50 */
+  --primary-ink: 255 255 255;
+  --danger: 220 38 38;
+  --success: 22 163 74;
+  --warn: 217 119 6;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: 11 15 25;
+  --surface: 20 26 38;
+  --subtle: 30 38 54;
+  --line: 45 55 75;
+  --ink: 236 240 247;
+  --muted: 160 172 192;
+  --primary: 129 140 248;     /* indigo-400 */
+  --primary-soft: 35 38 74;
+  --primary-ink: 15 18 40;
+  --danger: 248 113 113;
+  --success: 74 222 128;
+  --warn: 251 191 36;
+  color-scheme: dark;
+}
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  /* На мобильных 16px, чтобы iOS не увеличивал страницу при фокусе в поле */
+  @media (max-width: 640px) {
+    input, textarea, select { font-size: 16px !important; }
+  }
+  :focus-visible { @apply outline-none ring-2 ring-primary/60 ring-offset-1 ring-offset-surface; }
+  button, [role='button'], a, label[for], select { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  ::selection { @apply bg-primary/20; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 h-9 text-sm font-semibold
+           transition-colors duration-150 disabled:opacity-50 select-none whitespace-nowrap;
+  }
+  .btn-primary { @apply btn bg-primary text-primary-ink hover:bg-primary/90; }
+  .btn-secondary { @apply btn bg-surface text-ink border border-line hover:bg-subtle; }
+  .btn-ghost { @apply btn text-muted hover:bg-subtle hover:text-ink; }
+  .btn-danger { @apply btn bg-danger text-white hover:bg-danger/90; }
+  .icon-btn {
+    @apply inline-flex items-center justify-center rounded-lg h-9 w-9 text-muted
+           hover:bg-subtle hover:text-ink transition-colors duration-150 shrink-0;
+  }
+  .input {
+    @apply w-full h-10 rounded-lg border border-line bg-surface px-3 text-sm text-ink
+           placeholder:text-muted/70 transition-colors duration-150
+           focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+  .label { @apply block text-sm font-medium text-ink mb-1.5; }
+  .card { @apply bg-surface border border-line rounded-xl; }
+  .menu-item {
+    @apply flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-sm text-ink text-left
+           hover:bg-subtle transition-colors duration-100;
+  }
+  .chip { @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium; }
+  .scrollbar-thin { scrollbar-width: thin; scrollbar-color: rgb(var(--line)) transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes slide-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop-in { from { transform: scale(0.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.animate-slide-in { animation: slide-in 180ms ease-out; }
+.animate-fade-in { animation: fade-in 150ms ease-out; }
+.animate-pop-in { animation: pop-in 140ms ease-out; }
