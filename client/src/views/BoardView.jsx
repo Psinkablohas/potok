@@ -7,9 +7,9 @@ import { Plus } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useTaskPanel, useToggleComplete } from '../lib/hooks.js';
 import { useToast } from '../lib/toast.jsx';
-import { Avatar, CompleteToggle } from '../components/ui.jsx';
+import { Avatar } from '../components/ui.jsx';
 import { PriorityBadge } from '../components/pickers.jsx';
-import { QuickAdd, TaskMeta, Tags, DueText } from '../components/TaskBits.jsx';
+import { QuickAdd, TaskMeta, Tags, DueText, TaskMark } from '../components/TaskBits.jsx';
 import { groupBySection, SECTION_PREFIX } from './shared.js';
 import { useTaskDnd } from './ListView.jsx';
 
@@ -23,7 +23,7 @@ function Card({ task, canEdit, overlay = false }) {
         ${openId === task.id ? 'border-primary ring-2 ring-primary/20' : ''} ${overlay ? 'shadow-pop rotate-1' : ''}`}
     >
       <div className="flex items-start gap-2">
-        <span className="mt-0.5"><CompleteToggle size="sm" done={task.completed} disabled={!canEdit} onToggle={() => toggle(task)} /></span>
+        <span className="mt-0.5"><TaskMark size="sm" task={task} disabled={!canEdit} onToggle={() => toggle(task)} /></span>
         <span className={`flex-1 text-sm font-medium leading-snug break-words ${task.completed ? 'line-through text-muted' : ''}`}>{task.title}</span>
       </div>
       {(task.tags.length > 0 || task.priority !== 'none') && (

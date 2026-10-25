@@ -77,3 +77,32 @@ export function between(prev, next) {
   if (next == null) return prev + 1;
   return (prev + next) / 2;
 }
+
+export const PROJECT_STATUS = {
+  on_track: { label: 'По плану', cls: 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300', dot: '#16A34A' },
+  at_risk: { label: 'Есть риски', cls: 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300', dot: '#D97706' },
+  off_track: { label: 'Отстаём', cls: 'bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300', dot: '#DC2626' },
+  on_hold: { label: 'На паузе', cls: 'bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300', dot: '#0284C7' },
+  complete: { label: 'Завершён', cls: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300', dot: '#4F46E5' },
+};
+
+export const TASK_TYPE = {
+  task: 'Задача',
+  milestone: 'Веха',
+  approval: 'Согласование',
+};
+
+export const APPROVAL = {
+  pending: { label: 'Ждёт решения', cls: 'bg-subtle text-muted' },
+  approved: { label: 'Одобрено', cls: 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300' },
+  changes: { label: 'Нужны правки', cls: 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300' },
+  rejected: { label: 'Отклонено', cls: 'bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300' },
+};
+
+export const FIELD_TYPES = {
+  text: 'Текст',
+  number: 'Число',
+  select: 'Выбор из списка',
+  date: 'Дата',
+  person: 'Человек',
+};

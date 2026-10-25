@@ -163,3 +163,89 @@ CREATE TABLE IF NOT EXISTS notifications (
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS notifications_user_idx ON notifications(user_id, workspace_id, archived);
+
+-- ===== Этап 2: возможности уровня Asana =====
+
+-- Тип задачи: task | milestone (веха) | approval (согласование)
+ALTER TABLE tasks ADD COLUMN IF NOT EXISTS task_type TEXT NOT NULL DEFAULT 'task';
+-- Решение по согласованию: pending | approved | changes | rejected
+ALTER TABLE tasks ADD COLUMN IF NOT EXISTS approval_status TEXT;
+
+-- Пользовательские поля проекта. type: text | number | select | date | person
+CREATE TABLE IF NOT EXISTS custom_fields (
+  id         SERIAL PRIMARY KEY,
+  project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+  name       TEXT NOT NULL,
+  type       TEXT NOT NULL,
+  options    JSONB NOT NULL DEFAULT '[]',
+  position   DOUBLE PRECISION NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS task_field_values (
+  task_id  INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+  field_id INTEGER NOT NULL REFERENCES custom_fields(id) ON DELETE CASCADE,
+  value    JSONB NOT NULL,
+  PRIMARY KEY (task_id, field_id)
+);
+
+CREATE TABLE IF NOT EXISTS task_likes (
+  task_id INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  PRIMARY KEY (task_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS comment_likes (
+  comment_id INTEGER NOT NULL REFERENCES comments(id) ON DELETE CASCADE,
+  user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  PRIMARY KEY (comment_id, user_id)
+);
+
+-- Статус проекта. status: on_track | at_risk | off_track | on_hold | complete
+CREATE TABLE IF NOT EXISTS status_updates (
+  id         SERIAL PRIMARY KEY,
+  project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+  user_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  status     TEXT NOT NULL,
+  title      TEXT NOT NULL,
+  body       TEXT NOT NULL DEFAULT '',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Обсуждения проекта: сообщение (parent_id IS NULL) и ответы на него
+CREATE TABLE IF NOT EXISTS messages (
+  id         SERIAL PRIMARY KEY,
+  project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+  parent_id  INTEGER REFERENCES messages(id) ON DELETE CASCADE,
+  user_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  title      TEXT NOT NULL DEFAULT '',
+  body       TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS messages_project_idx ON messages(project_id);
+
+-- Правила-автоматизации проекта
+-- trigger: { type: task_added | section_changed | completed | assignee_changed | due_changed, section_id? }
+-- actions: [{ type: complete | move_section | assign | set_priority | set_due_in | add_follower | set_field, ... }]
+CREATE TABLE IF NOT EXISTS rules (
+  id         SERIAL PRIMARY KEY,
+  project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+  name       TEXT NOT NULL,
+  trigger    JSONB NOT NULL,
+  actions    JSONB NOT NULL DEFAULT '[]',
+  enabled    BOOLEAN NOT NULL DEFAULT true,
+  created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Публичная форма для создания задач в проекте
+CREATE TABLE IF NOT EXISTS forms (
+  id          SERIAL PRIMARY KEY,
+  project_id  INTEGER NOT NULL UNIQUE REFERENCES projects(id) ON DELETE CASCADE,
+  token       TEXT NOT NULL UNIQUE,
+  title       TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  section_id  INTEGER REFERENCES sections(id) ON DELETE SET NULL,
+  field_ids   JSONB NOT NULL DEFAULT '[]',
+  enabled     BOOLEAN NOT NULL DEFAULT false,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);

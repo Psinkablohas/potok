@@ -15,6 +15,7 @@ import InboxPage from './pages/InboxPage.jsx';
 import ProjectPage from './pages/ProjectPage.jsx';
 import SearchPage from './pages/SearchPage.jsx';
 import SettingsPage from './pages/SettingsPage.jsx';
+import FormPage from './pages/FormPage.jsx';
 
 function Home() {
   const { openNewProject } = useOutletContext();
@@ -79,11 +80,13 @@ export default function App() {
     return () => window.removeEventListener('potok:unauthorized', onUnauthorized);
   }, [qc]);
 
+  if (window.location.pathname.startsWith('/form/')) return <Routes><Route path="/form/:token" element={<FormPage />} /></Routes>;
   if (isLoading) return <PageLoader />;
 
   if (!authed) {
     return (
       <Routes>
+        <Route path="/form/:token" element={<FormPage />} />
         <Route path="/register" element={<AuthPage mode="register" />} />
         <Route path="/invite/:token" element={<AuthPage mode="invite" />} />
         <Route path="*" element={<AuthPage mode="login" />} />
@@ -93,6 +96,7 @@ export default function App() {
 
   return (
     <Routes>
+      <Route path="/form/:token" element={<FormPage />} />
       <Route path="/invite/:token" element={<AcceptInvite />} />
       <Route path="/w/:wid" element={<WorkspaceGuard />}>
         <Route index element={<Home />} />

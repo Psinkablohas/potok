@@ -13,6 +13,7 @@ import authRoutes from './routes/auth.js';
 import { publicInvites, workspaces } from './routes/workspaces.js';
 import projectRoutes from './routes/projects.js';
 import taskRoutes from './routes/tasks.js';
+import extraRoutes, { publicForms } from './routes/extras.js';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -33,8 +34,8 @@ app.use(cookieParser());
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.use('/api/auth', authRoutes);
-app.use('/api', publicInvites);
-app.use('/api', requireAuth, workspaces, projectRoutes, taskRoutes);
+app.use('/api', publicInvites, publicForms);
+app.use('/api', requireAuth, workspaces, projectRoutes, taskRoutes, extraRoutes);
 app.use('/api', (req, res) => res.status(404).json({ error: 'Не найдено' }));
 
 // Собранный фронтенд

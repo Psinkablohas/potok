@@ -1,11 +1,41 @@
 import { useState } from 'react';
-import { GitBranch, MessageSquare, Paperclip, Lock, Repeat, Plus } from 'lucide-react';
+import { GitBranch, MessageSquare, Paperclip, Lock, Repeat, Plus, Diamond, ThumbsUp, ThumbsDown, PenLine, Hourglass } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { dueLabel, dueState, dueClass } from '../lib/format.js';
-import { ColorDot } from './ui.jsx';
+import { ColorDot, CompleteToggle } from './ui.jsx';
 import { TagChip } from './pickers.jsx';
 import { api } from '../lib/api.js';
 import { useToast } from '../lib/toast.jsx';
+
+// Отметка слева от названия: галочка для задачи, ромб для вехи, значок решения для согласования
+export function TaskMark({ task, onToggle, disabled, size = 'md' }) {
+  if (task.task_type === 'milestone') {
+    return (
+      <button
+        type="button"
+        role="checkbox"
+        aria-checked={task.completed}
+        aria-label={task.completed ? 'Веха достигнута' : 'Отметить веху достигнутой'}
+        disabled={disabled}
+        onClick={(e) => { e.stopPropagation(); onToggle(); }}
+        className={`relative inline-flex h-5 w-5 shrink-0 items-center justify-center transition-colors before:absolute before:-inset-3 before:content-[''] ${task.completed ? 'text-success' : 'text-muted hover:text-success'}`}
+      >
+        <Diamond className="h-[18px] w-[18px]" fill={task.completed ? 'currentColor' : 'none'} strokeWidth={2} />
+      </button>
+    );
+  }
+  if (task.task_type === 'approval') {
+    const map = {
+      approved: [ThumbsUp, 'text-success', 'Одобрено'],
+      rejected: [ThumbsDown, 'text-danger', 'Отклонено'],
+      changes: [PenLine, 'text-warn', 'Нужны правки'],
+      pending: [Hourglass, 'text-muted', 'Ждёт решения'],
+    };
+    const [Icon, cls, label] = map[task.approval_status || 'pending'];
+    return <span className={`inline-flex h-5 w-5 shrink-0 items-center justify-center ${cls}`} title={label} aria-label={label}><Icon className="h-4 w-4" /></span>;
+  }
+  return <CompleteToggle size={size} done={task.completed} disabled={disabled} onToggle={onToggle} />;
+}
 
 // Значки под названием задачи: подзадачи, комментарии, файлы, блокировка, повтор
 export function TaskMeta({ task, showProject = false }) {

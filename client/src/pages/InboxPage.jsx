@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Archive, CheckCheck, Inbox, AtSign, MessageSquare, CheckCircle2, UserPlus } from 'lucide-react';
+import { Archive, CheckCheck, Inbox, AtSign, MessageSquare, CheckCircle2, UserPlus, Heart, Activity } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useWorkspaceId, useTaskPanel } from '../lib/hooks.js';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, PageLoader, EmptyState, Segmented } from '../components/ui.jsx';
 import { timeAgo } from '../lib/format.js';
 
@@ -11,12 +12,15 @@ const TYPES = {
   mentioned: { icon: AtSign, text: 'упомянул(а) вас' },
   commented: { icon: MessageSquare, text: 'оставил(а) комментарий' },
   completed: { icon: CheckCircle2, text: 'завершил(а) задачу' },
+  liked: { icon: Heart, text: 'отметил(а) задачу как понравившуюся' },
+  status: { icon: Activity, text: 'опубликовал(а) отчёт о статусе проекта' },
 };
 
 export default function InboxPage() {
   const wid = useWorkspaceId();
   const [tab, setTab] = useState('new');
   const { open } = useTaskPanel();
+  const navigate = useNavigate();
   const qc = useQueryClient();
   const archived = tab === 'archive';
   const { data = [], isLoading } = useQuery({
@@ -55,11 +59,11 @@ export default function InboxPage() {
                     <Avatar user={n.actor} size={36} />
                     <span className="absolute -bottom-1 -right-1 rounded-full bg-surface p-0.5"><T.icon className="h-3.5 w-3.5 text-primary" /></span>
                   </div>
-                  <button className="flex-1 min-w-0 text-left" onClick={() => { if (!n.read) mark({ ids: [n.id], read: true }); if (n.task_id) open(n.task_id); }}>
+                  <button className="flex-1 min-w-0 text-left" onClick={() => { if (!n.read) mark({ ids: [n.id], read: true }); if (n.task_id) open(n.task_id); else if (n.data.projectId) navigate(`/w/${wid}/projects/${n.data.projectId}/overview`); }}>
                     <p className="text-sm">
                       <span className="font-semibold">{n.actor?.name || 'Кто-то'}</span> <span className="text-muted">{T.text}</span>
                     </p>
-                    <p className={`text-sm font-medium truncate ${n.task_completed ? 'line-through text-muted' : ''}`}>{n.task_title || n.data.title}</p>
+                    <p className={`text-sm font-medium truncate ${n.task_completed ? 'line-through text-muted' : ''}`}>{n.task_title || n.data.title}{n.type === 'status' && n.data.projectName ? <span className="font-normal text-muted"> · {n.data.projectName}</span> : null}</p>
                     {n.data.excerpt && <p className="mt-0.5 text-sm text-muted line-clamp-2">{n.data.excerpt.replace(/@\[([^\]]+)\]\(\d+\)/g, '@$1')}</p>}
                     <p className="mt-1 text-xs text-muted">{timeAgo(n.created_at)}</p>
                   </button>

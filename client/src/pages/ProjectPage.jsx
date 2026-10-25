@@ -1,26 +1,37 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   List, Columns3, CalendarDays, GanttChart, Search, MoreHorizontal, Users, Archive, Trash2, Pencil, Lock, Globe, SlidersHorizontal, X, ArchiveRestore,
+  LayoutDashboard, BarChart3, MessagesSquare, Paperclip, Settings2,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProject, useProjectTasks, useLocalState, useWorkspace } from '../lib/hooks.js';
 import { useToast } from '../lib/toast.jsx';
-import { Avatar, Dropdown, Modal, PageLoader, Segmented, EmptyState, Field } from '../components/ui.jsx';
+import { Avatar, Dropdown, Modal, PageLoader, EmptyState, Field } from '../components/ui.jsx';
 import { applyFilters } from '../views/shared.js';
 import ListView from '../views/ListView.jsx';
 import BoardView from '../views/BoardView.jsx';
 import CalendarView from '../views/CalendarView.jsx';
 import TimelineView from '../views/TimelineView.jsx';
+import OverviewView from '../views/OverviewView.jsx';
+import DashboardView from '../views/DashboardView.jsx';
+import MessagesView from '../views/MessagesView.jsx';
+import FilesView from '../views/FilesView.jsx';
+import CustomizeDrawer from '../components/CustomizeDrawer.jsx';
 import { PROJECT_COLORS, ROLE_LABEL } from '../lib/format.js';
 
 const VIEWS = [
+  { value: 'overview', label: 'Обзор', icon: LayoutDashboard },
   { value: 'list', label: 'Список', icon: List },
   { value: 'board', label: 'Доска', icon: Columns3 },
-  { value: 'calendar', label: 'Календарь', icon: CalendarDays },
   { value: 'timeline', label: 'График', icon: GanttChart },
+  { value: 'calendar', label: 'Календарь', icon: CalendarDays },
+  { value: 'dashboard', label: 'Панель', icon: BarChart3 },
+  { value: 'messages', label: 'Сообщения', icon: MessagesSquare },
+  { value: 'files', label: 'Файлы', icon: Paperclip },
 ];
+const TASK_VIEWS = ['list', 'board', 'timeline', 'calendar'];
 
 function MembersModal({ project, open, onClose }) {
   const { data: ws } = useWorkspace();
@@ -126,6 +137,7 @@ export default function ProjectPage() {
   const { data: me } = useMe();
   const { data: project, isLoading, error } = useProject(pid);
   const { data: tasks = [], isLoading: tasksLoading } = useProjectTasks(pid);
+  const { data: fields = [] } = useQuery({ queryKey: ['fields', pid], queryFn: () => api.get(`/projects/${pid}/fields`), enabled: !!pid });
   const [filters, setFilters] = useLocalState(`potok-filters-${pid}`, { completion: 'open', assignee: 'all', priority: 'all' });
   const [q, setQ] = useState('');
   const [modal, setModal] = useState(null);
@@ -179,10 +191,12 @@ export default function ProjectPage() {
             {project.members.length > 4 && <span className="flex h-7 w-7 items-center justify-center rounded-full bg-subtle text-xs ring-2 ring-surface">+{project.members.length - 4}</span>}
           </button>
           <button className="btn-secondary h-9 hidden sm:inline-flex" onClick={() => setModal('members')}><Users className="h-4 w-4" />Доступ</button>
+          <button className="btn-secondary h-9 hidden sm:inline-flex" onClick={() => setModal('customize')}><Settings2 className="h-4 w-4" />Настроить</button>
           <Dropdown width={240} align="end" trigger={({ ref, toggle }) => <button ref={ref} onClick={toggle} className="icon-btn" aria-label="Действия с проектом"><MoreHorizontal className="h-5 w-5" /></button>}>
             {(close) => (
               <>
                 <button className="menu-item sm:hidden" onClick={() => { close(); setModal('members'); }}><Users className="h-4 w-4" />Участники и доступ</button>
+                <button className="menu-item sm:hidden" onClick={() => { close(); setModal('customize'); }}><Settings2 className="h-4 w-4" />Поля, правила, форма</button>
                 {project.canEdit && <button className="menu-item" onClick={() => { close(); setModal('edit'); }}><Pencil className="h-4 w-4" />Изменить проект</button>}
                 {project.canManage && <button className="menu-item" onClick={() => { close(); archive(); }}>{project.archived ? <ArchiveRestore className="h-4 w-4" /> : <Archive className="h-4 w-4" />}{project.archived ? 'Вернуть из архива' : 'В архив'}</button>}
                 {project.canManage && <button className="menu-item text-danger" onClick={() => { close(); remove(); }}><Trash2 className="h-4 w-4" />Удалить проект</button>}
@@ -191,8 +205,26 @@ export default function ProjectPage() {
           </Dropdown>
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-2 pb-3">
-          <Segmented value={view} onChange={setView} options={VIEWS} />
+        <nav className="mt-2 -mb-px flex gap-1 overflow-x-auto scrollbar-thin" aria-label="Виды проекта" role="tablist">
+          {VIEWS.map((v) => (
+            <button key={v.value} role="tab" aria-selected={view === v.value} onClick={() => setView(v.value)}
+              className={`inline-flex shrink-0 items-center gap-1.5 border-b-2 px-2.5 h-10 text-sm font-medium transition-colors duration-150
+                ${view === v.value ? 'border-primary text-ink' : 'border-transparent text-muted hover:text-ink'}`}>
+              <v.icon className="h-4 w-4" />{v.label}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      {TASK_VIEWS.includes(view) && (
+        <div className="flex flex-wrap items-center gap-2 border-b border-line bg-surface px-3 sm:px-6 py-2">
+          {project.canEdit && view !== 'calendar' && view !== 'timeline' && (
+            <button className="btn-primary h-9" onClick={async () => {
+              const title = window.prompt('Название задачи');
+              if (!title?.trim()) return;
+              try { await api.post('/tasks', { project_id: pid, title: title.trim() }); qc.invalidateQueries({ queryKey: ['project-tasks', pid] }); } catch (e) { toast(e.message, { type: 'error' }); }
+            }}>+ Добавить задачу</button>
+          )}
           <div className="flex-1" />
           <div className="relative">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
@@ -232,12 +264,16 @@ export default function ProjectPage() {
             </div>
           </Dropdown>
         </div>
-      </header>
+      )}
 
       <div className={`flex-1 min-h-0 ${view === 'board' || view === 'timeline' ? 'overflow-hidden' : 'overflow-y-auto scrollbar-thin'}`}>
         {tasksLoading ? <PageLoader /> : (
           <>
-            {view === 'list' && <ListView project={project} tasks={filtered} />}
+            {view === 'overview' && <OverviewView project={project} tasks={tasks} />}
+            {view === 'list' && <ListView project={project} tasks={filtered} fields={fields} />}
+            {view === 'dashboard' && <DashboardView project={project} />}
+            {view === 'messages' && <MessagesView project={project} />}
+            {view === 'files' && <FilesView project={project} />}
             {view === 'board' && <BoardView project={project} tasks={filtered} />}
             {view === 'calendar' && <CalendarView project={project} tasks={filtered} />}
             {view === 'timeline' && <TimelineView project={project} tasks={filtered} />}
@@ -247,6 +283,7 @@ export default function ProjectPage() {
 
       <MembersModal project={project} open={modal === 'members'} onClose={() => setModal(null)} />
       {modal === 'edit' && <EditProjectModal project={project} open onClose={() => setModal(null)} />}
+      <CustomizeDrawer project={project} open={modal === 'customize'} onClose={() => setModal(null)} />
     </div>
   );
 }

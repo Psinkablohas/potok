@@ -27,16 +27,20 @@ export function useRealtime(enabled) {
       inv(['home']);
       inv(['projects']);
       inv(['search']);
+      if (e.projectId) { inv(['stats', e.projectId]); inv(['files', e.projectId]); }
     });
     socket.on('project-tasks', (e) => {
       inv(['project', e.projectId]);
       inv(['project-tasks', e.projectId]);
+      inv(['fields', e.projectId]);
     });
     socket.on('projects', (e) => {
       inv(['projects']);
-      if (e.projectId) inv(['project', e.projectId]);
+      if (e.projectId) { inv(['project', e.projectId]); inv(['status', e.projectId]); }
     });
     socket.on('members', () => inv(['workspace']));
+    socket.on('messages', (e) => inv(['messages', e.projectId]));
+    socket.on('rules', (e) => inv(['rules', e.projectId]));
     socket.on('tags', () => {
       inv(['workspace']);
       inv(['project-tasks']);

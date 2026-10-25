@@ -4,11 +4,14 @@ import { one, many, query, tx } from '../db.js';
 import { h, fail, str, oneOf, dateOrNull, intOrNull } from '../util.js';
 import { requireTask, requireProject, requireWorkspace, workspaceRole, taskAccess } from '../access.js';
 import { emitWorkspace, emitUser } from '../realtime.js';
+import { runRules } from '../rules.js';
 
 const router = Router();
 
 const PRIORITIES = ['none', 'low', 'medium', 'high'];
 const RECURRENCES = [null, 'daily', 'weekdays', 'weekly', 'biweekly', 'monthly', 'yearly'];
+const TASK_TYPES = ['task', 'milestone', 'approval'];
+const APPROVAL = [null, 'pending', 'approved', 'changes', 'rejected'];
 
 // Общий SELECT для списков задач: исполнитель, метки, счётчики, проект и блокировки
 export const TASK_LIST_SELECT = `
@@ -22,7 +25,9 @@ export const TASK_LIST_SELECT = `
     (SELECT count(*)::int FROM comments c WHERE c.task_id = t.id) AS comment_count,
     (SELECT count(*)::int FROM attachments at WHERE at.task_id = t.id) AS attachment_count,
     EXISTS (SELECT 1 FROM task_dependencies d JOIN tasks b ON b.id = d.depends_on_id
-             WHERE d.task_id = t.id AND b.completed = false) AS blocked
+             WHERE d.task_id = t.id AND b.completed = false) AS blocked,
+    COALESCE((SELECT json_object_agg(v.field_id, v.value) FROM task_field_values v WHERE v.task_id = t.id), '{}') AS fields,
+    COALESCE((SELECT json_agg(l.user_id) FROM task_likes l WHERE l.task_id = t.id), '[]') AS likes
   FROM tasks t
   LEFT JOIN users a ON a.id = t.assignee_id
   LEFT JOIN projects p ON p.id = t.project_id`;
@@ -121,6 +126,7 @@ router.post('/tasks', h(async (req, res) => {
 
   const priority = oneOf(b.priority ?? 'none', PRIORITIES, 'Приоритет');
   const recurrence = oneOf(b.recurrence ?? null, RECURRENCES, 'Повтор');
+  const taskType = oneOf(b.task_type ?? 'task', TASK_TYPES, 'Тип задачи');
   const startDate = dateOrNull(b.start_date, 'Дата начала') ?? null;
   const dueDate = dateOrNull(b.due_date, 'Срок') ?? null;
   const description = str(b.description ?? '', { max: 20000, field: 'Описание' });
@@ -135,10 +141,10 @@ router.post('/tasks', h(async (req, res) => {
   const task = await tx(async (c) => {
     const { rows: [t] } = await c.query(
       `INSERT INTO tasks (workspace_id, project_id, section_id, parent_id, title, description, assignee_id, created_by,
-                          start_date, due_date, priority, recurrence, position)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
+                          start_date, due_date, priority, recurrence, position, task_type, approval_status)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING *`,
       [workspaceId, projectId, sectionId, parentId, title, description, assigneeId, req.user.id,
-        startDate, dueDate, priority, recurrence, position],
+        startDate, dueDate, priority, recurrence, position, taskType, taskType === 'approval' ? 'pending' : null],
     );
     if (Array.isArray(b.tag_ids)) {
       for (const tagId of b.tag_ids.map(Number).filter(Number.isInteger)) {
@@ -157,6 +163,7 @@ router.post('/tasks', h(async (req, res) => {
     await follow(task.id, assigneeId);
     await notify([assigneeId], { workspaceId, actorId: req.user.id, taskId: task.id, type: 'assigned', data: { title } });
   }
+  if (!parentId) await runRules(task, { type: 'task_added' }, req.user.id);
   broadcast(task);
   res.status(201).json(await loadListTask(task.id));
 }));
@@ -169,7 +176,8 @@ router.get('/tasks/:id', h(async (req, res) => {
   const [subtasks, comments, attachments, activityRows, followerRows, blockedBy, blocking, parent, sections, creator] = await Promise.all([
     many(`${TASK_LIST_SELECT} WHERE t.parent_id=$1 ORDER BY t.position, t.id`, [id]),
     many(
-      `SELECT c.*, json_build_object('id', u.id, 'name', u.name, 'color', u.color) AS author
+      `SELECT c.*, json_build_object('id', u.id, 'name', u.name, 'color', u.color) AS author,
+              COALESCE((SELECT json_agg(l.user_id) FROM comment_likes l WHERE l.comment_id = c.id), '[]') AS likes
          FROM comments c LEFT JOIN users u ON u.id=c.user_id WHERE c.task_id=$1 ORDER BY c.created_at`,
       [id],
     ),
@@ -214,6 +222,20 @@ router.patch('/tasks/:id', h(async (req, res) => {
     if (fields.priority !== task.priority) events.push(['priority', { to: fields.priority }]);
   }
   if (b.recurrence !== undefined) fields.recurrence = oneOf(b.recurrence, RECURRENCES, 'Повтор');
+  if (b.task_type !== undefined) {
+    fields.task_type = oneOf(b.task_type, TASK_TYPES, 'Тип задачи');
+    fields.approval_status = fields.task_type === 'approval' ? (task.approval_status || 'pending') : null;
+  }
+  if (b.approval_status !== undefined) {
+    if ((fields.task_type || task.task_type) !== 'approval') fail(400, 'Это не задача на согласование');
+    fields.approval_status = oneOf(b.approval_status, APPROVAL, 'Решение');
+    events.push(['approval', { to: fields.approval_status }]);
+    // Одобрение завершает задачу, как и в привычных трекерах
+    if (fields.approval_status === 'approved' && !task.completed && b.completed === undefined) {
+      fields.completed = true;
+      fields.completed_at = new Date();
+    }
+  }
   if (b.start_date !== undefined) fields.start_date = dateOrNull(b.start_date, 'Дата начала');
   if (b.due_date !== undefined) {
     fields.due_date = dateOrNull(b.due_date, 'Срок');
@@ -319,6 +341,14 @@ router.patch('/tasks/:id', h(async (req, res) => {
   if (fields.completed) {
     await notify(await followers(id), { workspaceId: task.workspace_id, actorId: req.user.id, taskId: id, type: 'completed', data: { title: updated.title } });
   }
+
+  // Автоматизации проекта
+  const ruleEvents = [];
+  if (fields.section_id !== undefined && fields.section_id !== task.section_id && fields.project_id === undefined) ruleEvents.push({ type: 'section_changed', sectionId: fields.section_id });
+  if (fields.completed === true) ruleEvents.push({ type: 'completed' });
+  if (fields.assignee_id !== undefined && fields.assignee_id !== task.assignee_id) ruleEvents.push({ type: 'assignee_changed' });
+  if (fields.due_date !== undefined && fields.due_date !== task.due_date) ruleEvents.push({ type: 'due_changed' });
+  if (!updated.parent_id) for (const ev of ruleEvents) await runRules(updated, ev, req.user.id);
 
   broadcast(updated, { previousProjectId: task.project_id });
   if (spawned) broadcast(spawned);
@@ -431,6 +461,62 @@ router.delete('/tasks/:id/follow', h(async (req, res) => {
   const id = intOrNull(req.params.id);
   const { task } = await requireTask(req.user.id, id);
   await query('DELETE FROM task_followers WHERE task_id=$1 AND user_id=$2', [id, req.user.id]);
+  broadcast(task);
+  res.json({ ok: true });
+}));
+
+// --- Лайки ---
+router.post('/tasks/:id/like', h(async (req, res) => {
+  const id = intOrNull(req.params.id);
+  const { task } = await requireTask(req.user.id, id);
+  const existing = await one('DELETE FROM task_likes WHERE task_id=$1 AND user_id=$2 RETURNING 1', [id, req.user.id]);
+  if (!existing) {
+    await query('INSERT INTO task_likes (task_id, user_id) VALUES ($1,$2) ON CONFLICT DO NOTHING', [id, req.user.id]);
+    await notify([task.assignee_id, task.created_by], { workspaceId: task.workspace_id, actorId: req.user.id, taskId: id, type: 'liked', data: { title: task.title } });
+  }
+  broadcast(task);
+  res.json({ liked: !existing });
+}));
+
+router.post('/comments/:id/like', h(async (req, res) => {
+  const comment = await one('SELECT * FROM comments WHERE id=$1', [intOrNull(req.params.id)]);
+  if (!comment) fail(404, 'Комментарий не найден');
+  const { task } = await requireTask(req.user.id, comment.task_id);
+  const existing = await one('DELETE FROM comment_likes WHERE comment_id=$1 AND user_id=$2 RETURNING 1', [comment.id, req.user.id]);
+  if (!existing) await query('INSERT INTO comment_likes (comment_id, user_id) VALUES ($1,$2) ON CONFLICT DO NOTHING', [comment.id, req.user.id]);
+  broadcast(task);
+  res.json({ liked: !existing });
+}));
+
+// --- Значения пользовательских полей ---
+router.put('/tasks/:id/fields/:fieldId', h(async (req, res) => {
+  const id = intOrNull(req.params.id);
+  const { task } = await requireTask(req.user.id, id, { edit: true });
+  const field = await one('SELECT * FROM custom_fields WHERE id=$1 AND project_id=$2', [intOrNull(req.params.fieldId), task.project_id]);
+  if (!field) fail(404, 'Поле не найдено в проекте задачи');
+  let value = req.body.value;
+  if (value === null || value === '' || value === undefined) {
+    await query('DELETE FROM task_field_values WHERE task_id=$1 AND field_id=$2', [id, field.id]);
+  } else {
+    if (field.type === 'number') {
+      value = Number(value);
+      if (!Number.isFinite(value)) fail(400, 'Нужно число');
+    } else if (field.type === 'select') {
+      if (!field.options.some((o) => o.id === value)) fail(400, 'Нет такого варианта');
+    } else if (field.type === 'date') {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) fail(400, 'Формат даты ГГГГ-ММ-ДД');
+    } else if (field.type === 'person') {
+      value = Number(value);
+      if (!(await workspaceRole(value, task.workspace_id))) fail(400, 'Человек не состоит в пространстве');
+    } else {
+      value = str(String(value), { max: 2000, field: field.name });
+    }
+    await query(
+      `INSERT INTO task_field_values (task_id, field_id, value) VALUES ($1,$2,$3)
+       ON CONFLICT (task_id, field_id) DO UPDATE SET value=EXCLUDED.value`,
+      [id, field.id, JSON.stringify(value)],
+    );
+  }
   broadcast(task);
   res.json({ ok: true });
 }));

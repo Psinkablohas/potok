@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  Home, CheckSquare, Inbox, Settings, Plus, Menu, Search, ChevronsUpDown, Check, LogOut, Moon, Sun, Lock, X, Archive,
+  Home, CheckSquare, Inbox, Settings, Plus, Menu, Search, ChevronsUpDown, Check, LogOut, Moon, Sun, Lock, X, Archive, UserPlus,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProjects, useWorkspace, useWorkspaceId } from '../lib/hooks.js';
@@ -12,6 +12,7 @@ import { Avatar, ColorDot, Dropdown, Modal, Field } from './ui.jsx';
 import { Logo } from '../pages/AuthPage.jsx';
 import { PROJECT_COLORS } from '../lib/format.js';
 import TaskPanel from './TaskPanel.jsx';
+import QuickTaskModal from './QuickTaskModal.jsx';
 
 export function NewProjectModal({ open, onClose }) {
   const wid = useWorkspaceId();
@@ -188,6 +189,7 @@ export default function Layout() {
   const wid = useWorkspaceId();
   const [drawer, setDrawer] = useState(false);
   const [newProject, setNewProject] = useState(false);
+  const [quickTask, setQuickTask] = useState(false);
   const [q, setQ] = useState('');
   const [theme, setTheme] = useTheme();
   const navigate = useNavigate();
@@ -197,11 +199,17 @@ export default function Layout() {
 
   useEffect(() => setDrawer(false), [location.pathname]);
 
-  // Горячие клавиши: «/» — поиск
+  // Горячие клавиши: «/» — поиск, Tab затем Q — новая задача
   useEffect(() => {
+    let tabAt = 0;
     const onKey = (e) => {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
       if (e.key === '/') { e.preventDefault(); document.getElementById('global-search')?.focus(); }
+      if (e.key === 'Tab') tabAt = Date.now();
+      if ((e.key === 'q' || e.key === 'Q' || e.key === 'й' || e.key === 'Й') && Date.now() - tabAt < 1000) {
+        e.preventDefault();
+        setQuickTask(true);
+      }
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
@@ -237,7 +245,17 @@ export default function Layout() {
             <input id="global-search" className="input h-9 pl-9 bg-subtle border-transparent focus:bg-surface" placeholder="Поиск задач, проектов, людей  ( / )" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Поиск" />
           </form>
           <div className="flex-1" />
-          <button className="btn-primary h-9 hidden sm:inline-flex" onClick={() => setNewProject(true)}><Plus className="h-4 w-4" />Проект</button>
+          <Dropdown width={220} align="end" trigger={({ ref, toggle }) => (
+            <button ref={ref} onClick={toggle} className="btn-primary h-9 px-3"><Plus className="h-4 w-4" /><span className="hidden sm:inline">Создать</span></button>
+          )}>
+            {(close) => (
+              <>
+                <button className="menu-item" onClick={() => { close(); setQuickTask(true); }}><CheckSquare className="h-4 w-4" />Задачу<span className="ml-auto text-xs text-muted">Tab Q</span></button>
+                <button className="menu-item" onClick={() => { close(); setNewProject(true); }}><Plus className="h-4 w-4" />Проект</button>
+                <button className="menu-item" onClick={() => { close(); navigate(`/w/${wid}/settings`); }}><UserPlus className="h-4 w-4" />Пригласить коллег</button>
+              </>
+            )}
+          </Dropdown>
           <button className="icon-btn" onClick={() => setTheme(isDark ? 'light' : 'dark')} aria-label={isDark ? 'Светлая тема' : 'Тёмная тема'}>
             {isDark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
           </button>
@@ -266,6 +284,7 @@ export default function Layout() {
 
       <TaskPanel />
       <NewProjectModal open={newProject} onClose={() => setNewProject(false)} />
+      <QuickTaskModal open={quickTask} onClose={() => setQuickTask(false)} defaultProjectId={location.pathname.match(/projects\/(\d+)/)?.[1] ? Number(location.pathname.match(/projects\/(\d+)/)[1]) : null} />
     </div>
   );
 }

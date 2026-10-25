@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   X, Link2, Copy, Trash2, Bell, BellOff, MoreHorizontal, Paperclip, Lock, ArrowUpRight, ChevronRight,
-  FileText, Download, Send, Pencil, GitBranch, Plus, Check,
+  FileText, Download, Send, Pencil, GitBranch, Plus, Check, Heart, ThumbsUp, ThumbsDown, PenLine, Diamond,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProjects, useTaskPanel, useToggleComplete, useUpdateTask, useWorkspace, useWorkspaceId } from '../lib/hooks.js';
 import { useToast } from '../lib/toast.jsx';
 import { getSocket } from '../lib/realtime.js';
-import { fmtDateTime, timeAgo, fileSize, PRIORITY, fmtDate } from '../lib/format.js';
+import { fmtDateTime, timeAgo, fileSize, PRIORITY, fmtDate, TASK_TYPE, APPROVAL } from '../lib/format.js';
+import { FieldEditor } from './CustomFields.jsx';
 import { Avatar, CompleteToggle, Dropdown, Spinner } from './ui.jsx';
 import { AssigneePicker, DueDatePicker, PriorityPicker, TagPicker, ProjectPicker, RecurrencePicker } from './pickers.jsx';
 import { QuickAdd, DueText } from './TaskBits.jsx';
@@ -152,6 +153,9 @@ const ACTIVITY_TEXT = {
   moved_project: () => 'перенёс(ла) в другой проект',
   dependency: (d) => `добавил(а) зависимость от «${d.title}»`,
   recurred: () => 'создано повтором предыдущей задачи',
+  approval: (d) => `принял(а) решение: ${APPROVAL[d.to]?.label.toLowerCase() || 'сброшено'}`,
+  rule: (d) => `— сработало правило «${d.name}»`,
+  form: (d) => `— заявка из формы${d.name ? ` от ${d.name}` : ''}`,
 };
 
 function DependencyAdder({ taskId, onAdd }) {
@@ -206,6 +210,12 @@ export default function TaskPanel() {
     queryKey: ['task', openId],
     queryFn: () => api.get(`/tasks/${openId}`),
     enabled: !!openId,
+  });
+
+  const { data: fields = [] } = useQuery({
+    queryKey: ['fields', task?.project_id],
+    queryFn: () => api.get(`/projects/${task.project_id}/fields`),
+    enabled: !!task?.project_id,
   });
 
   useEffect(() => {
@@ -273,19 +283,43 @@ export default function TaskPanel() {
       >
         {/* Верхняя панель */}
         <div className="flex items-center gap-2 border-b border-line px-3 sm:px-4 h-14 shrink-0">
-          {task && (
+          {task && task.task_type === 'approval' ? (
+            <div className="flex items-center gap-1 overflow-x-auto">
+              {[['approved', ThumbsUp, 'Одобрить', 'hover:border-success hover:text-success', 'border-success bg-success/10 text-success'],
+                ['changes', PenLine, 'Нужны правки', 'hover:border-warn hover:text-warn', 'border-warn bg-warn/10 text-warn'],
+                ['rejected', ThumbsDown, 'Отклонить', 'hover:border-danger hover:text-danger', 'border-danger bg-danger/10 text-danger']].map(([key, Icon, label, hover, active]) => (
+                <button key={key} disabled={!canEdit} title={label} aria-label={label} aria-pressed={task.approval_status === key}
+                  onClick={() => patch({ approval_status: task.approval_status === key ? 'pending' : key })}
+                  className={`btn h-8 px-2.5 border ${task.approval_status === key ? active : `border-line text-ink ${hover}`}`}>
+                  <Icon className="h-4 w-4" />{(key === 'approved' || task.approval_status === key) && <span className="hidden sm:inline">{label}</span>}
+                </button>
+              ))}
+            </div>
+          ) : task && (
             <button
               disabled={!canEdit}
               onClick={() => toggleComplete(task)}
               className={`btn h-8 border ${task.completed ? 'border-success bg-success/10 text-success' : 'border-line text-ink hover:border-success hover:text-success'}`}
             >
-              <Check className="h-4 w-4" strokeWidth={2.5} />
-              {task.completed ? 'Выполнена' : 'Отметить выполненной'}
+              {task.task_type === 'milestone' ? <Diamond className="h-4 w-4" /> : <Check className="h-4 w-4" strokeWidth={2.5} />}
+              {task.task_type === 'milestone'
+                ? (task.completed ? 'Веха достигнута' : 'Отметить веху')
+                : (task.completed ? 'Выполнена' : 'Отметить выполненной')}
             </button>
           )}
           <div className="flex-1" />
           {task && (
             <>
+              <button
+                className={`icon-btn ${task.likes?.includes(me?.user.id) ? 'text-danger hover:text-danger' : ''}`}
+                title="Нравится"
+                aria-pressed={task.likes?.includes(me?.user.id)}
+                aria-label={`Нравится${task.likes?.length ? `: ${task.likes.length}` : ''}`}
+                onClick={() => call(() => api.post(`/tasks/${openId}/like`))}
+              >
+                <Heart className="h-[18px] w-[18px]" fill={task.likes?.includes(me?.user.id) ? 'currentColor' : 'none'} />
+                {task.likes?.length > 0 && <span className="ml-0.5 text-xs">{task.likes.length}</span>}
+              </button>
               <button className="icon-btn" title="Скопировать ссылку" aria-label="Скопировать ссылку" onClick={() => {
                 navigator.clipboard?.writeText(window.location.href).then(() => toast('Ссылка скопирована'));
               }}><Link2 className="h-[18px] w-[18px]" /></button>
@@ -380,6 +414,18 @@ export default function TaskPanel() {
                     )}
                   </Row>
                 )}
+                <Row label="Тип">
+                  <select
+                    className="h-8 rounded-md bg-transparent px-1.5 text-sm hover:bg-subtle disabled:hover:bg-transparent"
+                    value={task.task_type}
+                    disabled={!canEdit}
+                    onChange={(e) => patch({ task_type: e.target.value })}
+                    aria-label="Тип задачи"
+                  >
+                    {Object.entries(TASK_TYPE).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                  </select>
+                  {task.task_type === 'approval' && <span className={`chip ${APPROVAL[task.approval_status || 'pending'].cls}`}>{APPROVAL[task.approval_status || 'pending'].label}</span>}
+                </Row>
                 <Row label="Приоритет">
                   <PriorityPicker value={task.priority} disabled={!canEdit} onChange={(v) => patch({ priority: v })} />
                 </Row>
@@ -394,6 +440,11 @@ export default function TaskPanel() {
                     onRemove={(tagId) => call(() => api.del(`/tasks/${openId}/tags/${tagId}`))}
                   />
                 </Row>
+                {fields.map((f) => (
+                  <Row key={f.id} label={<span className="truncate block" title={f.name}>{f.name}</span>}>
+                    <FieldEditor field={f} value={task.fields?.[f.id]} taskId={task.id} projectId={task.project_id} disabled={!canEdit} />
+                  </Row>
+                ))}
                 <Row label="Зависимости">
                   <div className="w-full space-y-1">
                     {task.blocked_by.map((d) => (
@@ -509,6 +560,15 @@ export default function TaskPanel() {
                             </div>
                           </div>
                         ) : <CommentBody body={c.body} />}
+                        <button
+                          onClick={() => call(() => api.post(`/comments/${c.id}/like`))}
+                          className={`mt-1 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs transition-colors ${c.likes?.includes(me?.user.id) ? 'text-danger' : 'text-muted hover:text-ink'}`}
+                          aria-pressed={c.likes?.includes(me?.user.id)}
+                          aria-label="Нравится"
+                        >
+                          <Heart className="h-3.5 w-3.5" fill={c.likes?.includes(me?.user.id) ? 'currentColor' : 'none'} />
+                          {c.likes?.length > 0 && c.likes.length}
+                        </button>
                       </div>
                     </div>
                   ))}
