@@ -210,6 +210,28 @@ workspaces.get('/workspaces/:wid/my-tasks', h(async (req, res) => {
   res.json(rows);
 }));
 
+// --- Выполненные задачи ---
+workspaces.get('/workspaces/:wid/completed', h(async (req, res) => {
+  const wid = intOrNull(req.params.wid);
+  await requireWorkspace(req.user.id, wid);
+  const params = [wid, req.user.id];
+  let extra = '';
+  if (req.query.scope === 'mine') extra += ' AND t.assignee_id = $2';
+  const pid = intOrNull(req.query.project);
+  if (pid) { params.push(pid); extra += ` AND t.project_id = $${params.length}`; }
+  const rows = await many(
+    `SELECT x.*, (SELECT json_build_object('id', u.id, 'name', u.name, 'color', u.color)
+                    FROM activity a JOIN users u ON u.id = a.user_id
+                   WHERE a.task_id = x.id AND a.type = 'completed' ORDER BY a.created_at DESC LIMIT 1) AS completed_by
+       FROM (${TASK_LIST_SELECT}
+              WHERE t.workspace_id=$1 AND t.completed AND ${visibleTaskSql(2)}${extra}
+              ORDER BY t.completed_at DESC NULLS LAST LIMIT 300) x
+      ORDER BY x.completed_at DESC NULLS LAST`,
+    params,
+  );
+  res.json(rows);
+}));
+
 // --- Поиск ---
 workspaces.get('/workspaces/:wid/search', h(async (req, res) => {
   const wid = intOrNull(req.params.wid);

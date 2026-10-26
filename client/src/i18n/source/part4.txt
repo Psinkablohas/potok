@@ -160,3 +160,16 @@
 Присылать уведомления на {0}‖Надсилати сповіщення на {0}‖Send notifications to {0}‖将通知发送到 {0}‖Benachrichtigungen an {0} senden
 Письма включены‖Листи ввімкнено‖Emails turned on‖邮件通知已开启‖E-Mails aktiviert
 Письма выключены‖Листи вимкнено‖Emails turned off‖邮件通知已关闭‖E-Mails deaktiviert
+Выполненные задачи‖Виконані завдання‖Completed tasks‖已完成的任务‖Erledigte Aufgaben
+Все завершённые задачи пространства. Отсюда их можно вернуть в работу.‖Усі завершені завдання простору. Звідси їх можна повернути в роботу.‖All completed tasks in the workspace. You can reopen them from here.‖工作区中所有已完成的任务，可在此重新打开。‖Alle erledigten Aufgaben des Arbeitsbereichs. Von hier aus können Sie sie wieder öffnen.
+На этой неделе‖Цього тижня‖This week‖本周‖Diese Woche
+В этом месяце‖Цього місяця‖This month‖本月‖Diesen Monat
+Мои‖Мої‖Mine‖我的‖Meine
+Найти выполненную задачу‖Знайти виконане завдання‖Find a completed task‖查找已完成的任务‖Erledigte Aufgabe suchen
+Выполнено: {0}‖Виконано: {0}‖Completed: {0}‖已完成：{0}‖Erledigt: {0}
+Случайно отметили задачу выполненной? Нажмите «Вернуть в работу» — она снова появится в списке у всех.‖Випадково позначили завдання виконаним? Натисніть «Повернути в роботу» — воно знову з'явиться у списку в усіх.‖Marked a task complete by mistake? Click “Reopen” and it will be back in everyone's list.‖误将任务标记为完成？点击“重新打开”，任务会重新出现在所有人的列表中。‖Versehentlich als erledigt markiert? Klicken Sie auf „Wieder öffnen“ — die Aufgabe erscheint wieder bei allen.
+Выполненных задач пока нет‖Виконаних завдань поки немає‖No completed tasks yet‖暂无已完成的任务‖Noch keine erledigten Aufgaben
+Когда вы или коллеги завершите задачу, она появится здесь.‖Коли ви або колеги завершите завдання, воно з'явиться тут.‖When you or your teammates complete a task, it will appear here.‖您或同事完成任务后，会显示在这里。‖Wenn Sie oder Ihr Team eine Aufgabe erledigen, erscheint sie hier.
+вы‖ви‖you‖您‖Sie
+Вернуть в работу‖Повернути в роботу‖Reopen‖重新打开‖Wieder öffnen
+Задача «{0}» снова в работе‖Завдання «{0}» знову в роботі‖“{0}” is back in progress‖“{0}”已重新打开‖„{0}“ ist wieder offen

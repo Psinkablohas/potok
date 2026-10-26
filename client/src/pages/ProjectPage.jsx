@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   List, Columns3, CalendarDays, GanttChart, Search, MoreHorizontal, Users, Archive, Trash2, Pencil, Lock, Globe, SlidersHorizontal, X, ArchiveRestore,
-  LayoutDashboard, BarChart3, MessagesSquare, Paperclip, Settings2, ChevronDown, Plus,
+  LayoutDashboard, BarChart3, MessagesSquare, Paperclip, Settings2, ChevronDown, Plus, CheckCheck,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProject, useProjectTasks, useLocalState, useWorkspace } from '../lib/hooks.js';
@@ -18,6 +18,7 @@ import OverviewView from '../views/OverviewView.jsx';
 import DashboardView from '../views/DashboardView.jsx';
 import MessagesView from '../views/MessagesView.jsx';
 import FilesView from '../views/FilesView.jsx';
+import CompletedView from '../views/CompletedView.jsx';
 import CustomizeDrawer from '../components/CustomizeDrawer.jsx';
 import { PROJECT_COLORS, ROLE_LABEL, PROJECT_STATUS } from '../lib/format.js';
 import { t } from '../i18n/index.js';
@@ -31,6 +32,7 @@ const VIEWS = [
   { value: 'dashboard', label: t("Панель"), icon: BarChart3 },
   { value: 'messages', label: t("Сообщения"), icon: MessagesSquare },
   { value: 'files', label: t("Файлы"), icon: Paperclip },
+  { value: 'completed', label: t("Выполненные"), icon: CheckCheck },
 ];
 const TASK_VIEWS = ['list', 'board', 'timeline', 'calendar'];
 
@@ -277,6 +279,7 @@ export default function ProjectPage() {
             {view === 'dashboard' && <DashboardView project={project} />}
             {view === 'messages' && <MessagesView project={project} />}
             {view === 'files' && <FilesView project={project} />}
+            {view === 'completed' && <CompletedView projectId={project.id} />}
             {view === 'board' && <BoardView project={project} tasks={filtered} />}
             {view === 'calendar' && <CalendarView project={project} tasks={filtered} />}
             {view === 'timeline' && <TimelineView project={project} tasks={filtered} />}

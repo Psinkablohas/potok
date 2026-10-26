@@ -626,5 +626,18 @@ export default {
  "Письма о назначениях, упоминаниях, комментариях и завершённых задачах.": "Emails about assignments, mentions, comments and completed tasks.",
  "Присылать уведомления на {0}": "Send notifications to {0}",
  "Письма включены": "Emails turned on",
- "Письма выключены": "Emails turned off"
+ "Письма выключены": "Emails turned off",
+ "Выполненные задачи": "Completed tasks",
+ "Все завершённые задачи пространства. Отсюда их можно вернуть в работу.": "All completed tasks in the workspace. You can reopen them from here.",
+ "На этой неделе": "This week",
+ "В этом месяце": "This month",
+ "Мои": "Mine",
+ "Найти выполненную задачу": "Find a completed task",
+ "Выполнено: {0}": "Completed: {0}",
+ "Случайно отметили задачу выполненной? Нажмите «Вернуть в работу» — она снова появится в списке у всех.": "Marked a task complete by mistake? Click “Reopen” and it will be back in everyone's list.",
+ "Выполненных задач пока нет": "No completed tasks yet",
+ "Когда вы или коллеги завершите задачу, она появится здесь.": "When you or your teammates complete a task, it will appear here.",
+ "вы": "you",
+ "Вернуть в работу": "Reopen",
+ "Задача «{0}» снова в работе": "“{0}” is back in progress"
 };

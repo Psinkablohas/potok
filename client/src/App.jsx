@@ -16,6 +16,7 @@ import ProjectPage from './pages/ProjectPage.jsx';
 import SearchPage from './pages/SearchPage.jsx';
 import SettingsPage from './pages/SettingsPage.jsx';
 import FormPage from './pages/FormPage.jsx';
+import CompletedView from './views/CompletedView.jsx';
 import { t, lang } from './i18n/index.js';
 
 function Home() {
@@ -52,6 +53,18 @@ function AcceptInvite() {
         )}
         <button className="btn-ghost mt-2 w-full" onClick={() => navigate('/')}>{t("Не сейчас")}</button>
       </div>
+    </div>
+  );
+}
+
+function CompletedPage() {
+  return (
+    <div className="h-full overflow-y-auto scrollbar-thin">
+      <header className="border-b border-line bg-surface px-4 sm:px-6 py-4">
+        <h1 className="text-xl font-semibold">{t("Выполненные задачи")}</h1>
+        <p className="text-sm text-muted">{t("Все завершённые задачи пространства. Отсюда их можно вернуть в работу.")}</p>
+      </header>
+      <CompletedView />
     </div>
   );
 }
@@ -108,6 +121,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="my-tasks" element={<MyTasksPage />} />
         <Route path="inbox" element={<InboxPage />} />
+        <Route path="completed" element={<CompletedPage />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="projects/:pid" element={<ProjectPage />} />

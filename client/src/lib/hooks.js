@@ -66,6 +66,7 @@ export function useUpdateTask() {
     onSettled: (data, err, { id }) => {
       qc.invalidateQueries({ queryKey: ['task', id] });
       if (data?.parent_id) qc.invalidateQueries({ queryKey: ['task', data.parent_id] });
+      qc.invalidateQueries({ queryKey: ['completed'] });
     },
   });
 }
@@ -84,6 +85,7 @@ export function useToggleComplete() {
         if (!completed) return;
         toast(res.spawned_id ? t("Готово! Следующая повторяющаяся задача создана.") : t("Задача завершена"), {
           action: { label: t("Отменить"), onClick: () => update.mutate({ id: task.id, completed: false }) },
+          duration: 10000,
         });
       },
     });

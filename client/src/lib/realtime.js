@@ -27,6 +27,7 @@ export function useRealtime(enabled) {
       inv(['home']);
       inv(['projects']);
       inv(['search']);
+      inv(['completed']);
       if (e.projectId) { inv(['stats', e.projectId]); inv(['files', e.projectId]); }
     });
     socket.on('project-tasks', (e) => {

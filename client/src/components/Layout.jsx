@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   Home, CheckSquare, Settings, Plus, Menu, Search, ChevronsUpDown, Check, LogOut, Moon, Sun, Lock, X, Archive, UserPlus,
-  Bell, CircleCheck, ChevronDown, FolderPlus,
+  Bell, CircleCheck, ChevronDown, FolderPlus, CheckCheck,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
 import { useMe, useProjects, useWorkspace, useWorkspaceId } from '../lib/hooks.js';
@@ -137,6 +137,7 @@ function Sidebar({ onNavigate, onNewProject, onNewTask }) {
       <nav className="px-2 space-y-px" aria-label={t("Основное меню")}>
         <NavLink end to={`/w/${wid}`} className={nav} onClick={onNavigate}><Home className="h-[18px] w-[18px]" />{t("Главная")}</NavLink>
         <NavLink to={`/w/${wid}/my-tasks`} className={nav} onClick={onNavigate}><CircleCheck className="h-[18px] w-[18px]" />{t("Мои задачи")}</NavLink>
+        <NavLink to={`/w/${wid}/completed`} className={nav} onClick={onNavigate}><CheckCheck className="h-[18px] w-[18px]" />{t("Выполненные")}</NavLink>
         <NavLink to={`/w/${wid}/inbox`} className={nav} onClick={onNavigate}>
           <Bell className="h-[18px] w-[18px]" /><span className="flex-1">{t("Входящие")}</span>
           {unread?.count > 0 && <span className="rounded-full bg-[#E5484D] px-1.5 min-w-[20px] text-center text-[11px] font-semibold leading-5 text-white">{unread.count > 99 ? '99+' : unread.count}</span>}

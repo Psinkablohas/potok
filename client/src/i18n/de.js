@@ -626,5 +626,18 @@ export default {
  "Письма о назначениях, упоминаниях, комментариях и завершённых задачах.": "E-Mails zu Zuweisungen, Erwähnungen, Kommentaren und erledigten Aufgaben.",
  "Присылать уведомления на {0}": "Benachrichtigungen an {0} senden",
  "Письма включены": "E-Mails aktiviert",
- "Письма выключены": "E-Mails deaktiviert"
+ "Письма выключены": "E-Mails deaktiviert",
+ "Выполненные задачи": "Erledigte Aufgaben",
+ "Все завершённые задачи пространства. Отсюда их можно вернуть в работу.": "Alle erledigten Aufgaben des Arbeitsbereichs. Von hier aus können Sie sie wieder öffnen.",
+ "На этой неделе": "Diese Woche",
+ "В этом месяце": "Diesen Monat",
+ "Мои": "Meine",
+ "Найти выполненную задачу": "Erledigte Aufgabe suchen",
+ "Выполнено: {0}": "Erledigt: {0}",
+ "Случайно отметили задачу выполненной? Нажмите «Вернуть в работу» — она снова появится в списке у всех.": "Versehentlich als erledigt markiert? Klicken Sie auf „Wieder öffnen“ — die Aufgabe erscheint wieder bei allen.",
+ "Выполненных задач пока нет": "Noch keine erledigten Aufgaben",
+ "Когда вы или коллеги завершите задачу, она появится здесь.": "Wenn Sie oder Ihr Team eine Aufgabe erledigen, erscheint sie hier.",
+ "вы": "Sie",
+ "Вернуть в работу": "Wieder öffnen",
+ "Задача «{0}» снова в работе": "„{0}“ ist wieder offen"
 };
